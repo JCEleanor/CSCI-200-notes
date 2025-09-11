@@ -1,0 +1,13 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "C/C++ Runner: Debug Session",
+      "type": "lldb",
+      "request": "launch",
+      "args": [],
+      "cwd": "/Users/Eleanor/Desktop/CSM/CSCI200-foundation-programming-cpp/Lec06/Lecture06",
+      "program": "/Users/Eleanor/Desktop/CSM/CSCI200-foundation-programming-cpp/Lec06/Lecture06/build/Debug/outDebug"
+    }
+  ]
+}
