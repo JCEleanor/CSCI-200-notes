@@ -22,3 +22,21 @@ double add(const double LHS, const double RHS);
 
 #endif
 ```
+
+- if run `makd depend`, it will add dependencies automatically to the Makefile
+
+```
+# DEPENDENCIES
+main.o: main.cpp math_funcions.h
+math_funcions.o: math_funcions.cpp math_funcions.h
+```
+
+- if run `make`, it will build all the independent files. Example output:
+
+```
+g++ -std=c++17 -g -Wall -Wextra -Wconversion -Wdouble-promotion -Wunreachable-code -Wshadow -Wpedantic -o main.o -c main.cpp
+g++ -std=c++17 -g -Wall -Wextra -Wconversion -Wdouble-promotion -Wunreachable-code -Wshadow -Wpedantic -o math_funcions.o -c math_funcions.cpp
+g++ -o Lec08 main.o math_funcions.o
+```
+
+- develop process: defined functions in header files, implement the logic in the \*.cpp file, and use the functions in main.cpp

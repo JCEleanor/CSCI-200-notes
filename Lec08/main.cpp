@@ -9,6 +9,8 @@
 
 #include <iomanip>
 #include <iostream>
+
+// you should only include header files
 #include "math_funcions.h"
 using namespace std;
 
@@ -62,6 +64,8 @@ int main()
     double firstValue, secondValue;
     cout << "Enter two double values: ";
     cin >> firstValue >> secondValue;
+
+    cout << "eee";
 
     cout << endl
          << "The results are...::drum roll::..." << endl

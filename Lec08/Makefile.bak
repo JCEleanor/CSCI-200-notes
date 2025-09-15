@@ -67,5 +67,4 @@ submission:
 .PHONY: all clean depend submission
 
 # DEPENDENCIES
-main.o: main.cpp math_funcions.h
-math_funcions.o: math_funcions.cpp math_funcions.h
+main.o: main.cpp 
