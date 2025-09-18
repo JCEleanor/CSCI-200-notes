@@ -356,10 +356,16 @@ void function_test_5()
     cin >> min;
     cout << "Enter the maximum float range value: ";
     cin >> max;
+
+    random_device rd;
+    mt19937 gen(rd());
+    uniform_real_distribution<float> dist(min, max);
+
     cout << "Five different random floats are: " << endl;
+
     for (int i = 0; i < 5; ++i)
     {
-        cout << "\t" << generate_random_float << endl;
+        cout << "\t" << dist(gen) << endl;
     }
 }
 
@@ -394,9 +400,9 @@ int main()
 
     // function_test_1(); // run function test 1
     // function_test_2(); // run function test 2
-    function_test_3(); // run function test 3
+    // function_test_3(); // run function test 3
     // function_test_4(); // run function test 4
-    // function_test_5(); // run function test 5
+    function_test_5(); // run function test 5
     // function_test_6(); // run function test 6
 
     cout << endl;
