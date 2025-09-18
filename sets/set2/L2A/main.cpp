@@ -205,7 +205,7 @@ void loop_test_4()
     cin >> n;
 
     int sum = 0;
-    for (int i = n; i > 0; ++i)
+    for (int i = 0; i <= n; ++i)
     {
         sum += i * i;
     }
@@ -385,8 +385,8 @@ int main()
 
     // loop_test_1(); // run looping test 1
     // loop_test_2(); // run looping test 2
-    loop_test_3(); // run looping test 3
-    // loop_test_4(); // run looping test 4
+    // loop_test_3(); // run looping test 3
+    loop_test_4(); // run looping test 4
     // loop_test_5(); // run looping test 5
 
     // function_test_1(); // run function test 1
