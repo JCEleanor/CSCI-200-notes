@@ -94,7 +94,10 @@ int sum(int x, int y, int z)
  * @param b second value to multipl
  * @returns the product of the two float parameters
  */
-float multiply(float a, float b);
+float multiply(float a, float b)
+{
+    return a * b;
+}
 
 /**
  * @brief runs test summing numbers in the range [1, N]
