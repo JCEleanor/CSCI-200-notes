@@ -176,7 +176,8 @@ void loop_test_3()
     {
         sum += counter;
         cout << "Sum so far: " << sum << endl;
-    } while (counter <= sum);
+        counter++;
+    } while (counter <= n);
 
     cout << endl
          << "Section III Recap" << endl;
@@ -383,8 +384,8 @@ int main()
     cout << "Welcome To Looping Function World!" << endl;
 
     // loop_test_1(); // run looping test 1
-    loop_test_2(); // run looping test 2
-    // loop_test_3(); // run looping test 3
+    // loop_test_2(); // run looping test 2
+    loop_test_3(); // run looping test 3
     // loop_test_4(); // run looping test 4
     // loop_test_5(); // run looping test 5
 
