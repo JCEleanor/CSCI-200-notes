@@ -262,6 +262,15 @@ void function_test_1()
 }
 
 /**
+ * @brief print smiley face to standard out
+ *
+ */
+void printSmileyFace()
+{
+    cout << ":D" << endl;
+}
+
+/**
  * @brief runs test to call a function that outputs a smiley face to the standard out
  *
  */
