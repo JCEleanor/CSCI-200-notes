@@ -57,8 +57,9 @@ int generate_random_integer(const int MIN, const int MAX)
     // create the Mersenne Twister generator
     random_device rd;
     mt19937 mt(rd());
+    uniform_int_distribution<int> dist(MIN, MAX);
 
-    return (int)mt();
+    return (int)dist(mt);
 }
 
 /**
@@ -72,8 +73,9 @@ float generate_random_float(const float MIN, const float MAX)
     // create the Mersenne Twister generator
     random_device rd;
     mt19937 mt(rd());
+    uniform_real_distribution<float> dist(MIN, MAX);
 
-    return (float)mt();
+    return dist(mt);
 }
 
 /**
@@ -392,18 +394,21 @@ int main()
 {
     cout << "Welcome To Looping Function World!" << endl;
 
-    // loop_test_1(); // run looping test 1
-    // loop_test_2(); // run looping test 2
-    // loop_test_3(); // run looping test 3
-    // loop_test_4(); // run looping test 4
-    // loop_test_5(); // run looping test 5
+    loop_test_1(); // run looping test 1
+    loop_test_2(); // run looping test 2
+    loop_test_3(); // run looping test 3
+    loop_test_4(); // run looping test 4
+    loop_test_5(); // run looping test 5
 
-    // function_test_1(); // run function test 1
-    // function_test_2(); // run function test 2
-    // function_test_3(); // run function test 3
-    // function_test_4(); // run function test 4
+    function_test_1(); // run function test 1
+    function_test_2(); // run function test 2
+    function_test_3(); // run function test 3
+    function_test_4(); // run function test 4
     function_test_5(); // run function test 5
-    // function_test_6(); // run function test 6
+    function_test_6(); // run function test 6
+
+    cout << "generate_random_integer(1,10) produced: " << generate_random_integer(1, 10) << endl;
+    cout << "generate_random_float(1.0,10.0) produced: " << generate_random_float(1.0, 10.0) << endl;
 
     cout << endl;
     cout << "******************" << endl;
