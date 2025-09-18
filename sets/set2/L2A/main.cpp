@@ -232,13 +232,12 @@ void loop_test_5()
     cout << "Enter N: ";
     cin >> n;
 
-    int sum = 0, counter = 1;
-    while (counter < 10)
+    int sum = 0, counter = 0;
+    while (counter <= n)
     {
         sum += (counter * counter * counter);
+        counter++;
     }
-
-    counter++;
 
     cout << "The sum of cubes from 1 to " << n << " is: " << sum << endl;
 }
@@ -386,8 +385,8 @@ int main()
     // loop_test_1(); // run looping test 1
     // loop_test_2(); // run looping test 2
     // loop_test_3(); // run looping test 3
-    loop_test_4(); // run looping test 4
-    // loop_test_5(); // run looping test 5
+    // loop_test_4(); // run looping test 4
+    loop_test_5(); // run looping test 5
 
     // function_test_1(); // run function test 1
     // function_test_2(); // run function test 2
