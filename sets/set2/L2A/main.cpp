@@ -3,11 +3,11 @@
  * Author: XXXX (_INSERT_YOUR_NAME_HERE_)
  *
  * Description:
- *    This program illustrates a variety of common loop and function 
+ *    This program illustrates a variety of common loop and function
  *    errors.  Fix the errors in each section.
- * 
+ *
  * Copyright 2025 Dr. Jeffrey Paone
- * 
+ *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
  * files (the "Software"), to deal in the Software without
@@ -16,10 +16,10 @@
  * sell copies of the Software, and to permit persons to whom the
  * Software is furnished to do so, subject to the following
  * conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be
  * included in all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
  * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
  * OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -31,8 +31,8 @@
  *
  */
 
-#include <iostream>     // for cout, cin, endl etc.
-#include <random>       // for mt19937 generator
+#include <iostream> // for cout, cin, endl etc.
+#include <random>   // for mt19937 generator
 using namespace std;
 
 /**
@@ -40,8 +40,10 @@ using namespace std;
  * @param x integer to be added to
  * @returns parameter plus five
  */
-void add_five( int x ) {
-    x += 5;
+int add_five(int input)
+{
+    const int addFive = input + 5;
+    return addFive;
 }
 
 /**
@@ -50,10 +52,11 @@ void add_five( int x ) {
  * @param MAX upper inclusive bound of range
  * @returns random integer within the range [MIN, MAX]
  */
-int generate_random_integer(const int MIN, const int MAX) {
+int generate_random_integer(const int MIN, const int MAX)
+{
     // create the Mersenne Twister generator
     random_device rd;
-    mt19937 mt( rd() );
+    mt19937 mt(rd());
 
     return (int)mt();
 }
@@ -64,10 +67,11 @@ int generate_random_integer(const int MIN, const int MAX) {
  * @param MAX upper inclusive bound of range
  * @return random float within the range [MIN, MAX]
  */
-float generate_random_float(const float MIN, const float MAX) {
+float generate_random_float(const float MIN, const float MAX)
+{
     // create the Mersenne Twister generator
     random_device rd;
-    mt19937 mt( rd() );
+    mt19937 mt(rd());
 
     return (float)mt();
 }
@@ -79,7 +83,8 @@ float generate_random_float(const float MIN, const float MAX) {
  * @param z third value to be added
  * @returns the sum of all three parameters
  */
-int sum( int x, int y, int z ) {
+int sum(int x, int y, int z)
+{
     return x + x + x;
 }
 
@@ -89,12 +94,13 @@ int sum( int x, int y, int z ) {
  * @param b second value to multipl
  * @returns the product of the two float parameters
  */
-float multiply( float a, float b );
+float multiply(float a, float b);
 
 /**
  * @brief runs test summing numbers in the range [1, N]
  */
-void loop_test_1() {
+void loop_test_1()
+{
     // FIX =
     // TESTS:
 
@@ -103,21 +109,23 @@ void loop_test_1() {
     cout << "Section Looping 1 " << endl;
     cout << "******************" << endl;
 
-    int n;  
+    int n;
     cout << "Enter a number greater than 1 to sum up to: ";
     cin >> n;
 
     int sum;
-    for( int i = 1; i < n; ++i ) {
-         sum += i;
-     }
+    for (int i = 1; i < n; ++i)
+    {
+        sum += i;
+    }
     cout << "The sum of the numbers from 1 to " << n << " (inclusive) is: " << sum << endl;
 }
 
 /**
  * @brief runs test summing set of prices entered by the user
  */
-void loop_test_2() {
+void loop_test_2()
+{
     // FIX =
     // TESTS:
 
@@ -133,7 +141,8 @@ void loop_test_2() {
 
     int counter = 1;
     float totalPrice, price;
-    while (counter <= numItems) {
+    while (counter <= numItems)
+    {
         totalPrice = 0;
         cout << "Enter the price of item " << counter << ": ";
         cin >> price;
@@ -146,7 +155,8 @@ void loop_test_2() {
 /**
  * @brief runs test summing numbers in the range [1, N]
  */
-void loop_test_3() {
+void loop_test_3()
+{
     // FIX =
     // TESTS:
 
@@ -160,12 +170,14 @@ void loop_test_3() {
     cin >> n;
 
     int sum = 0, counter = 1;
-    do {
+    do
+    {
         sum += counter;
         cout << "Sum so far: " << sum << endl;
     } while (counter <= sum);
 
-    cout << endl << "Section III Recap" << endl;
+    cout << endl
+         << "Section III Recap" << endl;
 
     cout << "I calculated the sum of numbers from 1 to " << n << " (inclusive) as " << sum << endl;
 }
@@ -173,7 +185,8 @@ void loop_test_3() {
 /**
  * @brief runs test summing i^2 in the range [1, N]
  */
-void loop_test_4() {
+void loop_test_4()
+{
     // FIX =
     // TESTS:
 
@@ -183,14 +196,15 @@ void loop_test_4() {
     cout << "******************" << endl;
 
     cout << "I will now calculate the sum of squares from 1 to N (inclusive)" << endl;
-    
+
     int n;
     cout << "Enter N: ";
     cin >> n;
 
     int sum = 0;
-    for( int i = n; i > 0; ++i ) {
-        sum += i*i;
+    for (int i = n; i > 0; ++i)
+    {
+        sum += i * i;
     }
 
     cout << "The sum of squares from 1 to " << n << " is: " << sum << endl;
@@ -199,7 +213,8 @@ void loop_test_4() {
 /**
  * @brief runs test summing i^3 in the range [1, N]
  */
-void loop_test_5() {
+void loop_test_5()
+{
     // FIX =
     // TESTS:
 
@@ -215,7 +230,8 @@ void loop_test_5() {
     cin >> n;
 
     int sum = 0, counter = 1;
-    while( counter < 10 ) {
+    while (counter < 10)
+    {
         sum += (counter * counter * counter);
     }
 
@@ -227,7 +243,8 @@ void loop_test_5() {
 /**
  * @brief runs test using function to add five to an entered value
  */
-void function_test_1() {
+void function_test_1()
+{
     // FIX =
     // TESTS:
 
@@ -240,15 +257,16 @@ void function_test_1() {
     cout << "How many trees do you currently have? ";
     cin >> numTrees;
     cout << "There are initially " << numTrees << " trees." << endl;
-    numTrees = add_five( numTrees );
+    int updatedTree = add_five(numTrees);
     cout << "We planted five trees, there are now " << numTrees << " trees." << endl;
 }
 
 /**
  * @brief runs test to call a function that outputs a smiley face to the standard out
- * 
+ *
  */
-void function_test_2() {
+void function_test_2()
+{
     // FIX =
     // TESTS:
 
@@ -263,7 +281,8 @@ void function_test_2() {
 /**
  * @brief runs test to generate five random integers within a provided range
  */
-void function_test_3() {
+void function_test_3()
+{
     // FIX =
     // TESTS:
 
@@ -279,7 +298,8 @@ void function_test_3() {
     cin >> max;
 
     cout << "Five different random numbers are: " << endl;
-    for( int i = 0; i < 5; i++ ) {
+    for (int i = 0; i < 5; i++)
+    {
         cout << "\t" << generate_random_integer(min, max) << endl;
     }
 }
@@ -287,7 +307,8 @@ void function_test_3() {
 /**
  * @brief runs test to use function to sum three values
  */
-void function_test_4() {
+void function_test_4()
+{
     // FIX =
     // TESTS:
 
@@ -299,13 +320,14 @@ void function_test_4() {
     int num1, num2, num3;
     cout << "Enter three integer numbers: ";
     cin >> num1 >> num2 >> num3;
-    cout << "The sum of all three is " << sum( num1, num2 ) << endl;
+    cout << "The sum of all three is " << sum(num1, num2) << endl;
 }
 
 /**
  * @brief runs test to generate five random floats within a provided range
  */
-void function_test_5() {
+void function_test_5()
+{
     // FIX =
     // TESTS:
 
@@ -320,7 +342,8 @@ void function_test_5() {
     cout << "Enter the maximum float range value: ";
     cin >> max;
     cout << "Five different random floats are: " << endl;
-    for( int i = 0; i < 5; ++i ) {
+    for (int i = 0; i < 5; ++i)
+    {
         cout << "\t" << generate_random_float << endl;
     }
 }
@@ -328,7 +351,8 @@ void function_test_5() {
 /**
  * @brief runs test to use function to multiply two provided numbers
  */
-void function_test_6() {
+void function_test_6()
+{
     // FIX =
     // TESTS:
 
@@ -340,32 +364,36 @@ void function_test_6() {
     float leftHandSide, rightHandSide;
     cout << "Enter two floats: ";
     cin >> leftHandSide >> rightHandSide;
-    cout << "Their product is: " << multiply( leftHandSide, rightHandSide ) << endl;
+    cout << "Their product is: " << multiply(leftHandSide, rightHandSide) << endl;
 }
 
-int main() {
+int main()
+{
     cout << "Welcome To Looping Function World!" << endl;
-    
-    loop_test_1();        // run looping test 1
-    loop_test_2();        // run looping test 2
-    loop_test_3();        // run looping test 3
-    loop_test_4();        // run looping test 4
-    loop_test_5();        // run looping test 5
 
-    function_test_1();    // run function test 1
-    function_test_2();    // run function test 2
-    function_test_3();    // run function test 3
-    function_test_4();    // run function test 4
-    function_test_5();    // run function test 5
-    function_test_6();    // run function test 6
+    loop_test_1(); // run looping test 1
+    loop_test_2(); // run looping test 2
+    loop_test_3(); // run looping test 3
+    loop_test_4(); // run looping test 4
+    loop_test_5(); // run looping test 5
+
+    function_test_1(); // run function test 1
+    function_test_2(); // run function test 2
+    function_test_3(); // run function test 3
+    function_test_4(); // run function test 4
+    function_test_5(); // run function test 5
+    function_test_6(); // run function test 6
 
     cout << endl;
     cout << "******************" << endl;
     cout << "Section Done" << endl;
     cout << "******************" << endl;
 
-    cout << endl << "Congrats!  You fixed them all (hopefully correctly!)" << endl << endl << "Goodbye" << endl << endl;
+    cout << endl
+         << "Congrats!  You fixed them all (hopefully correctly!)" << endl
+         << endl
+         << "Goodbye" << endl
+         << endl;
 
     return 0;
 }
-
