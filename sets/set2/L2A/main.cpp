@@ -308,10 +308,14 @@ void function_test_3()
     cout << "Enter the maximum integer range value: ";
     cin >> max;
 
+    random_device rd;
+    mt19937 gen(rd());
+    uniform_int_distribution<int> dist(min, max);
+
     cout << "Five different random numbers are: " << endl;
     for (int i = 0; i < 5; i++)
     {
-        cout << "\t" << generate_random_integer(min, max) << endl;
+        cout << "\t" << dist(gen) << endl;
     }
 }
 
@@ -388,9 +392,9 @@ int main()
     // loop_test_4(); // run looping test 4
     // loop_test_5(); // run looping test 5
 
-    function_test_1(); // run function test 1
+    // function_test_1(); // run function test 1
     // function_test_2(); // run function test 2
-    // function_test_3(); // run function test 3
+    function_test_3(); // run function test 3
     // function_test_4(); // run function test 4
     // function_test_5(); // run function test 5
     // function_test_6(); // run function test 6
