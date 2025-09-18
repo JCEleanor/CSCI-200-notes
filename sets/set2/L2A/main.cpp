@@ -116,8 +116,8 @@ void loop_test_1()
     cout << "Enter a number greater than 1 to sum up to: ";
     cin >> n;
 
-    int sum;
-    for (int i = 1; i < n; ++i)
+    int sum = 0;
+    for (int i = 0; i <= n; ++i)
     {
         sum += i;
     }
@@ -384,16 +384,16 @@ int main()
     cout << "Welcome To Looping Function World!" << endl;
 
     loop_test_1(); // run looping test 1
-    loop_test_2(); // run looping test 2
-    loop_test_3(); // run looping test 3
-    loop_test_4(); // run looping test 4
-    loop_test_5(); // run looping test 5
+    // loop_test_2(); // run looping test 2
+    // loop_test_3(); // run looping test 3
+    // loop_test_4(); // run looping test 4
+    // loop_test_5(); // run looping test 5
 
-    function_test_1(); // run function test 1
-    function_test_2(); // run function test 2
-    function_test_3(); // run function test 3
-    function_test_4(); // run function test 4
-    function_test_5(); // run function test 5
+    // function_test_1(); // run function test 1
+    // function_test_2(); // run function test 2
+    // function_test_3(); // run function test 3
+    // function_test_4(); // run function test 4
+    // function_test_5(); // run function test 5
     // function_test_6(); // run function test 6
 
     cout << endl;

@@ -1,6 +1,8 @@
 {
   "files.associations": {
     "*.tsx": "typescriptreact",
-    "ostream": "cpp"
+    "*.tex": "latex",
+    "ostream": "cpp",
+    "iostream": "cpp"
   }
 }
