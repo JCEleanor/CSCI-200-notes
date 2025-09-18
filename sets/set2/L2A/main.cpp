@@ -260,7 +260,7 @@ void function_test_1()
     cin >> numTrees;
     cout << "There are initially " << numTrees << " trees." << endl;
     int updatedTree = add_five(numTrees);
-    cout << "We planted five trees, there are now " << numTrees << " trees." << endl;
+    cout << "We planted five trees, there are now " << updatedTree << " trees." << endl;
 }
 
 /**
@@ -386,9 +386,9 @@ int main()
     // loop_test_2(); // run looping test 2
     // loop_test_3(); // run looping test 3
     // loop_test_4(); // run looping test 4
-    loop_test_5(); // run looping test 5
+    // loop_test_5(); // run looping test 5
 
-    // function_test_1(); // run function test 1
+    function_test_1(); // run function test 1
     // function_test_2(); // run function test 2
     // function_test_3(); // run function test 3
     // function_test_4(); // run function test 4
