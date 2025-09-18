@@ -85,7 +85,7 @@ float generate_random_float(const float MIN, const float MAX)
  */
 int sum(int x, int y, int z)
 {
-    return x + x + x;
+    return x + y + z;
 }
 
 /**
@@ -329,7 +329,7 @@ void function_test_4()
     int num1, num2, num3;
     cout << "Enter three integer numbers: ";
     cin >> num1 >> num2 >> num3;
-    cout << "The sum of all three is " << sum(num1, num2) << endl;
+    cout << "The sum of all three is " << sum(num1, num2, num3) << endl;
 }
 
 /**
@@ -391,7 +391,7 @@ int main()
     function_test_3(); // run function test 3
     function_test_4(); // run function test 4
     function_test_5(); // run function test 5
-    function_test_6(); // run function test 6
+    // function_test_6(); // run function test 6
 
     cout << endl;
     cout << "******************" << endl;
