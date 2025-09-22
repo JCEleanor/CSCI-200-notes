@@ -106,11 +106,16 @@ void printOddsWForLoop()
     }
 }
 
+void func_a(int x, int y, int z);
+
 int main()
 {
 
+    // cout << func_a(2, 3, 4) << endl;
     // printOdds();
     // printOddsWForLoop();
+
+    cout << 5 + 11 / 3 << endl; // 8
 
     signed int x = -1;   // 0xFFFFFFFF
     unsigned int y = -1; // 0xFFFFFFFF
