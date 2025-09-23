@@ -1,6 +1,8 @@
 playground/
 # Compiled Object files
-# FIXME: globally ignore all object files in all directories
+# Ignore all object files in all directories
+**/*.o
+**/*.obj
 *.o
 *.obj
 
@@ -8,6 +10,22 @@ playground/
 *.exe
 *.out
 *.app
+
+**/*.exe
+**/*.out
+**/*.app
+**/*.zip
+**/*.bak
+# Ignore executables without extensions (common in Unix-like systems)
+playground/*
+build/*
+*/a.out
+*/main
+*/program
+
+# Ignore compiled executables that match their directory name (e.g., Lec09/Lec09)
+Lec*/Lec*
+Lecture*/Lecture*
 
 # Libraries
 *.lib
