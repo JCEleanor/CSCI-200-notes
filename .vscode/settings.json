@@ -3,6 +3,7 @@
     "*.tsx": "typescriptreact",
     "*.tex": "latex",
     "ostream": "cpp",
-    "iostream": "cpp"
+    "iostream": "cpp",
+    "cmath": "cpp"
   }
 }
