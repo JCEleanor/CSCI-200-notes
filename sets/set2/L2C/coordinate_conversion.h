@@ -1,5 +1,3 @@
-// TODO: header guards
-
 #ifndef COORDINATE_CONVERSION_H
 #define COORDINATE_CONVERSION_H
 
