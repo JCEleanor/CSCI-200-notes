@@ -58,16 +58,59 @@ int main()
           break;
      }
 
+     // Track visited rooms and first populate all the values to false
+     // The new operator expects an unsigned size, so casting it to unsigned long
+     bool *visitedRooms = new bool[static_cast<unsigned long>(TOTAL_ROOM + 1)];
+     for (int i = 0; i <= TOTAL_ROOM; i++)
+     {
+          visitedRooms[i] = false;
+     }
+
      while (GAME_STATE == 1)
      {
-          int currentRoom = generate_random_room_number();
+          bool validRoom = false;
+          int currentRoom;
+
+          while (!validRoom)
+          {
+               currentRoom = generate_random_room_number();
+
+               if (currentRoom == EXIT_ROOM)
+               {
+                    // Exit room can always be visited
+                    validRoom = true;
+               }
+               else if (currentRoom == ROOM_WITH_KEY && !HAS_KEY)
+               {
+                    // Key room can be visited if key not yet obtained
+                    validRoom = true;
+               }
+               else if (currentRoom == ROOM_WITH_WEAPON && !HAS_WEAPON)
+               {
+                    // Weapon room can be visited if weapon not yet obtained
+                    validRoom = true;
+               }
+               else if (currentRoom == ROOM_WITH_ARMOR && !HAS_ARMOR)
+               {
+                    // Armor room can be visited if weapon not yet obtained
+                    validRoom = true;
+               }
+               else if (!visitedRooms[currentRoom])
+               {
+                    // Any unvisited room is valid
+                    validRoom = true;
+               }
+          }
+
           cout << endl;
           cout << "You continue deeper into the dungeon, this time exploring Room # " << currentRoom << endl;
-          // Generate a random room number
-          // Enter the room
-          // Increment the number of rooms explored
 
-          // 3. Enter the room
+          // Mark room as visited (except exit room)
+          if (currentRoom != EXIT_ROOM)
+          {
+               visitedRooms[currentRoom] = true;
+          }
+
           enter_room(currentRoom, &HEALTH, &HAS_KEY, &HAS_WEAPON, &GAME_STATE, &GOLD, &HAS_ARMOR);
           ROOM_EXPLORED++;
 
