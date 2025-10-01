@@ -44,6 +44,17 @@ If the user does not want to pick something up, then print a message warning thi
 void weapon_room(bool *hasWeapon);
 
 /**
+ * @brief Prints a message alluding there is something in this room.
+ * If the user already has a armor, prints a message saying the armor was already found.
+If the user doesn't have a armor, ask the user if they wany to pick something up.
+If the user says they wish to pick something up, then set the boolean to be true and print a message saying the armor has been found.
+If the user does not want to pick something up, then print a message warning this may be a bad choice
+ *
+ * @param hasArmor
+ */
+void armor_room(bool *hasArmor);
+
+/**
  * @brief  Generate a random integer in the inclusive range of 20 to 35 for the enemy's health and print this value.
 Simulate a battle until the enemy health is no longer positive or the hero's health is no longer positive.
 Each round of the battle both the enemy and hero attack simultaneously.
@@ -58,7 +69,7 @@ If the hero dies, then set the game state to the lose state and print a message 
  * @param currentHealth
  * @param gameState
  */
-void enemy_room(bool hasWeapon, int *heroHealth, int *gameState);
+void enemy_room(bool hasWeapon, bool hasArmor, int *heroHealth, int *gameState);
 
 /**
  * @brief Generates a random integer between the inclusive range of 5 and 15.
@@ -95,7 +106,9 @@ The same room number will always map to the same outcome every time the hero vis
  * @param hasKey
  * @param hasWeapon
  * @param gameState
+ * @param GOLD
+ * @param hasArmor
  */
-void enter_room(int roomNo, int *currentHealth, bool *hasKey, bool *hasWeapon, int *gameState, int *GOLD);
+void enter_room(int roomNo, int *currentHealth, bool *hasKey, bool *hasWeapon, int *gameState, int *GOLD, bool *hasArmor);
 
 #endif

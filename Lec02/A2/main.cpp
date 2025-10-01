@@ -17,6 +17,7 @@ int GAME_STATE = 1;
 
 int ROOM_WITH_KEY = 3;
 int ROOM_WITH_WEAPON = 7;
+int ROOM_WITH_ARMOR = 8;
 int EXIT_ROOM = 5;
 
 int HEALTH = 100;
@@ -67,7 +68,7 @@ int main()
           // Increment the number of rooms explored
 
           // 3. Enter the room
-          enter_room(currentRoom, &HEALTH, &HAS_KEY, &HAS_WEAPON, &GAME_STATE, &GOLD);
+          enter_room(currentRoom, &HEALTH, &HAS_KEY, &HAS_WEAPON, &GAME_STATE, &GOLD, &HAS_ARMOR);
           ROOM_EXPLORED++;
 
           if (GAME_STATE == 1)

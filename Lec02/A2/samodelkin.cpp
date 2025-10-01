@@ -5,6 +5,7 @@
 extern int TOTAL_ROOM;
 extern int ROOM_WITH_KEY;
 extern int ROOM_WITH_WEAPON;
+extern int ROOM_WITH_ARMOR;
 extern int EXIT_ROOM;
 
 string printHelper(bool booleanValue)
@@ -95,7 +96,39 @@ void weapon_room(bool *hasWeapon)
     }
 }
 
-void enemy_room(bool hasWeapon, int *heroHealth, int *gameState, int *GOLD)
+void armor_room(bool *hasArmor)
+{
+    cout << "You appear to be in what was once an armory of sorts. There are many broken armor scattered about." << endl;
+
+    if (*hasArmor)
+    {
+        cout << "You already took the armor from here." << endl;
+    }
+    else
+    {
+        char response;
+        cout << "Mounted upon the wall is the mighty armor XYZ.  Do you wish to take it with you? (Y/N): ";
+        cin >> response;
+
+        while (response != 'Y' && response != 'y' && response != 'N' && response != 'n')
+        {
+            cout << "Mounted upon the wall is the mighty armor XYZ.  Do you wish to take it with you? (Y/N): ";
+            cin >> response;
+        }
+
+        if (response == 'Y' || response == 'y')
+        {
+            *hasArmor = true;
+            cout << "You instantly feel more protected." << endl;
+        }
+        else
+        {
+            cout << "You hope you don't regret that choice." << endl;
+        }
+    }
+}
+
+void enemy_room(bool hasWeapon, bool hasArmor, int *heroHealth, int *gameState, int *GOLD)
 {
     random_device rd;
     mt19937 gen(rd());
@@ -114,6 +147,13 @@ void enemy_room(bool hasWeapon, int *heroHealth, int *gameState, int *GOLD)
         if (hasWeapon)
         {
             heroDamage = heroWeaponDist(gen);
+
+            if (hasArmor)
+            {
+                cout << "The shiny armor protected you from the attack. Damage drops from " << heroDamage << " to " << heroDamage / 2 << endl;
+                heroDamage = heroDamage / 2;
+            }
+
             cout << "You swing Excalibur dealing " << heroDamage << " damage." << endl;
         }
         else
@@ -176,13 +216,17 @@ void empty_room()
     cout << "You look around, there's nothing here" << endl;
 }
 
-void enter_room(int currentRoom, int *HEALTH, bool *HAS_KEY, bool *HAS_WEAPON, int *GAME_STATE, int *GOLD)
+void enter_room(int currentRoom, int *HEALTH, bool *HAS_KEY, bool *HAS_WEAPON, int *GAME_STATE, int *GOLD, bool *HAS_ARMOR)
 {
-    printf("You enter room #%d.  You have %dHP, Key = %s, Weapon = %s, Gold = %dGP\n", currentRoom, *HEALTH, printHelper(*HAS_KEY).c_str(), printHelper(*HAS_WEAPON).c_str(), *GOLD);
+    printf("You enter room #%d.  You have %dHP, Key = %s, Weapon = %s, Armor = %s, Gold = %dGP\n", currentRoom, *HEALTH, printHelper(*HAS_KEY).c_str(), printHelper(*HAS_WEAPON).c_str(), printHelper(*HAS_ARMOR).c_str(), *GOLD);
 
     if (currentRoom == ROOM_WITH_KEY)
     {
         key_room(HAS_KEY);
+    }
+    else if (currentRoom == ROOM_WITH_ARMOR)
+    {
+        armor_room(HAS_ARMOR);
     }
     else if (currentRoom == ROOM_WITH_WEAPON)
     {
@@ -206,7 +250,7 @@ void enter_room(int currentRoom, int *HEALTH, bool *HAS_KEY, bool *HAS_WEAPON, i
         }
         else
         {
-            enemy_room(*HAS_WEAPON, HEALTH, GAME_STATE, GOLD);
+            enemy_room(*HAS_WEAPON, *HAS_ARMOR, HEALTH, GAME_STATE, GOLD);
         }
     }
 }
