@@ -1,3 +1,6 @@
+- `&` address-of operator (getting the address of a variable)
+- `*` dereference operator (getting the value of a pointer)
+
 ```c++
 double *ptr = new double; // carve out 8 byte of memory for address of ptr
 
