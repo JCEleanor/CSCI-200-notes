@@ -62,7 +62,7 @@ int main()
     }
 
     // Element access is protected -- Access element 100
-    cout << cwidList[100] << endl; // don't do this
+    cout << cwidList[100] << endl; // don't do this. you will get random number or seg fault
     // cout << cwidList << endl; // is for loop the only way to print out the vector?
 
     return 0;
