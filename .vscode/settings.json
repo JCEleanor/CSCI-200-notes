@@ -4,6 +4,7 @@
     "*.tex": "latex",
     "ostream": "cpp",
     "iostream": "cpp",
-    "cmath": "cpp"
+    "cmath": "cpp",
+    "string": "cpp"
   }
 }
