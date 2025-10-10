@@ -6,16 +6,14 @@ using namespace std;
 
 unsigned long string_length(const string STR)
 {
-    unsigned long result = -1;
-    // FIXME: implicit conversion changes signedness: 'int' to 'unsigned long'
+    unsigned long result = static_cast<unsigned long>(-1);
     result = STR.length(); // set result to the length of the string
     return result;
 }
 
 char string_char_at(const string STR, const int IDX)
 {
-    char result = (char)STR.at(IDX);
-    // FIXME: implicit conversion changes signedness: 'const int' to 'size_type' (aka 'unsigned long')
+    char result = (char)STR.at((size_t)IDX);
     std::cout << "implement string_char_at(\"" << STR << "\", " << IDX << ")" << std::endl;
     return result;
 }
@@ -47,7 +45,7 @@ size_t string_find(const string STR, const char C)
 string string_substring(const string STR, const int IDX, const int LEN)
 {
     // NOTE: string substr (size_t pos = 0, size_t len = npos) const;
-    string result = STR.substr(IDX, LEN);
+    string result = STR.substr((size_t)IDX, (size_t)LEN);
     // TODO 05: set result to be a substring starting at index of given length
     return result;
 }
@@ -110,6 +108,7 @@ string string_third_word(const string STR)
 string string_nth_word(const string STR, const int N)
 {
     string result = STR;
+
     for (int i = 1; i < N; i++)
     {
         result = string_remove_first_word(result);
@@ -118,47 +117,101 @@ string string_nth_word(const string STR, const int N)
             return "";
         }
     }
-    // TODO 11: set result to be the nth word from the string
-    std::cout << "TODO: implement string_nth_word(\"" << STR << "\", " << N << ")" << std::endl;
-    return result;
+
+    return string_first_word(result);
 }
 
 vector<string> string_tokenize(const string STR, const char DELIMINATOR)
 {
     vector<string> result;
-    // TODO 12: split the string by the given deliminator
-    std::cout << "TODO: implement string_tokenize(\"" << STR << "\", '" << DELIMINATOR << "')" << std::endl;
+    if (STR.empty())
+    {
+        result.push_back("");
+        return result;
+    }
+
+    string current_token = "";
+
+    for (size_t i = 0; i < STR.length(); i++)
+    {
+        if (STR[i] == DELIMINATOR)
+        {
+            result.push_back(current_token);
+            current_token = "";
+        }
+        else
+        {
+            current_token += STR[i];
+        }
+    }
+
+    result.push_back(current_token);
+
     return result;
 }
 
 string string_substitute(const string STR, const char TARGET, const char REPLACEMENT)
 {
     string result = STR;
-    // TODO 13: set result to be the string with all instances of TARGET replaced
-    std::cout << "TODO: implement string_substitute(\"" << STR << "\", '" << TARGET << "', '" << REPLACEMENT << "')" << std::endl;
+
+    for (size_t i = 0; i < result.length(); i++)
+    {
+        if (result[i] == TARGET)
+        {
+            result[i] = REPLACEMENT;
+        }
+    }
+
     return result;
 }
 
 string string_to_lower(const string STR)
 {
     string result = STR;
-    // TODO 14: convert all characters to lower case
-    std::cout << "TODO: implement string_to_lower(\"" << STR << "\")" << std::endl;
+    for (size_t i = 0; i < result.length(); i++)
+    {
+        result[i] = (char)tolower(result[i]);
+    }
     return result;
 }
 
 string string_to_upper(const string STR)
 {
     string result = STR;
-    // TODO 15: convert all characters to upper case
-    std::cout << "TODO: implement string_to_upper(\"" << STR << "\")" << std::endl;
+    for (size_t i = 0; i < result.length(); i++)
+    {
+        result[i] = (char)toupper(result[i]);
+    }
     return result;
 }
 
 int string_compare(const string LHS, const string RHS)
 {
     int result = 0;
-    // TODO 16: compare LHS and RHS
-    std::cout << "TODO: implement string_compare(\"" << LHS << "\", \"" << RHS << "\")" << std::endl;
+
+    size_t min_length = (LHS.length() < RHS.length()) ? LHS.length() : RHS.length();
+
+    // all characters match up to min_length, compare lengths
+    if (LHS.length() < RHS.length())
+    {
+        return -1;
+    }
+    else if (LHS.length() > RHS.length())
+    {
+        return 1;
+    }
+
+    for (size_t i = 0; i < min_length; i++)
+    {
+        if (LHS[i] < RHS[i])
+        {
+            return -1;
+        }
+        else if (LHS[i] > RHS[i])
+        {
+            return 1;
+        }
+    }
+
     return result;
 }
