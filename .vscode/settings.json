@@ -6,5 +6,10 @@
     "iostream": "cpp",
     "cmath": "cpp",
     "string": "cpp"
+  },
+  "workbench.colorCustomizations": {
+    "activityBar.background": "#033050",
+    "titleBar.activeBackground": "#054370",
+    "titleBar.activeForeground": "#F8FCFF"
   }
 }

@@ -14,7 +14,7 @@ private: // access control
     int cwid;
     std::string name;
 
-public: // access control
+public: // access cosntrol
     // constructor
     Student(); // default constructor
     // for the string you prob want to pass by reference
