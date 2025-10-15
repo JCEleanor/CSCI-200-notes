@@ -100,7 +100,7 @@ std::string string_nth_word(const std::string STR, const int N);
 
 /**
  * @brief Splits a string into a list of tokens deliminated by a given character
- * 
+ *
  * @param STR string to tokenize
  * @param DELIMINATOR character to split on
  * @return vector<string> list of all tokens in the order present in the original string
@@ -118,7 +118,7 @@ std::string string_substitute(const std::string STR, const char TARGET, const ch
 
 /**
  * @brief Returns a string with all uppercase characters converted to lowercase characters
- * 
+ *
  * @param STR original string
  * @return string with lowercase characters
  */
@@ -126,16 +126,16 @@ std::string string_to_lower(const std::string STR);
 
 /**
  * @brief Returns a string with all lowercase characters converted to uppercase characters
- * 
+ *
  * @param STR original string
  * @return string with uppercase characters
  */
 std::string string_to_upper(const std::string STR);
 
 /**
- * @brief Compares two strings to determine their ordering or equality.  Returns -1 if 
+ * @brief Compares two strings to determine their ordering or equality.  Returns -1 if
  * LHS < RHS.  Returns 0 if LHS == RHS.  Returns 1 if LHS > RHS
- * 
+ *
  * @param LHS left hand string
  * @param RHS right hand string
  * @return int representing relationship of LHS to RHS

@@ -10,6 +10,8 @@ int main()
     // step 2 & 3: decalre and open the file
     ifstream fin;
     fin.open("data.txt"); // look for local dir
+    // alternative one liner:
+    // ifstream fin("data.txt");
 
     ofstream fout;
     // what it's locked by some other program and we failed to access it?
@@ -51,6 +53,13 @@ int main()
         fin.get(c); // c = (char)f.get() (this will return an ineger, so we have to type cast it into a char)
         cout << c;
         fout << c;
+    }
+
+    while (!fin.eof())
+    {
+        // NOTE: how do we decide the data type of unknown input?
+        char x = fin.get();
+        cout << x << endl;
     }
 
     // step 6: close the file for both input/output
