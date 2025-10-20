@@ -2,11 +2,53 @@
 
 ## Class in C++
 
-- dot operator / memeber access operator
-- data memeber
-- scope resolution operator
+### dot operator / memeber access operator
 
-## Procedural VS. OOP
+```c++
+#include <iostream>
+#include <string>
+
+class Person {
+public:
+    std::string name;
+    int age;
+
+    void introduce() {
+        std::cout << "Hi, my name is " << name << " and I am " << age << " years old." << std::endl;
+    }
+};
+
+int main() {
+    // Create an object of the Person class
+    Person p1;
+
+    // Access and modify data members using the dot operator
+    p1.name = "Alice";
+    p1.age = 30;
+
+    // Call a member function using the dot operator
+    p1.introduce(); // Output: Hi, my name is Alice and I am 30 years old.
+
+    return 0;
+}
+```
+
+### scope resolution operator `::`
+
+operator used to specify the scope to which an identifier (like a variable, function, or class) belongs, especially when there are naming conflicts or when accessing members outside their immediate definition.
+
+```c++
+#include <iostream>
+
+int globalVar = 10; // Global variable
+
+int main() {
+    int globalVar = 20; // Local variable with the same name
+    std::cout << "Local variable: " << globalVar << std::endl;
+    std::cout << "Global variable: " << ::globalVar << std::endl;
+    return 0;
+}
+```
 
 ## Imperative/declarative programming
 
