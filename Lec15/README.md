@@ -15,7 +15,7 @@ ifstream myInput ("filename.txt");
 myInput >> fileString;
 ```
 
-Supposedly we have text file like so:
+Suppose we have text file like so:
 `12 34 56\n78 90 91`
 
 Read the next value after the cursor up until a whitespace character:
