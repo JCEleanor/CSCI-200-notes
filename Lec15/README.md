@@ -97,13 +97,51 @@ int main (){
 }
 ```
 
-#### Reading files boilerplate 1 (from gemini)
+##### A breakdown
 
-Reading a File Line-by-Line
+1. Setup:
+   _ myDataIn opens the file XY.
+   _ The check myDataIn.fail() passes. \* The file cursor is at the beginning: |XY
 
-This is the most common and robust pattern for reading a text file.
+2. First Loop Iteration:
 
-```cpp
+   - `!myDataIn.eof()` is true. The eof flag has not been set.
+   - The loop body runs.
+   - `myDataIn >> x;` reads the character 'X'. The variable x now holds 'X'.
+   - The file cursor is now between X and Y: X|Y
+   - Your code does "marvelous things" with the value 'X'.
+
+3. Second Loop Iteration:
+
+   - `!myDataIn.eof()` is still true. The last read was successful.
+   - The loop body runs.
+   - `myDataIn >> x`; reads the character 'Y'. The variable x now holds 'Y'.
+   - The file cursor is at the end of the file: XY|
+   - Your code does "marvelous things" with the value 'Y'.
+
+4. Third Loop Iteration (The "Extra" Loop):
+
+   - `!myDataIn.eof()` is STILL TRUE! The eof flag has not been set because the last read of 'Y' was successful. The program doesn't know it's at the end yet.
+   - The loop body runs again.
+   - `myDataIn >> x;` is executed. The read operation fails because there is nothing left to read.
+   - The stream myDataIn now enters a "fail" state, and the eof flag is finally set.
+   - Crucially, the value of `x` is not changed. It still contains 'Y' from the last successful read.
+   - Your code now does "marvelous things" with the old, stale value of `x`. It processes 'Y' for a second time, which is a bug.
+
+5. Fourth Loop Check:
+   - `!myDataIn.eof()` is now false. The loop finally terminates.
+
+#### Reading files boilerplate 2 (the correct idiom according to gemini)
+
+```c++
+    while (myDataIn >> x) {
+        // This code only runs if the read was successful
+    }
+```
+
+Reading a File Line-by-Line: this is the most common and robust pattern for reading a text file.
+
+```c++
 #include <iostream>
 #include <fstream>
 #include <string>
