@@ -65,12 +65,14 @@ while (!fileIn.eof()){
 
 #### Reading files boilerplate (6 steps)
 
-1. open file with file path
-2. error handling (if error, return -1 to end the program)
-3. read file content
-4. close the file
+1. Include header
+2. Declare file stream
+3. Open file
+4. Check for error opening
+5. Read/Write data
+6. Close files
 
-#### Reading files boilerplate
+#### Reading files boilerplate 1 (from lecture slides)
 
 ```c++
 #include <fstream>
@@ -94,6 +96,76 @@ int main (){
     return 0;
 }
 ```
+
+#### Reading files boilerplate 1 (from gemini)
+
+Reading a File Line-by-Line
+
+This is the most common and robust pattern for reading a text file.
+
+```cpp
+#include <iostream>
+#include <fstream>
+#include <string>
+
+int main() {
+    // 1. Open the file
+    // The ifstream object is created, and its constructor tries to open the file.
+    std::ifstream fileIn("data.txt");
+
+    // 2. Error Handling: Check if the file opened successfully
+    // If the file couldn't be opened (e.g., doesn't exist, no permissions),
+    // the stream object will be in a "fail" state.
+    if (!fileIn) {
+        std::cerr << "Error: Could not open file for reading." << std::endl;
+        return 1; // Indicate an error
+    }
+
+    std.string line;
+    // 3. The Standard Read Loop
+    // - std::getline() attempts to read a line from fileIn and store it in 'line'.
+    // - It then returns the stream object (fileIn).
+    // - The while loop checks the state of the stream. If the read was successful,
+    //   the stream is in a "good" state, which evaluates to 'true', and the loop runs.
+    // - If the read fails (because it hit the end of the file), the stream is no
+    //   longer "good", it evaluates to 'false', and the loop terminates correctly.
+    while (std::getline(fileIn, line)) {
+        // Process the line
+        std::cout << line << std::endl;
+    }
+
+    // 4. Close the file
+    // File streams are automatically closed when the object (fileIn) goes out of scope
+    // at the end of the function. This is part of a C++ principle called RAII.
+    // You can also close it explicitly if you want to.
+    fileIn.close();
+
+    return 0;
+}
+```
+
+### Alternative: Reading Word-by-Word
+
+The same principle applies if you want to read whitespace-separated data.
+
+```cpp
+// (Includes and file opening are the same as above)
+
+std::string word;
+// The loop condition is now the extraction operator.
+// It attempts to read a "word", and the loop continues as long as it succeeds.
+while (fileIn >> word) {
+    // Process the word
+    std::cout << "Read word: " << word << std::endl;
+}
+```
+
+### Summary of Best Practices:
+
+1.  **Initialization:** Create an `ifstream` object to open the file.
+2.  **Error Check:** Immediately check the state of the stream object (`if (!fileIn)`) to ensure the file was opened successfully.
+3.  **Loop Condition:** Place the read operation (`std::getline` or `>>`) directly inside the `while` loop's condition. This is the most important step for safety.
+4.  **Automatic Closing:** Rely on the object's destructor to close the file automatically when it goes out of scope. Explicitly calling `.close()` is optional but can be used for clarity.
 
 #### `ofstream`
 
