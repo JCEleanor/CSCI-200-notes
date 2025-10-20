@@ -1,5 +1,7 @@
 ## Encapsulation
 
+Object-oriented programming: state encapsulated in an object and only object can modify its state
+
 ## Class in C++
 
 ### dot operator / memeber access operator
