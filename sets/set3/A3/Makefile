@@ -3,13 +3,13 @@
 # THE NAME OF YOUR PROJECT
 PROJECT = A3
 # ALL CPP COMPILABLE IMPLEMENTATION FILES THAT MAKE UP THE PROJECT
-SRC_FILES = main.cpp
+SRC_FILES = main.cpp OutputProcessor.cpp InputProcessor.cpp
 # ALL HEADER FILES THAT ARE PART OF THE PROJECT
 H_FILES = 
 # ANY OTHER RESOURCES FILES THAT ARE PART OF THE PROJECT
 REZ_FILES = 
 # YOUR USERNAME
-USERNAME = username
+USERNAME = jingchun_chiu
 
 # NO EDITS BELOW THIS LINE
 CXX = g++
@@ -69,4 +69,4 @@ submission:
 .PHONY: all clean depend submission
 
 # DEPENDENCIES
-main.o: main.cpp
+main.o: main.cpp InputProcessor.h OutputProcessor.h
