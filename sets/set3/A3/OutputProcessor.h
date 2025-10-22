@@ -47,8 +47,23 @@ public:
     /**
      * @brief This function will print the following information to the output stream, in the order and format specified. This output must match the specification exactly.
      *
+     *  1. How many words were read in
+     *
+        2. How many unique words were read in
+
+        3. The complete list of unique words and their associated counts
+
+        4. The most frequent word
+
+        5. The least frequent word
+
+        6. A list of letters and their associated counts
+
+        7. The most frequent letter
+
+        8. The least frequent letter
      */
-    void write() const;
+    void write();
 };
 
 #endif
