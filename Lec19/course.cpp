@@ -7,9 +7,10 @@ using namespace std;
 Course::Course()
 {
     _title = "CSM101";
+    _enrollment = 0;
 }
 // paremeterized
-Course::Course(const std::string INPUT)
+Course::Course(const string INPUT)
 {
     Course::_title = INPUT;
 }
