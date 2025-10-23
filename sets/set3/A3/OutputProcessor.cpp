@@ -5,11 +5,40 @@
 
 using namespace std;
 
+int OutputProcessor::_getMaxIndex(const std::vector<unsigned int> targetArray)
+{
+    int maxIndex = 0;
+    for (size_t i = 1; i < targetArray.size(); i++)
+    {
+        if (targetArray[i] > targetArray[maxIndex])
+        {
+            maxIndex = i;
+        }
+    }
+
+    return maxIndex;
+}
+
+int OutputProcessor::_getMinIndex(const std::vector<unsigned int> targetArray)
+{
+    int minIndex = 0;
+    for (size_t i = 1; i < targetArray.size(); i++)
+    {
+        if (targetArray[i] < targetArray[minIndex])
+        {
+            minIndex = i;
+        }
+    }
+
+    return minIndex;
+}
+
 OutputProcessor::OutputProcessor()
 {
     // initialize alphabet order
     this->letterCounts.resize(26, 0);
 }
+
 void OutputProcessor::analyzeWords(const std::vector<std::string> &words, const std::string &punctuation)
 {
     // step 0: clean vector;
@@ -34,6 +63,7 @@ void OutputProcessor::analyzeWords(const std::vector<std::string> &words, const 
                 if (upperChar >= 'A' && upperChar <= 'Z')
                 {
                     this->letterCounts[upperChar - 'A'] += 1;
+                    this->totalLetterCounts += 1;
                 }
             }
 
@@ -80,10 +110,10 @@ bool OutputProcessor::openStream()
 {
     string filename;
     cout << endl
-         << "Enter filename for output file: " << endl;
+         << "Enter filename for output file: ";
     cin >> filename;
 
-    this->fileOut.open(filename + ".txt");
+    this->fileOut.open(filename + ".out");
     if (this->fileOut.fail())
     {
         return false;
@@ -100,36 +130,59 @@ void OutputProcessor::write()
 
     for (size_t i = 0; i < this->uniqueWords.size(); i++)
     {
-        // FIXME: fix formatting
-        this->fileOut << left << setw(16) << this->uniqueWords[i] << ": " << this->wordCounts[i] << "\n";
+        this->fileOut << left << setw(16) << this->uniqueWords[i] << ": " << right << setw(2) << this->wordCounts[i] << "\n";
     }
 
-    int mostFrequentWordIndex = 0;
-    for (size_t i = 1; i < this->wordCounts.size(); i++)
-    {
-        if (this->wordCounts[i] > this->wordCounts[mostFrequentWordIndex])
-        {
-            mostFrequentWordIndex = i;
-        }
-    }
+    int mostFrequentWordIndex = this->_getMaxIndex(this->wordCounts);
+    int leastFrequentWordIndex = this->_getMinIndex(this->wordCounts);
+    ;
+    string mostFrequentWord = this->uniqueWords[mostFrequentWordIndex];
+    string leastFrequentWord = this->uniqueWords[leastFrequentWordIndex];
 
-    string mostFrequentWord = this->allWords[mostFrequentWordIndex];
-    double mostFrequentWordRate = (static_cast<double>(this->wordCounts[mostFrequentWordIndex] / this->totalWordCounts)) * 100.0;
-    this->fileOut << " Most Frequent Word: " << mostFrequentWord << "(" << mostFrequentWordRate << "%)" << "\n";
-    this->fileOut << "Least Frequent Word: " << "aaa" << "\n";
+    double mostFrequentWordCount = (static_cast<double>(this->wordCounts[mostFrequentWordIndex]));
+    double leastFrequentWordCount = (static_cast<double>(this->wordCounts[leastFrequentWordIndex]));
+    double mostFrequentWordRate = (mostFrequentWordCount / this->totalWordCounts) * 100.0;
+    double leastFrequentWordRate = (leastFrequentWordCount / this->totalWordCounts) * 100.0;
+    this->fileOut << setw(21) << "Most Frequent Word: ";
+    this->fileOut << setw(9) << left << mostFrequentWord;
+    this->fileOut << setw(3) << right << this->wordCounts[mostFrequentWordIndex];
+    this->fileOut << " (" << setw(7) << fixed << setprecision(3) << mostFrequentWordRate << "%)" << "\n";
 
+    this->fileOut << setw(21) << "Least Frequent Word: ";
+    this->fileOut << setw(9) << left << leastFrequentWord;
+    this->fileOut << setw(3) << right << this->wordCounts[leastFrequentWordIndex];
+    this->fileOut << " (" << setw(7) << fixed << setprecision(3) << leastFrequentWordRate << "%)" << "\n";
+
+    this->fileOut << std::setfill('.');
     for (int i = 0; i < 26; i++)
     {
-        // FIXME: fix formatting
-        this->fileOut << (char)('A' + i) << "................." << this->letterCounts[i] << "\n";
+        this->fileOut << left << (char)('A' + i);
+        this->fileOut << right << setw(19) << this->letterCounts[i] << "\n";
     }
-    /**
-     *
-        6. A list of letters and their associated counts
 
-        7. The most frequent letter
+    this->fileOut << setfill(' ');
 
-        8. The least frequent letter
-     *
-     */
+    // FIXME: if same count, sort by alphebetical orderx
+    int mostFrequentLetterIndex = this->_getMaxIndex(this->letterCounts);
+    int leastFrequentLetterIndex = this->_getMinIndex(this->letterCounts);
+
+    char mostFrequentLetter = (char)('A' + mostFrequentLetterIndex);
+    char leastFrequentLetter = (char)('A' + leastFrequentLetterIndex);
+
+    double mostFrequentLetterCount = (static_cast<double>(this->letterCounts[mostFrequentLetterIndex]));
+    double leastFrequentLetterCount = (static_cast<double>(this->letterCounts[leastFrequentLetterIndex]));
+
+    double maxFrequentLetterRate = (mostFrequentLetterCount / this->totalLetterCounts) * 100.0;
+    double leastFrequentLetterRate = (leastFrequentLetterCount / this->totalLetterCounts) * 100.0;
+
+    // " Most Frequent Letter: E "
+    this->fileOut << setw(23) << "Most Frequent Letter: " << mostFrequentLetter << " ";
+    this->fileOut << right << setw(3) << this->letterCounts[mostFrequentLetterIndex] << " ";
+    this->fileOut << "(" << setw(7) << fixed << setprecision(3) << maxFrequentLetterRate << "%)" << "\n";
+
+    this->fileOut << setw(23) << "Least Frequent Letter: " << leastFrequentLetter << " ";
+    this->fileOut << right << setw(3) << this->letterCounts[leastFrequentLetterIndex] << " ";
+    this->fileOut << "(" << setw(7) << fixed << setprecision(3) << leastFrequentLetterRate << "%)" << "\n";
+
+    // diff -s result.out solutions/aliceChapter1.out
 }

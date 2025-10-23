@@ -17,6 +17,21 @@ private:
     unsigned int totalLetterCounts;
     unsigned int totalWordCounts;
 
+    /**
+     * @brief return the index of the largest int
+     *
+     * @param targetArray
+     * @return int
+     */
+    int _getMaxIndex(const std::vector<unsigned int> targetArray);
+    /**
+     * @brief return the index of the smallest int
+     *
+     * @param targetArray
+     * @return int
+     */
+    int _getMinIndex(const std::vector<unsigned int> targetArray);
+
 public:
     /**
      * @brief initializes private data members to sensible values (e.g. there are no words present).
