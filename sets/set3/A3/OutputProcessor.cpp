@@ -135,11 +135,36 @@ void OutputProcessor::write()
     int maxCount = this->wordCounts[mostFrequentWordIndex];
     int countWidth = to_string(maxCount).length();
 
-    for (size_t i = 0; i < this->uniqueWords.size(); i++)
-    {
+    // sort alphabetically
+    vector<string> sortedWords = this->uniqueWords;
+    vector<unsigned int> sortedCounts = this->wordCounts;
 
-        this->fileOut << left << setw(longestWordLegth) << this->uniqueWords[i] << " : ";
-        this->fileOut << right << setw(countWidth) << this->wordCounts[i] << "\n";
+    for (size_t i = 0; i < sortedWords.size(); i++)
+    {
+        size_t minIndex = i;
+        for (size_t j = i; j < sortedWords.size(); j++)
+        {
+            if (sortedWords[j] < sortedWords[minIndex])
+            {
+                minIndex = j;
+            }
+        }
+
+        // swap the words in the copied vector
+        string tempWord = sortedWords[i];
+        sortedWords[i] = sortedWords[minIndex];
+        sortedWords[minIndex] = tempWord;
+
+        // swap the counts in the copied vector to keep them in sync
+        unsigned int tempCount = sortedCounts[i];
+        sortedCounts[i] = sortedCounts[minIndex];
+        sortedCounts[minIndex] = tempCount;
+    }
+
+    for (size_t i = 0; i < sortedWords.size(); i++)
+    {
+        this->fileOut << left << setw(longestWordLegth) << sortedWords[i] << " : ";
+        this->fileOut << right << setw(countWidth) << sortedCounts[i] << "\n";
     }
 
     int leastFrequentWordIndex = this->_getMinIndex(this->wordCounts);
@@ -169,7 +194,7 @@ void OutputProcessor::write()
     this->fileOut << " (" << fixed << setprecision(3) << leastFrequentWordRate << "%)" << "\n";
 
     // The width needs to match the width of the word table from above.
-    //  the sum of the longest word's length, the separator (" : "), and the width of the count column
+    // the sum of the longest word's length, the separator (" : "), and the width of the count column
     int tableWidth = longestWordLegth + 3 + countWidth;
     int letterCountWidth = tableWidth - 1;
     this->fileOut << std::setfill('.');
@@ -194,7 +219,6 @@ void OutputProcessor::write()
     double maxFrequentLetterRate = (mostFrequentLetterCount / this->totalLetterCounts) * 100.0;
     double leastFrequentLetterRate = (leastFrequentLetterCount / this->totalLetterCounts) * 100.0;
 
-    // " Most Frequent Letter: E "
     this->fileOut << setw(23) << "Most Frequent Letter: " << mostFrequentLetter << " ";
     this->fileOut << right << setw(3) << this->letterCounts[mostFrequentLetterIndex] << " ";
     this->fileOut << "(" << setw(7) << fixed << setprecision(3) << maxFrequentLetterRate << "%)" << "\n";
