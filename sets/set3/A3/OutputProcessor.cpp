@@ -155,6 +155,9 @@ void OutputProcessor::write()
     int wordWidth = (mostFrequentWord.length() > leastFrequentWord.length()) ? mostFrequentWord.length() : leastFrequentWord.length();
     int numberWidth = to_string(this->wordCounts[mostFrequentWordIndex]).length();
 
+    // WORD# - The word. Left align all values. Allocate enough space for the length of the longer of the two words.
+    // #C - The corresponding count of the word. Right align all values. Allocate enough space for the length of the most frequent word present in the file.
+    // #P - The frequency of the word. Right align all values. Print to three decimal places.
     this->fileOut << " Most Frequent Word: ";
     this->fileOut << left << setw(wordWidth) << mostFrequentWord << " ";
     this->fileOut << right << setw(numberWidth) << this->wordCounts[mostFrequentWordIndex];
@@ -165,11 +168,15 @@ void OutputProcessor::write()
     this->fileOut << right << setw(numberWidth) << this->wordCounts[leastFrequentWordIndex];
     this->fileOut << " (" << fixed << setprecision(3) << leastFrequentWordRate << "%)" << "\n";
 
+    // The width needs to match the width of the word table from above.
+    //  the sum of the longest word's length, the separator (" : "), and the width of the count column
+    int tableWidth = longestWordLegth + 3 + countWidth;
+    int letterCountWidth = tableWidth - 1;
     this->fileOut << std::setfill('.');
     for (int i = 0; i < 26; i++)
     {
         this->fileOut << left << (char)('A' + i);
-        this->fileOut << right << setw(19) << this->letterCounts[i] << "\n";
+        this->fileOut << right << setw(letterCountWidth) << this->letterCounts[i] << "\n";
     }
 
     this->fileOut << setfill(' ');
