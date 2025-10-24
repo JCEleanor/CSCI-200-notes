@@ -23,32 +23,22 @@ private:
      * @param targetArray
      * @return int
      */
-    int _getMaxIndex(const std::vector<unsigned int> targetArray);
+    size_t _getMaxIndex(const std::vector<unsigned int> &targetArray);
     /**
      * @brief return the index of the smallest int
      *
      * @param targetArray
      * @return int
      */
-    int _getMinIndex(const std::vector<unsigned int> targetArray);
+    size_t _getMinIndex(const std::vector<unsigned int> &targetArray);
 
-    int _getlongestWordLength(const std::vector<std::string> targetArray)
-    {
-        if (targetArray.empty())
-        {
-            return 0;
-        }
-        std::string longestWord = targetArray[0];
-        for (size_t i = 1; i < targetArray.size(); i++)
-        {
-            if (targetArray[i].length() > longestWord.length())
-            {
-                longestWord = targetArray[i];
-            }
-        }
-
-        return longestWord.length();
-    }
+    /**
+     * @brief get length of the longest word
+     *
+     * @param targetArray
+     * @return size_t
+     */
+    size_t _getLongestWordLength(const std::vector<std::string> &targetArray);
 
 public:
     /**

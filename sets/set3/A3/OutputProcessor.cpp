@@ -5,9 +5,9 @@
 
 using namespace std;
 
-int OutputProcessor::_getMaxIndex(const std::vector<unsigned int> targetArray)
+size_t OutputProcessor::_getMaxIndex(const std::vector<unsigned int> &targetArray)
 {
-    int maxIndex = 0;
+    size_t maxIndex = 0;
     for (size_t i = 1; i < targetArray.size(); i++)
     {
         if (targetArray[i] > targetArray[maxIndex])
@@ -19,9 +19,9 @@ int OutputProcessor::_getMaxIndex(const std::vector<unsigned int> targetArray)
     return maxIndex;
 }
 
-int OutputProcessor::_getMinIndex(const std::vector<unsigned int> targetArray)
+size_t OutputProcessor::_getMinIndex(const std::vector<unsigned int> &targetArray)
 {
-    int minIndex = 0;
+    size_t minIndex = 0;
     for (size_t i = 1; i < targetArray.size(); i++)
     {
         if (targetArray[i] < targetArray[minIndex])
@@ -31,6 +31,24 @@ int OutputProcessor::_getMinIndex(const std::vector<unsigned int> targetArray)
     }
 
     return minIndex;
+}
+
+size_t OutputProcessor::_getLongestWordLength(const std::vector<std::string> &targetArray)
+{
+    if (targetArray.empty())
+    {
+        return 0;
+    }
+    std::string longestWord = targetArray[0];
+    for (size_t i = 1; i < targetArray.size(); i++)
+    {
+        if (targetArray[i].length() > longestWord.length())
+        {
+            longestWord = targetArray[i];
+        }
+    }
+
+    return longestWord.length();
 }
 
 OutputProcessor::OutputProcessor()
@@ -128,8 +146,8 @@ void OutputProcessor::write()
     this->fileOut << "Encountered " << this->uniqueWords.size() << " unique words";
     this->fileOut << "\n";
 
-    int longestWordLegth = this->_getlongestWordLength(this->uniqueWords);
-    int mostFrequentWordIndex = this->_getMaxIndex(this->wordCounts);
+    int longestWordLegth = this->_getLongestWordLength(this->uniqueWords);
+    size_t mostFrequentWordIndex = this->_getMaxIndex(this->wordCounts);
 
     // calculate column width
     int maxCount = this->wordCounts[mostFrequentWordIndex];
@@ -167,7 +185,7 @@ void OutputProcessor::write()
         this->fileOut << right << setw(countWidth) << sortedCounts[i] << "\n";
     }
 
-    int leastFrequentWordIndex = this->_getMinIndex(this->wordCounts);
+    size_t leastFrequentWordIndex = this->_getMinIndex(this->wordCounts);
     string mostFrequentWord = this->uniqueWords[mostFrequentWordIndex];
     string leastFrequentWord = this->uniqueWords[leastFrequentWordIndex];
 
@@ -207,8 +225,8 @@ void OutputProcessor::write()
     this->fileOut << setfill(' ');
 
     // FIXME: if same count, sort by alphebetical orderx
-    int mostFrequentLetterIndex = this->_getMaxIndex(this->letterCounts);
-    int leastFrequentLetterIndex = this->_getMinIndex(this->letterCounts);
+    size_t mostFrequentLetterIndex = this->_getMaxIndex(this->letterCounts);
+    size_t leastFrequentLetterIndex = this->_getMinIndex(this->letterCounts);
 
     char mostFrequentLetter = (char)('A' + mostFrequentLetterIndex);
     char leastFrequentLetter = (char)('A' + leastFrequentLetterIndex);

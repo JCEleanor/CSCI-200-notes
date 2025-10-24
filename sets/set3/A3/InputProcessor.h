@@ -30,8 +30,7 @@ public:
     /**
      * @brief Prompt the user for the filename of the file they wish to read from, then open an input file stream for the given filename.
      *
-     * @return true the stream opened successfully, false otherwise
-     * @return false failed to open stream
+     * @return true the stream opened successfully, false otherwise, false failed to open stream
      */
     bool openStream();
     /**
