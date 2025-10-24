@@ -75,12 +75,12 @@ void OutputProcessor::analyzeWords(const std::vector<std::string> &words, const 
             if (foundPunctuation == string::npos)
             {
                 // step 2: to uppercase
-                char upperChar = toupper(character);
+                char upperChar = static_cast<char>(toupper(static_cast<unsigned char>(character)));
                 uppercaseWord += upperChar;
 
                 if (upperChar >= 'A' && upperChar <= 'Z')
                 {
-                    this->letterCounts[upperChar - 'A'] += 1;
+                    this->letterCounts[static_cast<size_t>(upperChar - 'A')] += 1;
                     this->totalLetterCounts += 1;
                 }
             }
@@ -93,7 +93,7 @@ void OutputProcessor::analyzeWords(const std::vector<std::string> &words, const 
     }
 
     // step ?: set total word count
-    this->totalWordCounts = this->allWords.size();
+    this->totalWordCounts = static_cast<unsigned int>(this->allWords.size());
     // step 4: compute the unique set of words & store in uniqueWords
     for (const string &currentWord : this->allWords)
     {
@@ -146,12 +146,12 @@ void OutputProcessor::write()
     this->fileOut << "Encountered " << this->uniqueWords.size() << " unique words";
     this->fileOut << "\n";
 
-    int longestWordLegth = this->_getLongestWordLength(this->uniqueWords);
+    size_t longestWordLegth = this->_getLongestWordLength(this->uniqueWords);
     size_t mostFrequentWordIndex = this->_getMaxIndex(this->wordCounts);
 
     // calculate column width
-    int maxCount = this->wordCounts[mostFrequentWordIndex];
-    int countWidth = to_string(maxCount).length();
+    unsigned int maxCount = this->wordCounts[mostFrequentWordIndex];
+    size_t countWidth = to_string(maxCount).length();
 
     // sort alphabetically
     vector<string> sortedWords = this->uniqueWords;
@@ -181,8 +181,8 @@ void OutputProcessor::write()
 
     for (size_t i = 0; i < sortedWords.size(); i++)
     {
-        this->fileOut << left << setw(longestWordLegth) << sortedWords[i] << " : ";
-        this->fileOut << right << setw(countWidth) << sortedCounts[i] << "\n";
+        this->fileOut << left << setw(static_cast<int>(longestWordLegth)) << sortedWords[i] << " : ";
+        this->fileOut << right << setw(static_cast<int>(countWidth)) << sortedCounts[i] << "\n";
     }
 
     size_t leastFrequentWordIndex = this->_getMinIndex(this->wordCounts);
@@ -195,8 +195,8 @@ void OutputProcessor::write()
     double leastFrequentWordRate = (leastFrequentWordCount / this->totalWordCounts) * 100.0;
 
     // calculate column width
-    int wordWidth = (mostFrequentWord.length() > leastFrequentWord.length()) ? mostFrequentWord.length() : leastFrequentWord.length();
-    int numberWidth = to_string(this->wordCounts[mostFrequentWordIndex]).length();
+    int wordWidth = static_cast<int>((mostFrequentWord.length() > leastFrequentWord.length()) ? mostFrequentWord.length() : leastFrequentWord.length());
+    int numberWidth = static_cast<int>(to_string(this->wordCounts[mostFrequentWordIndex]).length());
 
     // WORD# - The word. Left align all values. Allocate enough space for the length of the longer of the two words.
     // #C - The corresponding count of the word. Right align all values. Allocate enough space for the length of the most frequent word present in the file.
@@ -213,13 +213,13 @@ void OutputProcessor::write()
 
     // The width needs to match the width of the word table from above.
     // the sum of the longest word's length, the separator (" : "), and the width of the count column
-    int tableWidth = longestWordLegth + 3 + countWidth;
-    int letterCountWidth = tableWidth - 1;
+    size_t tableWidth = longestWordLegth + 3 + countWidth;
+    size_t letterCountWidth = tableWidth - 1;
     this->fileOut << std::setfill('.');
-    for (int i = 0; i < 26; i++)
+    for (size_t i = 0; i < 26; i++)
     {
         this->fileOut << left << (char)('A' + i);
-        this->fileOut << right << setw(letterCountWidth) << this->letterCounts[i] << "\n";
+        this->fileOut << right << setw(static_cast<int>(letterCountWidth)) << this->letterCounts[i] << "\n";
     }
 
     this->fileOut << setfill(' ');
