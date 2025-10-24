@@ -128,12 +128,18 @@ void OutputProcessor::write()
     this->fileOut << "Encountered " << this->uniqueWords.size() << " unique words";
     this->fileOut << "\n";
 
+    int longestWordLegth = this->_getlongestWordLength(this->uniqueWords);
+    int mostFrequentWordIndex = this->_getMaxIndex(this->wordCounts);
+    int maxCount = this->wordCounts[mostFrequentWordIndex];
+    int countWidth = to_string(maxCount).length();
+
     for (size_t i = 0; i < this->uniqueWords.size(); i++)
     {
-        this->fileOut << left << setw(16) << this->uniqueWords[i] << ": " << right << setw(2) << this->wordCounts[i] << "\n";
+
+        this->fileOut << left << setw(longestWordLegth) << this->uniqueWords[i] << " : ";
+        this->fileOut << right << setw(countWidth) << this->wordCounts[i] << "\n";
     }
 
-    int mostFrequentWordIndex = this->_getMaxIndex(this->wordCounts);
     int leastFrequentWordIndex = this->_getMinIndex(this->wordCounts);
     ;
     string mostFrequentWord = this->uniqueWords[mostFrequentWordIndex];
@@ -143,6 +149,7 @@ void OutputProcessor::write()
     double leastFrequentWordCount = (static_cast<double>(this->wordCounts[leastFrequentWordIndex]));
     double mostFrequentWordRate = (mostFrequentWordCount / this->totalWordCounts) * 100.0;
     double leastFrequentWordRate = (leastFrequentWordCount / this->totalWordCounts) * 100.0;
+
     this->fileOut << setw(21) << "Most Frequent Word: ";
     this->fileOut << setw(9) << left << mostFrequentWord;
     this->fileOut << setw(3) << right << this->wordCounts[mostFrequentWordIndex];

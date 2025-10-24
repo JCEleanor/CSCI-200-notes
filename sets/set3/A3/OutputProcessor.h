@@ -32,6 +32,24 @@ private:
      */
     int _getMinIndex(const std::vector<unsigned int> targetArray);
 
+    int _getlongestWordLength(const std::vector<std::string> targetArray)
+    {
+        if (targetArray.empty())
+        {
+            return 0;
+        }
+        std::string longestWord = targetArray[0];
+        for (size_t i = 1; i < targetArray.size(); i++)
+        {
+            if (targetArray[i].length() > longestWord.length())
+            {
+                longestWord = targetArray[i];
+            }
+        }
+
+        return longestWord.length();
+    }
+
 public:
     /**
      * @brief initializes private data members to sensible values (e.g. there are no words present).
