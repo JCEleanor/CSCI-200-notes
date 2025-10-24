@@ -130,6 +130,8 @@ void OutputProcessor::write()
 
     int longestWordLegth = this->_getlongestWordLength(this->uniqueWords);
     int mostFrequentWordIndex = this->_getMaxIndex(this->wordCounts);
+
+    // calculate column width
     int maxCount = this->wordCounts[mostFrequentWordIndex];
     int countWidth = to_string(maxCount).length();
 
@@ -141,7 +143,6 @@ void OutputProcessor::write()
     }
 
     int leastFrequentWordIndex = this->_getMinIndex(this->wordCounts);
-    ;
     string mostFrequentWord = this->uniqueWords[mostFrequentWordIndex];
     string leastFrequentWord = this->uniqueWords[leastFrequentWordIndex];
 
@@ -150,15 +151,19 @@ void OutputProcessor::write()
     double mostFrequentWordRate = (mostFrequentWordCount / this->totalWordCounts) * 100.0;
     double leastFrequentWordRate = (leastFrequentWordCount / this->totalWordCounts) * 100.0;
 
-    this->fileOut << setw(21) << "Most Frequent Word: ";
-    this->fileOut << setw(9) << left << mostFrequentWord;
-    this->fileOut << setw(3) << right << this->wordCounts[mostFrequentWordIndex];
-    this->fileOut << " (" << setw(7) << fixed << setprecision(3) << mostFrequentWordRate << "%)" << "\n";
+    // calculate column width
+    int wordWidth = (mostFrequentWord.length() > leastFrequentWord.length()) ? mostFrequentWord.length() : leastFrequentWord.length();
+    int numberWidth = to_string(this->wordCounts[mostFrequentWordIndex]).length();
 
-    this->fileOut << setw(21) << "Least Frequent Word: ";
-    this->fileOut << setw(9) << left << leastFrequentWord;
-    this->fileOut << setw(3) << right << this->wordCounts[leastFrequentWordIndex];
-    this->fileOut << " (" << setw(7) << fixed << setprecision(3) << leastFrequentWordRate << "%)" << "\n";
+    this->fileOut << " Most Frequent Word: ";
+    this->fileOut << left << setw(wordWidth) << mostFrequentWord << " ";
+    this->fileOut << right << setw(numberWidth) << this->wordCounts[mostFrequentWordIndex];
+    this->fileOut << " (" << fixed << setprecision(3) << mostFrequentWordRate << "%)" << "\n";
+
+    this->fileOut << "Least Frequent Word: ";
+    this->fileOut << left << setw(wordWidth) << leastFrequentWord << " ";
+    this->fileOut << right << setw(numberWidth) << this->wordCounts[leastFrequentWordIndex];
+    this->fileOut << " (" << fixed << setprecision(3) << leastFrequentWordRate << "%)" << "\n";
 
     this->fileOut << std::setfill('.');
     for (int i = 0; i < 26; i++)

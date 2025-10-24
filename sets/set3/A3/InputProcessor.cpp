@@ -14,37 +14,43 @@ const vector<string> &InputProcessor::getAllWords() const
 }
 bool InputProcessor::openStream()
 {
-    int fileNum;
-    cout << "Choose a file to open: " << endl;
+    std::string userInput;
+    cout << "Choose a file to open or enter filename: " << endl;
     cout << "(1) Alice Chapter1.txt" << endl;
     cout << "(2) Green Eggs and Ham.txt" << endl;
     cout << "(3) Happy Birthday.txt" << endl;
     cout << "(4) Romeo and Juliet.txt" << endl;
-    cin >> fileNum;
+    cin >> userInput;
 
     string filename;
-    switch (fileNum)
+    if (userInput.length() == 1)
     {
-    case 1:
-        filename = "aliceChapter1.txt";
-        break;
-    case 2:
-        filename = "greeneggsandham.txt";
-        break;
-    case 3:
-        filename = "happybirthday.txt";
-        break;
-    case 4:
-        filename = "romeoandjuliet.txt";
-        break;
-    default:
-        return false;
+
+        switch (userInput[0])
+        {
+        case '1':
+            filename = "aliceChapter1.txt";
+            break;
+        case '2':
+            filename = "greeneggsandham.txt";
+            break;
+        case '3':
+            filename = "happybirthday.txt";
+            break;
+        case '4':
+            filename = "romeoandjuliet.txt";
+            break;
+        }
+
+        filename = "./input/" + filename;
+    }
+    else
+    {
+        // assume user include dir & file extension
+        filename = userInput;
     }
 
-    cout << "open " << filename << endl
-         << endl;
-
-    this->fileIn.open("./input/" + filename);
+    this->fileIn.open(filename);
     if (this->fileIn.fail())
     {
         cerr << "Error opening file " << filename << endl;
