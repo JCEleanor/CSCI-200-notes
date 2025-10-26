@@ -40,3 +40,21 @@ g++ -o Lec08 main.o math_funcions.o
 ```
 
 - develop process: defined functions in header files, implement the logic in the \*.cpp file, and use the functions in main.cpp
+
+- function declaration (prototype)
+  it's a promise to the compiler that this function with this name, return type and parameters exists somewhere.
+
+```c++
+int add (int a, int b);
+
+```
+
+- function definition
+  The actual implementation of a function.
+
+```c++
+int add (int a, int b){
+  return a + b;
+}
+
+```
