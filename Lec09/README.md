@@ -19,6 +19,8 @@ char func(int x, double y) { return '2'; }
 
 #### Call stack
 
+Storage for varaibles known at compile time.
+
 - each function call appends to the stack (a stack frame)
 
   - address of execution (file and line number)
@@ -26,6 +28,12 @@ char func(int x, double y) { return '2'; }
 
 - c++ doesn't erase memory when its out of scope. stack memory does not get cleared out
 - free store / heap
+
+#### Free Store (heap)
+
+Pool of unused memory for dynamic memory.
+
+Use pointer to store value on the free store.
 
 ### Pointers
 
