@@ -1,4 +1,22 @@
-## big 3 (memory management for classes)
+## Big 3 (memory management for classes)
+
+```c++
+// Warehouse.h
+class Warehouse {
+public:
+  Warehouse();
+  void storeInBox(const int SIZE);
+  Box* getBox(const size_t POS);
+  size_t getNumberBoxes() const;
+private:
+  std::vector<Box*>* _pBoxen;
+};
+
+// Warehouse.cpp
+Warehouse::Warehouse() {
+  _pBoxen = new vector<Box*>;
+}
+```
 
 1. copy assignment operator
    - delete the callee content
@@ -17,9 +35,26 @@ function overloading (ftn with same name, different prarams)
 
 ```c++
 // free function (typically in header file)
+// Warehouse.h
 std::ostream& operator<<(
-std::ostream&, const Warehouse&
+    std::ostream&, const Warehouse&
 );
+
+// Warehouse.cpp
+std::ostream& operator<< (std::ostream& os, const Warehouse& WH){
+  os << "Warehouse has " << WH.getNumberBoxes() << " boxes";
+  return os;
+}
+```
+
+```c++
+Warehouse& Warehouse::operator=(const Warehouse& OTHER){
+  // guard against self assignment
+  if (this == &OTHER) return *this;
+
+  
+  return *this
+}
 ```
 
 ## Assignment, deep, shallow copy
