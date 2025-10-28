@@ -52,7 +52,6 @@ Warehouse& Warehouse::operator=(const Warehouse& OTHER){
   // guard against self assignment
   if (this == &OTHER) return *this;
 
-  
   return *this
 }
 ```
