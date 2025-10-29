@@ -9,16 +9,35 @@
 /**
  * @brief takes in sized things and puts them into boxes.  stores
  * all the boxes internally
- * 
+ *
  */
-class Warehouse {
+class Warehouse
+{
 public:
     /**
      * @brief Construct a new Warehouse object with
      * no boxes by default
-     * 
+     *
      */
     Warehouse();
+    /**
+     * @brief destuctor
+     *
+     */
+    ~Warehouse();
+    /**
+     * @brief Construct a new Warehouse object with deep copy
+     *
+     * @param other
+     */
+    Warehouse(const Warehouse &other);
+    /**
+     * @brief copy assignment operator
+     *
+     * @param other
+     * @return Warehouse&
+     */
+    Warehouse &operator=(const Warehouse &other);
     /**
      * @brief puts the item into a Box of given size
      * @param SIZE size of the cube shaped box to store
@@ -29,7 +48,7 @@ public:
      * @param BOX_POS position within the list to retrieve
      * @return Box* pointer to the corresponding Box object
      */
-    Box* getBox(const size_t BOX_POS) const;
+    Box *getBox(const size_t BOX_POS) const;
     /**
      * @brief Get the number Of box objects
      * @return size_t number of boxes
@@ -44,19 +63,22 @@ public:
      * @brief sets the warehouse letter identifier
      * @param warehouseLetter letter to identify warehouse by
      */
-     void setWarehouseLetter(char warehouseLetter);
+    void setWarehouseLetter(char warehouseLetter);
+
 private:
     /**
      * @brief holds a list of pointers to Boxes
-     * 
+     *
      */
-    std::vector<Box*>* _pBoxen;
+    std::vector<Box *> *_pBoxen;
     /**
      * @brief Warehouse letter identifier
      */
     char _warehouseLetter;
+    void deallocate();
+    void deepCopy(const Warehouse &other);
 };
 
-std::ostream& operator<<(std::ostream&, const Warehouse&);
+std::ostream &operator<<(std::ostream &, const Warehouse &);
 
-#endif//WAREHOUSE_H
+#endif // WAREHOUSE_H

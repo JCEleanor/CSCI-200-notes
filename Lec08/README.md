@@ -58,3 +58,5 @@ int add (int a, int b){
 }
 
 ```
+
+In C and C++, a function signature or function prototype declared within a header file provides the compiler with essential information about a function without including its full implementation
