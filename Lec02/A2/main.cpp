@@ -5,30 +5,24 @@ using namespace std;
 
 #include "samodelkin.h"
 
-int TOTAL_ROOM;
-
-int ROOM_EXPLORED = 0;
-
-/**
- * @brief
- * Playing = 1, Player Won = 2, Player Lost = 3, Player Quit = 4
- */
-int GAME_STATE = 1;
-
-int ROOM_WITH_KEY = 3;
-int ROOM_WITH_WEAPON = 7;
-int ROOM_WITH_ARMOR = 8;
-int EXIT_ROOM = 5;
-
-int HEALTH = 100;
-
-bool HAS_KEY = false;
-bool HAS_WEAPON = false;
-bool HAS_ARMOR = false;
-int GOLD = 0;
-
 int main()
 {
+     int TOTAL_ROOM;
+
+     int ROOM_EXPLORED = 0;
+
+     /**
+      * @brief
+      * Playing = 1, Player Won = 2, Player Lost = 3, Player Quit = 4
+      */
+     int GAME_STATE = GAME_STATE_PLAYING;
+
+     int HEALTH = 100;
+
+     bool HAS_KEY = false;
+     bool HAS_WEAPON = false;
+     bool HAS_ARMOR = false;
+     int GOLD = 0;
      int difficulties;
      do
      {
@@ -66,14 +60,14 @@ int main()
           visitedRooms[i] = false;
      }
 
-     while (GAME_STATE == 1)
+     while (GAME_STATE == GAME_STATE_PLAYING)
      {
           bool validRoom = false;
           int currentRoom;
 
           while (!validRoom)
           {
-               currentRoom = generate_random_room_number();
+               currentRoom = generate_random_room_number(TOTAL_ROOM);
 
                if (currentRoom == EXIT_ROOM)
                {
@@ -114,7 +108,7 @@ int main()
           enter_room(currentRoom, &HEALTH, &HAS_KEY, &HAS_WEAPON, &GAME_STATE, &GOLD, &HAS_ARMOR);
           ROOM_EXPLORED++;
 
-          if (GAME_STATE == 1)
+          if (GAME_STATE == GAME_STATE_PLAYING)
           {
                char response;
                cout << "Do you wish to continue exploring? (Y/N): ";
@@ -128,21 +122,21 @@ int main()
 
                if (response == 'N' || response == 'n')
                {
-                    GAME_STATE = 4;
+                    GAME_STATE = GAME_STATE_QUIT;
                }
           }
      }
      cout << "After visiting " << ROOM_EXPLORED << " rooms, ";
 
-     if (GAME_STATE == 2)
+     if (GAME_STATE == GAME_STATE_WON)
      {
           cout << "you have finally escaped alive!" << endl;
      }
-     else if (GAME_STATE == 3)
+     else if (GAME_STATE == GAME_STATE_LOST)
      {
           cout << "you have fallen in battle.  Better luck next time!" << endl;
      }
-     else if (GAME_STATE == 4)
+     else if (GAME_STATE == GAME_STATE_QUIT)
      {
           cout << "you have given up, forever destined to wander the dungeon." << endl;
           if (!HAS_KEY)

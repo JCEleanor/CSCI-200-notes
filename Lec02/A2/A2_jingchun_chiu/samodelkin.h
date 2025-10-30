@@ -5,6 +5,16 @@
 
 using namespace std;
 
+const int GAME_STATE_PLAYING = 1;
+const int GAME_STATE_WON = 2;
+const int GAME_STATE_LOST = 3;
+const int GAME_STATE_QUIT = 4;
+
+extern const int ROOM_WITH_KEY;
+extern const int ROOM_WITH_WEAPON;
+extern const int ROOM_WITH_ARMOR;
+extern const int EXIT_ROOM;
+
 /**
  * @brief Task: Generates a random integer within the range 1 and the number of rooms that exist
  *
@@ -13,7 +23,7 @@ Medium - 25 rooms
 Hard - 50 rooms
 Insane - 100 rooms
  */
-int generate_random_room_number();
+int generate_random_room_number(int totalRoom);
 
 /**
  * @brief Task: Prints a message saying there is nothing in here.
@@ -69,7 +79,7 @@ If the hero dies, then set the game state to the lose state and print a message 
  * @param currentHealth
  * @param gameState
  */
-void enemy_room(bool hasWeapon, bool hasArmor, int *heroHealth, int *gameState);
+void enemy_room(bool hasWeapon, bool hasArmor, int *heroHealth, int *gameState, int *GOLD);
 
 /**
  * @brief Generates a random integer between the inclusive range of 5 and 15.

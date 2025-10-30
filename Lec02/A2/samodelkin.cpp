@@ -1,12 +1,10 @@
 #include "samodelkin.h"
 #include <random>
 
-// will be set in main.cpp
-extern int TOTAL_ROOM;
-extern int ROOM_WITH_KEY;
-extern int ROOM_WITH_WEAPON;
-extern int ROOM_WITH_ARMOR;
-extern int EXIT_ROOM;
+const int ROOM_WITH_KEY = 3;
+const int ROOM_WITH_WEAPON = 7;
+const int ROOM_WITH_ARMOR = 8;
+const int EXIT_ROOM = 5;
 
 string printHelper(bool booleanValue)
 {
@@ -20,14 +18,14 @@ string printHelper(bool booleanValue)
     }
 }
 
-int generate_random_room_number()
+int generate_random_room_number(int totalRoom)
 {
 
-    cout << "generate_random_room_number " << TOTAL_ROOM << endl;
+    cout << "generate_random_room_number " << totalRoom << endl;
     random_device rd;
     mt19937 gen(rd());
     // TODO: get value from global int
-    uniform_int_distribution<int> dist(1, TOTAL_ROOM);
+    uniform_int_distribution<int> dist(1, totalRoom);
 
     return dist(gen);
 }
