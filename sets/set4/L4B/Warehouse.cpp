@@ -1,43 +1,62 @@
 #include "Warehouse.h"
 
-Warehouse::Warehouse() {
-    _pItems = new std::vector<Box*>;
+template <typename T>
+Warehouse<T>::Warehouse()
+{
+    _pItems = new std::vector<T *>;
 }
 
-Warehouse::~Warehouse() {
-    while( !_pItems->empty() ) {
+template <typename T>
+Warehouse<T>::~Warehouse()
+{
+    while (!_pItems->empty())
+    {
         delete _pItems->back();
         _pItems->pop_back();
     }
     delete _pItems;
 }
 
-void Warehouse::store(const int ITEM) {
-    _pItems->push_back( new Box(ITEM) );
+template <typename T>
+void Warehouse<T>::store(const T &ITEM)
+{
+    _pItems->push_back(new T(ITEM));
 }
 
-Box& Warehouse::retrieve(const size_t ITEM_POS) const {
+template <typename T>
+T &Warehouse<T>::retrieve(const size_t ITEM_POS) const
+{
     return *(_pItems->at(ITEM_POS));
 }
 
-size_t Warehouse::getNumberOfItems() const {
+template <typename T>
+size_t Warehouse<T>::getNumberOfItems() const
+{
     return _pItems->size();
 }
 
-char Warehouse::getWarehouseLetter() const {
+template <typename T>
+char Warehouse<T>::getWarehouseLetter() const
+{
     return _warehouseLetter;
 }
 
-void Warehouse::setWarehouseLetter(const char warehouseLetter) {
+template <typename T>
+void Warehouse<T>::setWarehouseLetter(const char warehouseLetter)
+{
     _warehouseLetter = warehouseLetter;
 }
 
-std::ostream& operator<<(std::ostream& os, const Warehouse& WH) {
+template <typename T>
+std::ostream &operator<<(std::ostream &os, const Warehouse<T> &WH)
+{
     const size_t NUM_ITEMS = WH.getNumberOfItems();
     os << "Warehouse " << WH.getWarehouseLetter() << " has " << NUM_ITEMS << " items (";
-    for(size_t i = 0; i < NUM_ITEMS; i++) {
+    for (size_t i = 0; i < NUM_ITEMS; i++)
+    {
         os << WH.retrieve(i);
-        if(i < NUM_ITEMS - 1) {
+        if (i < NUM_ITEMS - 1)
+        {
             os << ", ";
         }
     }
