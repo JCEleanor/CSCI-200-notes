@@ -9,7 +9,7 @@ H_FILES =
 # ANY OTHER RESOURCES FILES THAT ARE PART OF THE PROJECT
 REZ_FILES = data/arial.ttf data/bubble.png
 # YOUR USERNAME
-USERNAME = username
+USERNAME = jingchun_chiu
 
 # NO EDITS BELOW THIS LINE
 CXX = g++
