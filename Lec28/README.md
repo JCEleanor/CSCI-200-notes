@@ -2,7 +2,7 @@
 
 ## runtime polymorphism
 
-## compile time polymorphism
+## compile time polymorphism (subtype polymorphism)
 
 ### overloaded function
 
@@ -19,6 +19,8 @@ same name, same datatype
 Virtual Functions created as function pointer
 
 - Entered into VTABLE (virtual table)
+
+#### VTABLE
 
 ### `override`
 
