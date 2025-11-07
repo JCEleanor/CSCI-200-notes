@@ -14,7 +14,10 @@ public:
     void setName(std::string NAME);
     std::string getSpecies() const;
     void sleep() const;
-    virtual void speak() const;
+
+    // abstract declaration
+    // animal is now an abstract class
+    virtual void speak() const = 0;
 
 protected:
     std::string mSpecies;

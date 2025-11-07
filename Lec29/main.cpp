@@ -10,12 +10,14 @@ using namespace std;
 
 int main()
 {
-    Animal john;
-    john.setName("John");
-    cout << john.getName() << " is sleeping" << endl;
-    cout << john.getName() << " is of type species " << john.getSpecies() << endl;
-    john.sleep();
-    john.speak();
+    // Animal is now an abstract class so we can't create instance of an Animal
+    // Animal john;
+
+    // john.setName("John");
+    // cout << john.getName() << " is sleeping" << endl;
+    // cout << john.getName() << " is of type species " << john.getSpecies() << endl;
+    // john.sleep();
+    // john.speak();
 
     Dog odie;
     odie.setName("Odie");
