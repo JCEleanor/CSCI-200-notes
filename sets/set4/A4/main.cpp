@@ -45,7 +45,6 @@ int main()
                         bubbles.emplace_back();
                     }
                 }
-                // && event->getIf<sf::Event::KeyPressed>().code == sf::Keyboard::Key::Space
             }
         }
 
