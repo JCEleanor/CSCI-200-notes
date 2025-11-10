@@ -34,6 +34,19 @@ int main()
             {
                 window.close();
             }
+
+            // is press spacebar, generate a bubble. Allow up to 10
+            if (const auto *keyPressed = event->getIf<sf::Event::KeyPressed>())
+            {
+                if (keyPressed->code == sf::Keyboard::Key::Space)
+                {
+                    if (bubbles.size() < 10)
+                    {
+                        bubbles.emplace_back();
+                    }
+                }
+                // && event->getIf<sf::Event::KeyPressed>().code == sf::Keyboard::Key::Space
+            }
         }
 
         // step 2: update state
