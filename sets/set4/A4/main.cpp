@@ -1,6 +1,7 @@
 #include <SFML/Graphics.hpp>
 #include "Bubble.h"
 #include <iostream>
+
 using namespace std;
 
 int main()
@@ -9,27 +10,50 @@ int main()
     sf::Vector2u windowSize(640, 640);
     sf::RenderWindow window(sf::VideoMode(windowSize), "A House");
 
-    // create Bubble
-    Bubble bubble;
+    vector<Bubble> bubbles;
+    for (int i = 0; i < 5; i++)
+    {
+        // emplace_back is more efficient than push_back because
+        // it takes the constructor arguments for the object you want to create
+        // and then constructs that object directly within the vector's memory
+        // it avoids the overhead of creating a temporary object and
+        //  then copying or moving it into the vector.
+        bubbles.emplace_back();
+        // bubbles.push_back(Bubble());
+    }
+
+    sf::Clock clock;
+    const sf::Time timePerFrame = sf::seconds(1.f / 60.f);
 
     while (window.isOpen())
     {
-        window.clear();
-        bubble.draw(window);
-
-        // bubble.draw(window);
-
-        window.display();
+        // step 1: handle events
         while (const std::optional event = window.pollEvent())
         {
-            // if event type corresponds to pressing window X
             if (event->is<sf::Event::Closed>())
             {
-                // tell the window to close
                 window.close();
             }
-            // check additional event types to handle additional events
         }
+
+        // step 2: update state
+        if (clock.getElapsedTime() >= timePerFrame)
+        {
+            for (Bubble &bubble : bubbles)
+            {
+                bubble.updatePosition(windowSize);
+            }
+
+            clock.restart();
+        }
+
+        // step 3: draw
+        window.clear();
+        for (const Bubble &bubble : bubbles)
+        {
+            bubble.draw(window);
+        }
+        window.display();
     }
 
     return 0;

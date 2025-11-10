@@ -3,9 +3,12 @@
 class Bubble
 {
 public:
-    Bubble() {};
+    Bubble();
     ~Bubble() {};
-    void draw(sf::RenderWindow &window);
+    void draw(sf::RenderWindow &window) const;
+    void updatePosition(sf::Vector2u windowSize);
+    float getXDir() const;
+    float getYDir() const;
 
 private:
     /**
