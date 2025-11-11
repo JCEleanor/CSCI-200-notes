@@ -20,7 +20,7 @@ int generateRandomInt(int min, int max)
     return dist(gen);
 }
 
-Bubble::Bubble()
+Bubble::Bubble(sf::Vector2u windowSize)
 {
     // give each Bubble a random radius between 10 and 50.
     int circleRadius = generateRandomInt(10, 50);
@@ -32,9 +32,8 @@ Bubble::Bubble()
     int b = generateRandomInt(0, 255);
     _circle.setFillColor(sf::Color(static_cast<uint8_t>(r), static_cast<uint8_t>(g), static_cast<uint8_t>(b)));
 
-    // TODO: change window size to global var
     // give each Bubble a random starting position for X and Y so the bubble will be created within the window and not on an edge.
-    _circle.setPosition({generateRandomFloat(0.f, 640.f - (2 * circleRadius)), generateRandomFloat(0.f, 640.f - (2 * circleRadius))});
+    _circle.setPosition({generateRandomFloat(0.f, (float)windowSize.x - (2 * circleRadius)), generateRandomFloat(0.f, (float)windowSize.y - (2 * circleRadius))});
 
     // set a random direction for X and Y in the range [-0.8, +0.8] for the bubble's entire life.
     _xDir = generateRandomFloat(-0.8f, 0.8f);

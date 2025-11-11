@@ -3,7 +3,7 @@
 class Bubble
 {
 public:
-    Bubble();
+    Bubble(sf::Vector2u windowSize);
     ~Bubble() {};
     void draw(sf::RenderWindow &window) const;
     void updatePosition(sf::Vector2u windowSize);
