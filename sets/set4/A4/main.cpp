@@ -30,16 +30,21 @@ int main()
         // step 1: handle events
         while (const std::optional event = window.pollEvent())
         {
-            // presses the Q or Escape key, automatically close the window.
 
             if (event->is<sf::Event::Closed>())
             {
                 window.close();
             }
 
-            // is press spacebar, generate a bubble. Allow up to 10
             if (const auto *keyPressed = event->getIf<sf::Event::KeyPressed>())
             {
+                // presses the Q or Escape key, automatically close the window.
+                if (keyPressed->code == sf::Keyboard::Key::Escape || keyPressed->code == sf::Keyboard::Key::Q)
+                {
+                    window.close();
+                }
+
+                // is press spacebar, generate a bubble. Allow up to 10
                 if (keyPressed->code == sf::Keyboard::Key::Space)
                 {
                     if (bubbles.size() < 10)
