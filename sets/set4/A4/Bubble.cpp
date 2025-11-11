@@ -11,23 +11,42 @@ float generateRandomFloat(float min, float max)
     return dist(gen);
 }
 
+int generateRandomInt(int min, int max)
+{
+    static std::random_device rd;
+    static std::mt19937 gen(rd());
+    std::uniform_int_distribution<int> dist(min, max);
+    return dist(gen);
+}
+
 Bubble::Bubble()
 {
-    _circle.setRadius(10);
-    _circle.setOutlineColor(sf::Color::Red);
-    _circle.setOutlineThickness(5);
-    // start in the middle of a 640x640 window
-    _circle.setPosition({320.f, 320.f});
+    // give each Bubble a random radius between 10 and 50.
+    int circleRadius = generateRandomInt(10, 50);
+    _circle.setRadius(circleRadius);
 
-    // set the direction for the bubble's entire life
+    // give each Bubble a random color so we can tell them apart.
+    int r = generateRandomInt(0, 255);
+    int g = generateRandomInt(0, 255);
+    int b = generateRandomInt(0, 255);
+    _circle.setFillColor(sf::Color(static_cast<uint8_t>(r), static_cast<uint8_t>(g), static_cast<uint8_t>(b)));
+
+    // TODO: change window size to global var
+    // give each Bubble a random starting position for X and Y so the bubble will be created within the window and not on an edge.
+    _circle.setPosition({generateRandomFloat(0.f, 640.f - (2 * circleRadius)), generateRandomFloat(0.f, 640.f - (2 * circleRadius))});
+
+    // set a random direction for X and Y in the range [-0.8, +0.8] for the bubble's entire life.
     _xDir = generateRandomFloat(-0.8f, 0.8f);
     _yDir = generateRandomFloat(-0.8f, 0.8f);
 
-    // in case the random numbers are both zero
-    if (_xDir == 0.f && _yDir == 0.f)
+    if (_xDir == 0.f)
     {
-        // give it a default rightward movement
         _xDir = 0.5f;
+    }
+
+    if (_yDir == 0.f)
+    {
+        _yDir = 0.5f;
     }
 }
 
