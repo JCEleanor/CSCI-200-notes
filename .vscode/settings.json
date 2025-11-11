@@ -46,7 +46,12 @@
     "__split_buffer": "cpp",
     "array": "cpp",
     "__hash_table": "cpp",
-    "unordered_map": "cpp"
+    "unordered_map": "cpp",
+    "random": "cpp",
+    "__node_handle": "cpp",
+    "charconv": "cpp",
+    "optional": "cpp",
+    "sstream": "cpp"
   },
   "workbench.colorCustomizations": {
     "activityBar.background": "#033050",

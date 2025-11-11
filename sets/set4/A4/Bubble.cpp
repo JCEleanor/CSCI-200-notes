@@ -2,6 +2,7 @@
 #include <SFML/Graphics.hpp>
 #include <random>
 #include <iostream>
+#include <cmath>
 
 float generateRandomFloat(float min, float max)
 {
@@ -75,3 +76,14 @@ void Bubble::updatePosition(sf::Vector2u windowSize)
 
 float Bubble::getXDir() const { return _xDir; };
 float Bubble::getYDir() const { return _yDir; };
+
+bool Bubble::checkClicked(float mouseX, float mouseY) const
+{
+    float radius = _circle.getRadius();
+    sf::Vector2f circleCenter = {_circle.getPosition().x + radius, _circle.getPosition().y + radius};
+
+    // calculate the distance between the point (the mouse click) and the circle's center.
+    // if that distance is less than the circle's radius, the click was inside.
+    float distance = std::sqrtf(std::powf(mouseX - circleCenter.x, 2) + std::powf(mouseY - circleCenter.y, 2));
+    return distance < radius;
+}

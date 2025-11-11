@@ -9,6 +9,7 @@ public:
     void updatePosition(sf::Vector2u windowSize);
     float getXDir() const;
     float getYDir() const;
+    bool checkClicked(float mouseX, float mouseY) const;
 
 private:
     /**

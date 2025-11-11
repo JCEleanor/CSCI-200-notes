@@ -30,6 +30,8 @@ int main()
         // step 1: handle events
         while (const std::optional event = window.pollEvent())
         {
+            // presses the Q or Escape key, automatically close the window.
+
             if (event->is<sf::Event::Closed>())
             {
                 window.close();
@@ -43,6 +45,23 @@ int main()
                     if (bubbles.size() < 10)
                     {
                         bubbles.emplace_back();
+                    }
+                }
+            }
+
+            if (const auto *mouseButtonPressed = event->getIf<sf::Event::MouseButtonPressed>())
+            {
+                for (auto it = bubbles.begin(); it != bubbles.end();)
+                {
+                    if (it->checkClicked(mouseButtonPressed->position.x, mouseButtonPressed->position.y))
+                    {
+                        // erase() removes the element and returns an iterator to the NEXT element
+                        it = bubbles.erase(it);
+                    }
+                    else
+                    {
+                        // if we didn't erase, just move to the next element
+                        ++it;
                     }
                 }
             }
@@ -67,6 +86,5 @@ int main()
         }
         window.display();
     }
-
     return 0;
 }
