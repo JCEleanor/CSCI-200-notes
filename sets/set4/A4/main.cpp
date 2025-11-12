@@ -15,7 +15,7 @@ int main()
 {
     // create a window using the constants
     sf::Vector2u windowSize(WINDOW_WIDTH, WINDOW_HEIGHT);
-    sf::RenderWindow window(sf::VideoMode({WINDOW_WIDTH, WINDOW_HEIGHT}), "Bubbles Game");
+    sf::RenderWindow window(sf::VideoMode({WINDOW_WIDTH, WINDOW_HEIGHT}), "Pop-A-Bubble");
 
     vector<Bubble> bubbles;
     for (int i = 0; i < 5; i++)
@@ -34,10 +34,8 @@ int main()
         cout << "Error loading font" << endl;
         return -1;
     }
-    // sf::Text scoreText, ballsText, timeText;
-    sf::Text scoreText(font);
-    sf::Text ballsText(font);
-    sf::Text timeText(font);
+
+    sf::Text scoreText(font), ballsText(font), timeText(font);
 
     scoreText.setFont(font);
     scoreText.setCharacterSize(24);
@@ -62,28 +60,32 @@ int main()
         // step 1: handle events
         while (const std::optional event = window.pollEvent())
         {
+            // case 1: close event
             if (event->is<sf::Event::Closed>())
             {
                 window.close();
             }
 
-            if (!gameOver) // only handle game input if game is not over
+            // case 2: keyboard event
+            if (const auto *keyPressed = event->getIf<sf::Event::KeyPressed>())
             {
-                if (const auto *keyPressed = event->getIf<sf::Event::KeyPressed>())
+                if (keyPressed->code == sf::Keyboard::Key::Q || keyPressed->code == sf::Keyboard::Key::Escape)
                 {
-                    if (keyPressed->code == sf::Keyboard::Key::Q || keyPressed->code == sf::Keyboard::Key::Escape)
-                    {
-                        window.close();
-                    }
-                    if (keyPressed->code == sf::Keyboard::Key::Space)
-                    {
-                        if (bubbles.size() < 10)
-                        {
-                            bubbles.emplace_back(windowSize);
-                        }
-                    }
+                    window.close();
                 }
 
+                if (!gameOver && keyPressed->code == sf::Keyboard::Key::Space)
+                {
+                    if (bubbles.size() < 10)
+                    {
+                        bubbles.emplace_back(windowSize);
+                    }
+                }
+            }
+
+            // case 3: mouse event
+            if (!gameOver)
+            {
                 if (const auto *mouseButtonPressed = event->getIf<sf::Event::MouseButtonPressed>())
                 {
                     for (auto it = bubbles.begin(); it != bubbles.end();)
@@ -91,7 +93,8 @@ int main()
                         if (it->checkClicked(mouseButtonPressed->position.x, mouseButtonPressed->position.y))
                         {
                             it = bubbles.erase(it);
-                            score++; // increment score when bubble is clicked
+                            // increment score when bubble is clicked
+                            score++;
                         }
                         else
                         {
@@ -105,7 +108,8 @@ int main()
         // step 2: update state
         if (clock.getElapsedTime() >= timePerFrame)
         {
-            if (!gameOver) // only update if game is not over
+            // only update if game is not over
+            if (!gameOver)
             {
                 // update timer
                 gameTime -= timePerFrame.asSeconds();
