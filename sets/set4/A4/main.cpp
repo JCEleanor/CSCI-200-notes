@@ -2,6 +2,8 @@
 #include "Bubble.h"
 #include <iostream>
 #include <vector>
+#include <string>
+#include <cmath>
 
 using namespace std;
 
@@ -13,21 +15,44 @@ int main()
 {
     // create a window using the constants
     sf::Vector2u windowSize(WINDOW_WIDTH, WINDOW_HEIGHT);
-    sf::RenderWindow window(sf::VideoMode({WINDOW_WIDTH, WINDOW_HEIGHT}), "A House");
+    sf::RenderWindow window(sf::VideoMode({WINDOW_WIDTH, WINDOW_HEIGHT}), "Bubbles Game");
 
     vector<Bubble> bubbles;
     for (int i = 0; i < 5; i++)
     {
         // pass the window size to the constructor
         bubbles.emplace_back(windowSize);
-
-        // emplace_back is more efficient than push_back because
-        // it takes the constructor arguments for the object you want to create
-        // and then constructs that object directly within the vector's memory
-        // it avoids the overhead of creating a temporary object and
-        //  then copying or moving it into the vector.
-        // bubbles.push_back(Bubble());
     }
+
+    int score = 0;
+    float gameTime = 10.f;
+    bool gameOver = false;
+
+    sf::Font font;
+    if (!font.openFromFile("assets/Roboto_Condensed-Black.ttf"))
+    {
+        cout << "Error loading font" << endl;
+        return -1;
+    }
+    // sf::Text scoreText, ballsText, timeText;
+    sf::Text scoreText(font);
+    sf::Text ballsText(font);
+    sf::Text timeText(font);
+
+    scoreText.setFont(font);
+    scoreText.setCharacterSize(24);
+    scoreText.setFillColor(sf::Color::White);
+    scoreText.setPosition({10.f, 10.f});
+
+    ballsText.setFont(font);
+    ballsText.setCharacterSize(24);
+    ballsText.setFillColor(sf::Color::White);
+    ballsText.setPosition({10.f, 40.f});
+
+    timeText.setFont(font);
+    timeText.setCharacterSize(24);
+    timeText.setFillColor(sf::Color::White);
+    timeText.setPosition({10.f, 70.f});
 
     sf::Clock clock;
     const sf::Time timePerFrame = sf::seconds(1.f / 60.f);
@@ -42,35 +67,36 @@ int main()
                 window.close();
             }
 
-            if (const auto *keyPressed = event->getIf<sf::Event::KeyPressed>())
+            if (!gameOver) // only handle game input if game is not over
             {
-                // presses the Q or Escape key, automatically close the window.
-                if (keyPressed->code == sf::Keyboard::Key::Q || keyPressed->code == sf::Keyboard::Key::Escape)
+                if (const auto *keyPressed = event->getIf<sf::Event::KeyPressed>())
                 {
-                    window.close();
-                }
-
-                // is press spacebar, generate a bubble. Allow up to 10
-                if (keyPressed->code == sf::Keyboard::Key::Space)
-                {
-                    if (bubbles.size() < 10)
+                    if (keyPressed->code == sf::Keyboard::Key::Q || keyPressed->code == sf::Keyboard::Key::Escape)
                     {
-                        bubbles.emplace_back(windowSize);
+                        window.close();
+                    }
+                    if (keyPressed->code == sf::Keyboard::Key::Space)
+                    {
+                        if (bubbles.size() < 10)
+                        {
+                            bubbles.emplace_back(windowSize);
+                        }
                     }
                 }
-            }
 
-            if (const auto *mouseButtonPressed = event->getIf<sf::Event::MouseButtonPressed>())
-            {
-                for (auto it = bubbles.begin(); it != bubbles.end();)
+                if (const auto *mouseButtonPressed = event->getIf<sf::Event::MouseButtonPressed>())
                 {
-                    if (it->checkClicked(mouseButtonPressed->position.x, mouseButtonPressed->position.y))
+                    for (auto it = bubbles.begin(); it != bubbles.end();)
                     {
-                        it = bubbles.erase(it);
-                    }
-                    else
-                    {
-                        ++it;
+                        if (it->checkClicked(mouseButtonPressed->position.x, mouseButtonPressed->position.y))
+                        {
+                            it = bubbles.erase(it);
+                            score++; // increment score when bubble is clicked
+                        }
+                        else
+                        {
+                            ++it;
+                        }
                     }
                 }
             }
@@ -79,20 +105,42 @@ int main()
         // step 2: update state
         if (clock.getElapsedTime() >= timePerFrame)
         {
-            for (Bubble &bubble : bubbles)
+            if (!gameOver) // only update if game is not over
             {
-                bubble.updatePosition(windowSize);
-            }
+                // update timer
+                gameTime -= timePerFrame.asSeconds();
+                if (gameTime <= 0.f)
+                {
+                    gameTime = 0.f;
+                    gameOver = true;
+                }
 
+                // update bubble positions
+                for (Bubble &bubble : bubbles)
+                {
+                    bubble.updatePosition(windowSize);
+                }
+            }
             clock.restart();
         }
 
         // step 3: draw
         window.clear();
+
+        // update text strings
+        scoreText.setString("Score: " + std::to_string(score));
+        ballsText.setString("Balls: " + std::to_string(bubbles.size()));
+        timeText.setString("Time: " + std::to_string(static_cast<int>(ceil(gameTime))));
+
+        // draw bubbles and text
         for (const Bubble &bubble : bubbles)
         {
             bubble.draw(window);
         }
+        window.draw(scoreText);
+        window.draw(ballsText);
+        window.draw(timeText);
+
         window.display();
     }
     return 0;
