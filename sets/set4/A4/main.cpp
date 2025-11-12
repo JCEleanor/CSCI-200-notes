@@ -35,7 +35,7 @@ int main()
         return -1;
     }
 
-    sf::Text scoreText(font), ballsText(font), timeText(font);
+    sf::Text scoreText(font), ballsText(font), timeText(font), gameOverText(font);
 
     scoreText.setFont(font);
     scoreText.setCharacterSize(24);
@@ -51,6 +51,11 @@ int main()
     timeText.setCharacterSize(24);
     timeText.setFillColor(sf::Color::White);
     timeText.setPosition({10.f, 70.f});
+
+    gameOverText.setFont(font);
+    gameOverText.setCharacterSize(24);
+    gameOverText.setFillColor(sf::Color::White);
+    gameOverText.setPosition({10.f, WINDOW_HEIGHT / 2.f});
 
     sf::Clock clock;
     const sf::Time timePerFrame = sf::seconds(1.f / 60.f);
@@ -72,6 +77,20 @@ int main()
                 if (keyPressed->code == sf::Keyboard::Key::Q || keyPressed->code == sf::Keyboard::Key::Escape)
                 {
                     window.close();
+                }
+
+                if (gameOver && keyPressed->code == sf::Keyboard::Key::R)
+                {
+                    // reset
+                    score = 0;
+                    gameTime = 10.f;
+                    gameOver = false;
+                    gameOverText.setString("");
+                    bubbles.clear();
+                    for (int i = 0; i < 5; i++)
+                    {
+                        bubbles.emplace_back(windowSize);
+                    }
                 }
 
                 if (!gameOver && keyPressed->code == sf::Keyboard::Key::Space)
@@ -117,6 +136,9 @@ int main()
                 {
                     gameTime = 0.f;
                     gameOver = true;
+
+                    gameOverText.setString("Times up! Press Q or Esc to quit, or R to restart");
+                    window.draw(gameOverText);
                 }
 
                 // update bubble positions
@@ -144,6 +166,7 @@ int main()
         window.draw(scoreText);
         window.draw(ballsText);
         window.draw(timeText);
+        window.draw(gameOverText);
 
         window.display();
     }
