@@ -147,7 +147,24 @@ void OutputProcessor::write()
     this->fileOut << "\n";
 
     size_t longestWordLegth = this->_getLongestWordLength(this->uniqueWords);
-    size_t mostFrequentWordIndex = this->_getMaxIndex(this->wordCounts);
+    size_t mostFrequentWordIndex = 0;
+    if (!this->uniqueWords.empty())
+    {
+        for (size_t i = 1; i < this->wordCounts.size(); i++)
+        {
+            if (this->wordCounts[i] > this->wordCounts[mostFrequentWordIndex])
+            {
+                mostFrequentWordIndex = i;
+            }
+            else if (this->wordCounts[i] == this->wordCounts[mostFrequentWordIndex])
+            {
+                if (this->uniqueWords[i] < this->uniqueWords[mostFrequentWordIndex])
+                {
+                    mostFrequentWordIndex = i;
+                }
+            }
+        }
+    }
 
     // calculate column width
     unsigned int maxCount = this->wordCounts[mostFrequentWordIndex];
@@ -185,7 +202,24 @@ void OutputProcessor::write()
         this->fileOut << right << setw(static_cast<int>(countWidth)) << sortedCounts[i] << "\n";
     }
 
-    size_t leastFrequentWordIndex = this->_getMinIndex(this->wordCounts);
+    size_t leastFrequentWordIndex = 0;
+    if (!this->uniqueWords.empty())
+    {
+        for (size_t i = 1; i < this->wordCounts.size(); i++)
+        {
+            if (this->wordCounts[i] < this->wordCounts[leastFrequentWordIndex])
+            {
+                leastFrequentWordIndex = i;
+            }
+            else if (this->wordCounts[i] == this->wordCounts[leastFrequentWordIndex])
+            {
+                if (this->uniqueWords[i] < this->uniqueWords[leastFrequentWordIndex])
+                {
+                    leastFrequentWordIndex = i;
+                }
+            }
+        }
+    }
     string mostFrequentWord = this->uniqueWords[mostFrequentWordIndex];
     string leastFrequentWord = this->uniqueWords[leastFrequentWordIndex];
 
@@ -204,12 +238,12 @@ void OutputProcessor::write()
     this->fileOut << " Most Frequent Word: ";
     this->fileOut << left << setw(wordWidth) << mostFrequentWord << " ";
     this->fileOut << right << setw(numberWidth) << this->wordCounts[mostFrequentWordIndex];
-    this->fileOut << " (" << fixed << setprecision(3) << mostFrequentWordRate << "%)" << "\n";
+    this->fileOut << " (" << right << setw(7) << fixed << setprecision(3) << mostFrequentWordRate << "%)" << "\n";
 
     this->fileOut << "Least Frequent Word: ";
     this->fileOut << left << setw(wordWidth) << leastFrequentWord << " ";
     this->fileOut << right << setw(numberWidth) << this->wordCounts[leastFrequentWordIndex];
-    this->fileOut << " (" << fixed << setprecision(3) << leastFrequentWordRate << "%)" << "\n";
+    this->fileOut << " (" << right << setw(7) << fixed << setprecision(3) << leastFrequentWordRate << "%)" << "\n";
 
     // The width needs to match the width of the word table from above.
     // the sum of the longest word's length, the separator (" : "), and the width of the count column
@@ -237,12 +271,14 @@ void OutputProcessor::write()
     double maxFrequentLetterRate = (mostFrequentLetterCount / this->totalLetterCounts) * 100.0;
     double leastFrequentLetterRate = (leastFrequentLetterCount / this->totalLetterCounts) * 100.0;
 
+    int letterCountNumberWidth = static_cast<int>(to_string(this->letterCounts[mostFrequentLetterIndex]).length());
+
     this->fileOut << setw(23) << "Most Frequent Letter: " << mostFrequentLetter << " ";
-    this->fileOut << right << setw(3) << this->letterCounts[mostFrequentLetterIndex] << " ";
+    this->fileOut << right << setw(letterCountNumberWidth) << this->letterCounts[mostFrequentLetterIndex] << " ";
     this->fileOut << "(" << setw(7) << fixed << setprecision(3) << maxFrequentLetterRate << "%)" << "\n";
 
     this->fileOut << setw(23) << "Least Frequent Letter: " << leastFrequentLetter << " ";
-    this->fileOut << right << setw(3) << this->letterCounts[leastFrequentLetterIndex] << " ";
+    this->fileOut << right << setw(letterCountNumberWidth) << this->letterCounts[leastFrequentLetterIndex] << " ";
     this->fileOut << "(" << setw(7) << fixed << setprecision(3) << leastFrequentLetterRate << "%)" << "\n";
 
     // diff -s result.out solutions/aliceChapter1.out
