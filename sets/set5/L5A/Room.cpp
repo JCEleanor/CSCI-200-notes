@@ -3,21 +3,24 @@
 #include <iostream>
 using namespace std;
 
-ARoom::ARoom() {
+ARoom::ARoom()
+{
     cout << "ARoom() called" << endl;
 
     mRoomName = "Vacant Room";
 }
 
-ARoom::~ARoom() {
+ARoom::~ARoom()
+{
     cout << "~ARoom() called" << endl;
 }
 
-string ARoom::getRoomName() const {
+string ARoom::getRoomName() const
+{
     return mRoomName;
 }
 
-bool ARoom::escapeTheRoom() {
-    cout << "There's no escape" << endl;
-    return false;
-}
+// bool ARoom::escapeTheRoom() {
+//     cout << "There's no escape" << endl;
+//     return false;
+// }

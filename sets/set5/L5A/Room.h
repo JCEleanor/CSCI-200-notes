@@ -3,7 +3,8 @@
 
 #include <string>
 
-class ARoom {
+class ARoom
+{
 public:
     /**
      * @brief Construct a new ARoom object
@@ -12,7 +13,7 @@ public:
     /**
      * @brief Destroy the ARoom object
      */
-    ~ARoom();
+    virtual ~ARoom();
 
     /**
      * @brief Get the Room Name object
@@ -23,18 +24,19 @@ public:
 
     /**
      * @brief attempts to get out of the room
-     * 
+     *
      * @return true if the room has been escaped from
      * @return false if you are still trapped in the room
      */
-    bool escapeTheRoom();
+    virtual bool escapeTheRoom() = 0;
+
 protected:
     /**
      * @brief name of the room
      */
     std::string mRoomName;
+
 private:
-    
 };
 
-#endif//ROOM_H
+#endif // ROOM_H

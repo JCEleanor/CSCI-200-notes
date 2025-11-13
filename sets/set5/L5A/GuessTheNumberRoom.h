@@ -3,12 +3,17 @@
 
 #include "Room.h"
 
-class GuessTheNumberRoom {
+class GuessTheNumberRoom : public ARoom
+{
 public:
     GuessTheNumberRoom();
     ~GuessTheNumberRoom();
+
+    bool escapeTheRoom() override;
+
 private:
     int _secretNumber;
+    int _mMaxGuesses;
 };
 
-#endif//GUESS_THE_NUMBER_ROOM_H
+#endif // GUESS_THE_NUMBER_ROOM_H
