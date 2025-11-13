@@ -10,6 +10,7 @@ playground/
 *.exe
 *.out
 *.app
+sets/set5/L5A/L5A
 
 **/*.exe
 **/*.out

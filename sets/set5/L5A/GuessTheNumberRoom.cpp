@@ -5,15 +5,21 @@
 #include <random>
 using namespace std;
 
-GuessTheNumberRoom::GuessTheNumberRoom() : ARoom(), _mMaxGuesses(5) // what syntax is it?
+GuessTheNumberRoom::GuessTheNumberRoom() // : ARoom(), _mMaxGuesses(5) // initializer list
 {
     cout << "GuessTheNumberRoom() called" << endl;
+
+    // using assignment in the body can be less efficient. The member variable is first default-constructed,
+    // and then a new value is assigned to it.
+    // The initializer list performs a single, direct initialization, which is often faster.
+    _mMaxGuesses = 5;
+    mRoomName = "Guess The Number Room";
 
     random_device rd;
     mt19937 mt(rd());
     uniform_int_distribution<int> dist(1, 20);
     _secretNumber = dist(mt);
-    std::cout << "GuessTheNumberRoom() called. Secret number is: " << _secretNumber << std::endl;
+    // std::cout << "GuessTheNumberRoom() called. Secret number is: " << _secretNumber << std::endl;
 }
 
 GuessTheNumberRoom::~GuessTheNumberRoom()
@@ -23,7 +29,6 @@ GuessTheNumberRoom::~GuessTheNumberRoom()
 
 bool GuessTheNumberRoom::escapeTheRoom()
 {
-    std::cout << "Welcome to the " << mRoomName << "!" << std::endl;
     std::cout << "You have " << _mMaxGuesses << " chances to guess the secret number (between 1 and 10)." << std::endl;
 
     int guess;
