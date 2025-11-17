@@ -47,7 +47,8 @@ cout << pDynArr[10] << endl;   // what happens?
 
 ### Arrays
 
-- element access: Arrays are useful for element access, because it has On of 1 `O(1)`
+- **All arrays are pointers; all pointers are arrays**
+- element access: Arrays are useful for element access, because it has On of 1 `O(1)` (fast, because arrays are contiguous)
 - print/traverse array: `O(n)`
 - resize (add/remove) an array: `O(n)`
 - search array: `O(n)`
@@ -59,6 +60,19 @@ cout << pDynArr[10] << endl;   // what happens?
 4. assign pointer from existimg array to new array
 
 Overall complexity is `O(n)`, so that's what arrays are not good for.
+
+### vector vs array
+
+vectors has all kinds of built in methods (like .size()), so every time if we want pass arrays to a function, we have to also pass in the size of the array.
+
+```c++
+void print_array(const int * const P_ARRAY, const int SIZE) {
+  for(int i = 0; i < SIZE; i++) {
+    cout << P_ARRAY[i] << " ";
+  }
+}
+
+```
 
 ### Vectors
 
