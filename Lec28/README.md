@@ -134,3 +134,17 @@ To resolve the issues of multiple inheritance and diamond problem, we can use:
 ```c++
 odie.Animal::speak()
 ```
+
+## Takeaways
+
+### Virtual Destructor
+
+- The sources emphasize that classes with virtual functions need a virtual destructor.
+  • You must explicitly declare the parent destructor as virtual.
+
+- For example, in a hierarchy like Animal (base) and Dog (derived):
+- It is typically noted that you don’t mark the child destructor as override because the names of destructors (which are prefixed with ~) do not match the function signature rules usually required for the override keyword in this context
+
+- A base class to have a virtual destructor when it has virtual functions is to ensure the correct derived class destructor is called when deleting an object via a base class pointer
+
+### interface' from a general 'abstract class'
