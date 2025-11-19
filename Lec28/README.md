@@ -73,6 +73,8 @@ Virtual Functions created as function pointer
 
 #### VTABLE (virtual table)
 
+Every object with virtual functions has a hidden pointer (vptr) inside it that points to a "lookup table" telling the program which function to run.
+
 ### `override`
 
 `override` keyword checks that function signatures match
