@@ -7,8 +7,9 @@
 #include <iostream>
 #include <string>
 
-template<typename T>
-class LinkedList final : public IList<T> {
+template <typename T>
+class LinkedList final : public IList<T>
+{
 public:
     LinkedList();
     ~LinkedList();
@@ -23,196 +24,337 @@ public:
     int find(const T VALUE) const override;
     int rfind(const T VALUE) const override;
 
-private: 
-    struct Node {
+private:
+    struct Node
+    {
         T value;
-        Node* pNext;
-        Node* pPrev;
+        Node *pNext;
+        Node *pPrev;
     };
 
-    Node* _pHead;
-    Node* _pTail;
+    Node *_pHead;
+    Node *_pTail;
     int _size;
 };
 
 //---------------------------------------------------------
 
-template<typename T>
-LinkedList<T>::LinkedList() {
-  // set size to zero
+template <typename T>
+LinkedList<T>::LinkedList()
+{
+    // set size to zero
+    _size = 0;
 
-  // set head to be a nullptr
-  
-  // set tail to be a nullptr
-  
+    // set head to be a nullptr
+    _pHead = nullptr;
+
+    // set tail to be a nullptr
+    _pTail = nullptr;
 }
 
-template<typename T>
-LinkedList<T>::~LinkedList() {
+template <typename T>
+LinkedList<T>::~LinkedList()
+{
     // remove each node in the list
-    
+    Node *current = _pHead;
+    while (current != nullptr)
+    {
+        // store the pointer to the next node before deleteing the current one
+        Node *next = current->pNext;
+
+        // delete the current node
+        delete current;
+        current = next;
+    }
+
+    // set size to zero
+    _size = 0;
+
+    // set head to be a nullptr
+    _pHead = nullptr;
+
+    // set tail to be a nullptr
+    _pTail = nullptr;
 }
 
-template<typename T>
-int LinkedList<T>::size() const {
+template <typename T>
+int LinkedList<T>::size() const
+{
     return _size;
 }
 
-template<typename T>
-T LinkedList<T>::get(const int POS) const {
+template <typename T>
+T LinkedList<T>::get(const int POS) const
+{
     // if POS is out of range, throw std::out_of_range exception
-    
+    if (POS < 0 || POS >= _size)
+    {
+        throw std::out_of_range("position out of range in get()");
+    }
+
     // set current node to head
-    
+    Node *current = _pHead;
+
     // advance current node to POS
-    
+    for (int i = 0; i < POS; i++)
+    {
+        current = current->pNext;
+    }
+
     // return value of current node
-    return T();
+    return current->value;
 }
 
-template<typename T>
-void LinkedList<T>::set(const int POS, const T VALUE) {
-  // if POS is out of range, throw std::out_of_range exception
+template <typename T>
+void LinkedList<T>::set(const int POS, const T VALUE)
+{
+    // if POS is out of range, throw std::out_of_range exception
+    if (POS < 0 || POS >= _size)
+    {
+        throw std::out_of_range("position out of range in set()");
+    }
 
-  // set current node to head
+    // set current node to head
+    Node *current = _pHead;
 
-  // advance current node to POS
+    // advance current node to POS
+    for (int i = 0; i < POS; i++)
+    {
+        current = current->pNext;
+    }
 
-  // set value of current node   
-  
+    // set value of current node
+    current->value = VALUE;
 }
 
-template<typename T>
-void LinkedList<T>::insert(const int POS, const T VALUE) {
+template <typename T>
+void LinkedList<T>::insert(const int POS, const T VALUE)
+{
+    int insertPos = POS;
     // if POS is before zero, clamp to zero
-    
+    if (insertPos < 0)
+    {
+        insertPos = 0;
+    }
+
     // if POS is after size, clamp to size
-    
+    if (insertPos > _size)
+    {
+        insertPos = _size;
+    }
+
     // create pointer to new node
-    
+    Node *newNode = new Node();
+
     // set value to be VALUE
-    
+    newNode->value = VALUE;
+
     // set previous pointer to nullptr
-    
+    newNode->pPrev = nullptr;
+
     // set next pointer to nullptr
-    
+    newNode->pNext = nullptr;
+
     // if list is currently empty
-    
-        // set head and tail to new node
-    
-    // otherwise
-    
+    // set head and tail to new node
+    if (_size == 0)
+    {
+        _pHead = newNode;
+        _pTail = newNode;
+    }
+    else if (insertPos == 0)
+    {
+        // otherwise
         // if position is before head
-    
-            // set new node next to be head
-    
-            // set head previous to be new node
-    
-            // set head to be new ndoe
-    
+
+        // set new node next to be head
+        newNode->pNext = _pHead;
+        // set head previous to be new node
+        _pHead->pPrev = newNode;
+        // set head to be new ndoe
+        _pHead = newNode;
+    }
+    else if (insertPos == _size)
+    {
         // else if position is after tail
-    
-            // set new node previous to be tail
-    
-            // set tail next to be new node
-    
-            // set tail to be new ndoe
-    
+
+        // set new node previous to be tail
+        newNode->pPrev = _pTail;
+        // set tail next to be new node
+        _pTail->pNext = newNode;
+        // set tail to be new ndoe
+        _pTail = newNode;
+    }
+    else
+    {
         // otherwise
-    
-            // set current node to head
-    
-            // advance current node to pos
-    
+
+        // set current node to head
+        Node *current = _pHead;
+
+        // advance current node to pos
+        for (int i = 0; i < insertPos; i++)
+        {
             // link new node into current list
-    
-            // link current list to new node
-    
+            current = current->pNext;
+        }
+
+        // insert new node to the list
+        newNode->pNext = current;
+        newNode->pPrev = current->pPrev;
+
+        /**
+         * (A) <-----> (Current)
+             ^               ^
+             \              /
+              `--(newNode)--`
+         */
+
+        current->pPrev->pNext = newNode;
+        current->pPrev = newNode;
+
+        /**
+         * (A) <-> (newNode) <-> (Current)
+         */
+    }
     // increment size
-    
+    _size++;
 }
 
-template<typename T>
-void LinkedList<T>::remove(const int POS) {
+template <typename T>
+void LinkedList<T>::remove(const int POS)
+{
+    int removePos = POS;
+
     // if array is empty, throw std::out_of_range exception
-    
+    if (_size == 0)
+    {
+        throw std::out_of_range("array is empty in remove()");
+    }
+
     // if POS is before zero, clamp to zero
-    
-    // if POS is after size, clamp to size
-    
-    // if list has one element
-    
+    if (removePos < 0)
+    {
+        removePos = 0;
+    }
+
+    if (removePos >= _size)
+    {
+        removePos = _size - 1;
+    }
+
+    Node *nodeToRemove = nullptr;
+    // case 1: if list has only one element
+    if (_size == 1)
+    {
         // set node to delete to head
-    
+        nodeToRemove = _pHead;
         // set head and tail to be nullptr
-    
-    // otherwise
-    
-        // if deleting head
-    
-            // set node to delete to head
-    
-            // advance head to next
-    
-            // set head previous to nullptr
-    
-        // else if deleting tail
-    
-            // set node to delete to tail
-    
-            // step tail to previous
-    
-            // set tail next to nullptr
-    
-        // otherwise
-    
-            // set current node to head
-    
-            // advance current node to space before position
-    
-            // set node to delete to the current node's next node
-    
-            // unlink node to delete
-    
-    // delete node
-    
+        _pHead = nullptr;
+        _pTail = nullptr;
+    }
+    // case 2: if deleting the head (first element)
+    else if (removePos == 0)
+    {
+        nodeToRemove = _pHead;
+
+        // advance head to next
+        _pHead = _pHead->pNext;
+        // set head previous to nullptr
+        _pHead->pPrev = nullptr;
+    }
+    // case 3: deleting tail
+    else if (removePos == _size - 1)
+    {
+        // set node to delete to tail
+        nodeToRemove = _pTail;
+
+        // set tail to previous
+        _pTail = _pTail->pPrev;
+        // set tail next to nullptr
+        _pTail->pNext = nullptr;
+
+        // case 4: deleting from the middle
+    }
+    else
+    {
+        nodeToRemove = _pHead;
+        for (int = 0; i < removePos; i++)
+        {
+            nodeToRemove = nodeToRemove->pNext;
+        }
+
+        nodeToDelete->pPrev->pNext = nodeToDelete->pNext;
+        nodeToDelete->pNext->pPrev = nodeToDelete->pPrev;
+    }
+
+    // unlink node to delete
+    if (nodeToRemove != nullptr)
+    {
+        // delete node
+        delete nodeToRemove;
+    }
+
     // decrement size
-    
+    _size--;
 }
 
-template<typename T>
-T LinkedList<T>::min() const {
+template <typename T>
+T LinkedList<T>::min() const
+{
     // if list is empty, throw std::out_of_range exception
-    
+    if (_size == 0)
+    {
+        throw std::out_of_range("list is empty in min()");
+    }
+
     // find minimum value within list
-    
+    int min = _pHead->value;
+
+    Node *current = _pHead->pNext;
+    while (current->pNext != nullptr)
+    {
+
+        if (current->value < min)
+        {
+            min = current->value;
+        }
+        else
+        {
+            current = current->pNext;
+        }
+    }
+
     // return min value
     return T();
 }
 
-template<typename T>
-T LinkedList<T>::max() const {
+template <typename T>
+T LinkedList<T>::max() const
+{
     // if list is empty, throw std::out_of_range exception
-    
+
     // find maxiumum value within list
-    
+
     // return max value
     return T();
 }
 
-template<typename T>
-int LinkedList<T>::find(const T VALUE) const {
+template <typename T>
+int LinkedList<T>::find(const T VALUE) const
+{
     // search for first occurrence of VALUE
     // hint: start at the beginning and go forward
-    
+
     // return index of first occurrence if found
-    
+
     // otherwise return -1
     return -1;
 }
 
-template<typename T>
-int LinkedList<T>::rfind(const T VALUE) const {
+template <typename T>
+int LinkedList<T>::rfind(const T VALUE) const
+{
     // search for last occurrence of VALUE
     // hint: start at the end and go backward
 
@@ -222,4 +364,4 @@ int LinkedList<T>::rfind(const T VALUE) const {
     return -1;
 }
 
-#endif//LINKED_LIST_HPP
+#endif // LINKED_LIST_HPP

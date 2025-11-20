@@ -227,7 +227,6 @@ int Array<T>::find(const T VALUE) const
     // search for first occurrence of VALUE
 
     // hint: start at the beginning and go forward
-    // List is now {9,1,3,5,7,9}
     for (int i = 0; i < _size; i++)
     {
         if (_pArray[i] == VALUE)
