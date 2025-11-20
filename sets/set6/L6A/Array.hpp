@@ -7,8 +7,9 @@
 #include <iostream>
 #include <string>
 
-template<typename T>
-class Array final : public IList<T> {
+template <typename T>
+class Array final : public IList<T>
+{
 public:
     Array();
     ~Array();
@@ -25,48 +26,52 @@ public:
 
 private:
     int _size;
-    T* _pArray;
+    T *_pArray;
 };
 
 //---------------------------------------------------------
 
-template<typename T>
-Array<T>::Array() {
+template <typename T>
+Array<T>::Array()
+{
     // set size to zero
 
     // set array to be a nullptr
-    
 }
 
-template<typename T>
-Array<T>::~Array() {
+template <typename T>
+Array<T>::~Array()
+{
     // deallocate current array
-    
 }
 
-template<typename T>
-int Array<T>::size() const { 
+template <typename T>
+int Array<T>::size() const
+{
     return _size;
 }
 
-template<typename T>
-T Array<T>::get(const int POS) const {
+template <typename T>
+T Array<T>::get(const int POS) const
+{
     // if POS is out of range, throw std::out_of_range exception
-    
+
     // return value at POS within array
-    return T();
+    return _pArray[POS];
+    // return T();
 }
 
-template<typename T>
-void Array<T>::set(const int POS, const T VALUE) {
+template <typename T>
+void Array<T>::set(const int POS, const T VALUE)
+{
     // if POS is out of range, throw std::out_of_range exception
-    
-    // set VALUE at POS within array    
 
+    // set VALUE at POS within array
 }
 
-template<typename T>
-void Array<T>::insert(const int POS, const T VALUE) {
+template <typename T>
+void Array<T>::insert(const int POS, const T VALUE)
+{
     // if POS is before zero, clamp to zero
 
     // if POS is after size, clamp to size
@@ -84,11 +89,11 @@ void Array<T>::insert(const int POS, const T VALUE) {
     // set old array to be new array
 
     // increment size
-
 }
 
-template<typename T>
-void Array<T>::remove(const int POS) {
+template <typename T>
+void Array<T>::remove(const int POS)
+{
     // if array is empty, throw std::out_of_range exception
 
     // if POS is before zero, clamp to zero
@@ -106,42 +111,45 @@ void Array<T>::remove(const int POS) {
     // set old array to be new array
 
     // decrement size
-
 }
 
-template<typename T>
-T Array<T>::min() const {
+template <typename T>
+T Array<T>::min() const
+{
     // if array is empty, throw std::out_of_range exception
-    
+
     // find minimum value within array
-    
+
     // return min value
     return T();
 }
 
-template<typename T>
-T Array<T>::max() const {
+template <typename T>
+T Array<T>::max() const
+{
     // if array is empty, throw std::out_of_range exception
-    
+
     // find maximum value within array
-    
+
     // return max value
     return T();
 }
 
-template<typename T>
-int Array<T>::find(const T VALUE) const {
+template <typename T>
+int Array<T>::find(const T VALUE) const
+{
     // search for first occurrence of VALUE
     // hint: start at the beginning and go forward
-    
+
     // return index of first occurrence if found
-    
+
     // otherwise return -1
     return -1;
 }
 
-template<typename T>
-int Array<T>::rfind(const T VALUE) const {
+template <typename T>
+int Array<T>::rfind(const T VALUE) const
+{
     // search for last occurrence of VALUE
     // hint: start at the end and go backward
 
@@ -151,4 +159,4 @@ int Array<T>::rfind(const T VALUE) const {
     return -1;
 }
 
-#endif//ARRAY_HPP
+#endif // ARRAY_HPP
