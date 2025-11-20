@@ -223,25 +223,45 @@ T Array<T>::max() const
 template <typename T>
 int Array<T>::find(const T VALUE) const
 {
+    int foundIndex = -1;
     // search for first occurrence of VALUE
+
     // hint: start at the beginning and go forward
+    // List is now {9,1,3,5,7,9}
+    for (int i = 0; i < _size; i++)
+    {
+        if (_pArray[i] == VALUE)
+        {
+            foundIndex = i;
+            break;
+        }
+    }
 
     // return index of first occurrence if found
 
     // otherwise return -1
-    return -1;
+    return foundIndex;
 }
 
 template <typename T>
 int Array<T>::rfind(const T VALUE) const
 {
+    int foundIndex = -1;
     // search for last occurrence of VALUE
     // hint: start at the end and go backward
+    for (int i = _size - 1; i >= 0; i--)
+    {
+        if (_pArray[i] == VALUE)
+        {
+            foundIndex = i;
+            break;
+        }
+    }
 
     // return index of last occurrence if found
 
     // otherwise return -1
-    return -1;
+    return foundIndex;
 }
 
 #endif // ARRAY_HPP
