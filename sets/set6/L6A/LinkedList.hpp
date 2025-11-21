@@ -279,13 +279,13 @@ void LinkedList<T>::remove(const int POS)
     else
     {
         nodeToRemove = _pHead;
-        for (int = 0; i < removePos; i++)
+        for (int i = 0; i < removePos; i++)
         {
             nodeToRemove = nodeToRemove->pNext;
         }
 
-        nodeToDelete->pPrev->pNext = nodeToDelete->pNext;
-        nodeToDelete->pNext->pPrev = nodeToDelete->pPrev;
+        nodeToRemove->pPrev->pNext = nodeToRemove->pNext;
+        nodeToRemove->pNext->pPrev = nodeToRemove->pPrev;
     }
 
     // unlink node to delete
@@ -309,35 +309,48 @@ T LinkedList<T>::min() const
     }
 
     // find minimum value within list
-    int min = _pHead->value;
+    T min = _pHead->value;
 
     Node *current = _pHead->pNext;
-    while (current->pNext != nullptr)
+    while (current != nullptr)
     {
-
         if (current->value < min)
         {
             min = current->value;
         }
-        else
-        {
-            current = current->pNext;
-        }
+
+        current = current->pNext;
     }
 
     // return min value
-    return T();
+    return min;
 }
 
 template <typename T>
 T LinkedList<T>::max() const
 {
     // if list is empty, throw std::out_of_range exception
+    if (_size == 0)
+    {
+        throw std::out_of_range("list is empty in max()");
+    }
 
     // find maxiumum value within list
+    T max = _pHead->value;
+    Node *current = _pHead->pNext;
+
+    while (current != nullptr)
+    {
+        if (current->value > max)
+        {
+            max = current->value;
+        }
+
+        current = current->pNext;
+    }
 
     // return max value
-    return T();
+    return max;
 }
 
 template <typename T>
