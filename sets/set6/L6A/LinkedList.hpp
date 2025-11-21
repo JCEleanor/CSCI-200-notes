@@ -357,9 +357,20 @@ template <typename T>
 int LinkedList<T>::find(const T VALUE) const
 {
     // search for first occurrence of VALUE
-    // hint: start at the beginning and go forward
+    int foundIndex = 0;
 
-    // return index of first occurrence if found
+    // hint: start at the beginning and go forward
+    Node *current = _pHead;
+    while (current != nullptr)
+    {
+        if (current->value == VALUE)
+        {
+            // return index of first occurrence if found
+            return foundIndex;
+        }
+        current = current->pNext;
+        foundIndex++;
+    }
 
     // otherwise return -1
     return -1;
@@ -369,9 +380,20 @@ template <typename T>
 int LinkedList<T>::rfind(const T VALUE) const
 {
     // search for last occurrence of VALUE
-    // hint: start at the end and go backward
+    int foundIndex = _size - 1;
 
-    // return index of last occurrence if found
+    // hint: start at the end and go backward
+    Node *current = _pTail;
+    while (current != nullptr)
+    {
+        if (current->value == VALUE)
+        {
+            // return index of last occurrence if found
+            return foundIndex;
+        }
+        current = current->pPrev;
+        foundIndex--;
+    }
 
     // otherwise return -1
     return -1;
