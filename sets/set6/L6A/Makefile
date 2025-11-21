@@ -9,7 +9,7 @@ H_FILES = test_suite.h List.hpp Array.hpp LinkedList.hpp
 # ANY OTHER RESOURCES FILES THAT ARE PART OF THE PROJECT
 REZ_FILES = README.txt LICENSE
 # YOUR USERNAME
-USERNAME = username
+USERNAME = jingchun
 
 # NO EDITS BELOW THIS LINE
 CXX = g++
