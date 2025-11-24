@@ -1,0 +1,4 @@
+#ifndef COORDINATE_HPP
+#define COORDINATE_HPP
+
+#endif // COORDINATE_HPP
