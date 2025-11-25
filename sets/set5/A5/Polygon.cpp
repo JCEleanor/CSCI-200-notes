@@ -1,4 +1,5 @@
 #include "Polygon.h"
+#include <cmath>
 /**
  * @brief Construct a new Polygon:: Polygon object
  * default constructor -
@@ -62,4 +63,11 @@ void Polygon::draw(sf::RenderTarget &window)
 void Polygon::setCoordinate(int index, const Coordinate &coordinate)
 {
     this->vertices[index] = coordinate;
+}
+
+double Polygon::getDistance(Coordinate coord1, Coordinate coord2)
+{
+    double deltaX = coord1.x - coord2.x;
+    double deltaY = coord1.y - coord2.y;
+    return std::sqrt(deltaX * deltaX + deltaY * deltaY);
 }

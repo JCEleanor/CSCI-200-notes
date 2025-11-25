@@ -24,6 +24,8 @@ protected:
     short numVertices;
     /** a Coordinate array */
     Coordinate *vertices;
+
+    static double getDistance(Coordinate coord1, Coordinate coord2);
 };
 
 #endif // POLYGON_H
