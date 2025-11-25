@@ -1,4 +1,12 @@
-#ifndef EQUILATERRAL_TRIANGLE_HPP
-#define EQUILATERRAL_TRIANGLE_HPP
+#ifndef EQUILATERALTRIANGLE_HPP
+#define EQUILATERALTRIANGLE_HPP
 
-#endif // EQUILATERRAL_TRIANGLE_HPP
+#include "Triangle.hpp"
+
+class EquilateralTriangle : public Triangle
+{
+public:
+    bool validate() override;
+};
+
+#endif // EQUILATERALTRIANGLE_HPP
