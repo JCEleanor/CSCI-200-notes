@@ -26,12 +26,26 @@ ifeq ($(shell echo "Windows"), "Windows")
 	DEL = del
 	ZIPPER = tar -a -c -f
 	ZIP_NAME = $(PROJECT)_$(USERNAME).$(ARCHIVE_EXTENSION)
+	INC_PATH = C:/mingw64/include/
+	LIB_PATH = C:/mingw64/lib/
 	Q =
 else
 	TARGET = $(PROJECT)
 	DEL = rm -f
 	ZIPPER = tar -acf
 	Q= "
+	INC_PATH = /usr/local/include/
+	LIB_PATH = /usr/local/lib/
+	
+	UNAME_S := $(shell uname -s)
+	ifeq ($(UNAME_S),Linux)
+		CXXFLAGS += -D LINUX
+		RPATH =
+	endif
+	ifeq ($(UNAME_S),Darwin)
+		CXXFLAGS += -D OSX
+		RPATH = -Wl,-rpath,/Library/Frameworks -Wl,-rpath,$(LIB_PATH)
+	endif
 
 	ifeq ($(shell tar --version | grep -o "GNU tar"), GNU tar)
 		ARCHIVE_EXTENSION = tar.gz
@@ -45,6 +59,7 @@ LIBS = -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio -lsfml-network
 all: $(TARGET)
 
 $(TARGET): $(OBJECTS)
+	$(CXX) -o $@ $^ $(RPATH) -L$(LIB_PATH) $(LIBS)
 
 .cpp.o:
 	$(CXX) $(CPPVERSION) $(CXXFLAGS_DEBUG) $(CXXFLAGS_WARN) -o $@ -c $<
