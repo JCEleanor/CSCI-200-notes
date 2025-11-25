@@ -3,11 +3,11 @@
 # THE NAME OF YOUR PROJECT
 PROJECT = A5
 # ALL CPP COMPILABLE IMPLEMENTATION FILES THAT MAKE UP THE PROJECT
-SRC_FILES = main.cpp 
+SRC_FILES = main.cpp Polygon.cpp Coordinate.cpp Triangle.cpp Quadrilateral.cpp ScaleneTriangle.cpp IsoscelesTriangle.cpp EquilateralTriangle.cpp Rhombus.cpp
 # ALL HEADER FILES THAT ARE PART OF THE PROJECT
-H_FILES = Polygon.hpp Triangle.hpp Quadrilateral.hpp ScaleneTriangle.hpp IsoscelesTriangle.hpp EquilateralTriangle.hpp Rhombus.hpp 
+H_FILES = Polygon.h Triangle.h Quadrilateral.h ScaleneTriangle.h IsoscelesTriangle.h EquilateralTriangle.h Rhombus.h Coordinate.h
 # ANY OTHER RESOURCES FILES THAT ARE PART OF THE PROJECT
-REZ_FILES = 
+REZ_FILES = polygons.dat
 # YOUR USERNAME
 USERNAME = jingchun
 
@@ -40,10 +40,11 @@ else
 	ZIP_NAME = $(PROJECT)_$(USERNAME).$(ARCHIVE_EXTENSION)
 endif
 
+LIBS = -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio -lsfml-network
+
 all: $(TARGET)
 
 $(TARGET): $(OBJECTS)
-	$(CXX) -o $@ $^
 
 .cpp.o:
 	$(CXX) $(CPPVERSION) $(CXXFLAGS_DEBUG) $(CXXFLAGS_WARN) -o $@ -c $<
@@ -69,4 +70,4 @@ submission:
 .PHONY: all clean depend submission
 
 # DEPENDENCIES
-main.o: main.cpp Polygon.hpp Triangle.hpp Quadrilateral.hpp ScaleneTriangle.hpp IsoscelesTriangle.hpp EquilateralTriangle.hpp Rhombus.hpp
+main.o: main.cpp
