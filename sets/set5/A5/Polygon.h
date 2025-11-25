@@ -1,8 +1,8 @@
-#ifndef POLYGON_HPP
-#define POLYGON_HPP
+#ifndef POLYGON_H
+#define POLYGON_H
 
 #include <SFML/Graphics.hpp>
-#include "Coordinate.hpp"
+#include "Coordinate.h"
 
 class Polygon
 {
@@ -26,4 +26,4 @@ protected:
     Coordinate *vertices;
 };
 
-#endif // POLYGON_HPP
+#endif // POLYGON_H

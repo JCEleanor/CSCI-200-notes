@@ -1,5 +1,5 @@
-#ifndef COORDINATE_HPP
-#define COORDINATE_HPP
+#ifndef COORDINATE_H
+#define COORDINATE_H
 
 struct Coordinate
 {
@@ -10,4 +10,4 @@ public:
     double y;
 };
 
-#endif // COORDINATE_HPP
+#endif // COORDINATE_H
