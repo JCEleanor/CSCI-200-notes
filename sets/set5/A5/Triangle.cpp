@@ -33,5 +33,6 @@ bool Triangle::isAValidTriangle() const
 Triangle::Triangle() : Polygon()
 {
     this->numVertices = 3;
-    this->vertices = new Coordinate[numVertices];
+    this->vertices = new Coordinate[static_cast<std::size_t>(numVertices)];
+    ;
 }

@@ -9,5 +9,6 @@
 Quadrilateral::Quadrilateral() : Polygon()
 {
     this->numVertices = 4;
-    this->vertices = new Coordinate[numVertices];
+    this->vertices = new Coordinate[static_cast<std::size_t>(numVertices)];
+    ;
 }

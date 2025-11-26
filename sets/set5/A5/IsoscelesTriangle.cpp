@@ -27,7 +27,6 @@ bool IsoscelesTriangle::validate()
     double side2 = getDistance(this->vertices[1], this->vertices[2]);
 
     const double EPSILON = 1e-9;
-    bool isTwoSidesEqual = false;
     if (std::abs(side0 - side1) < EPSILON ||
         std::abs(side0 - side2) < EPSILON ||
         std::abs(side1 - side2) < EPSILON)

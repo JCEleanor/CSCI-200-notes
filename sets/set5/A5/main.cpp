@@ -100,7 +100,9 @@ int main()
             {
                 if (p->validate())
                 {
-                    p->setColor(sf::Color(r, g, b));
+                    p->setColor(sf::Color(static_cast<uint8_t>(r),
+                                          static_cast<uint8_t>(g),
+                                          static_cast<uint8_t>(b)));
                     polygons.push_back(p);
                 }
                 else
