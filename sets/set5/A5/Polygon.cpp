@@ -29,9 +29,9 @@ Polygon::~Polygon()
  * @brief sets the private color data member
  *
  */
-void Polygon::setColor(sf::Color color)
+void Polygon::setColor(sf::Color newColor)
 {
-    this->color = color;
+    this->color = newColor;
 }
 
 /**
@@ -43,13 +43,13 @@ void Polygon::setColor(sf::Color color)
 void Polygon::draw(sf::RenderTarget &window)
 {
     sf::ConvexShape convexShape;
-    convexShape.setPointCount(this->numVertices);
+    convexShape.setPointCount(static_cast<size_t>(this->numVertices));
     convexShape.setFillColor(this->color);
 
     for (short i = 0; i < numVertices; i++)
     {
-        sf::Vector2f point(vertices[i].x, vertices[i].y);
-        convexShape.setPoint(i, point);
+        sf::Vector2f point(static_cast<float>(vertices[i].x), static_cast<float>(vertices[i].y));
+        convexShape.setPoint(static_cast<size_t>(i), point);
     }
 
     window.draw(convexShape);
