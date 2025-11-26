@@ -78,8 +78,8 @@ int main()
                 if (p != nullptr)
                 {
                     p->setCoordinate(0, Coordinate(x1, y1));
-                    p->setCoordinate(1, Coordinate(x1, y1));
-                    p->setCoordinate(2, Coordinate(x1, y1));
+                    p->setCoordinate(1, Coordinate(x2, y2));
+                    p->setCoordinate(2, Coordinate(x3, y3));
                 }
             }
             // case 2: quadrilaterals (rhombus)

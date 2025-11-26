@@ -1,5 +1,6 @@
-#include "Polygon.h"
 #include <cmath>
+
+#include "Polygon.h"
 /**
  * @brief Construct a new Polygon:: Polygon object
  * default constructor -

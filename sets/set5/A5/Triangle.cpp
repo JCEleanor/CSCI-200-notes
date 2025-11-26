@@ -1,6 +1,7 @@
+#include <cmath>
+
 #include "Coordinate.h"
 #include "Triangle.h"
-#include <cmath>
 
 /**
  * @brief check if three sizes are non-zero & the sum of any two is greater than the third
