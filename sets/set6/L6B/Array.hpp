@@ -23,6 +23,7 @@ public:
     T max() const override;
     int find(const T VALUE) const override;
     int rfind(const T VALUE) const override;
+    void sort() override;
 
 private:
     int _size;
@@ -98,7 +99,7 @@ void Array<T>::insert(const int POS, const T VALUE)
     // if POS is after size, clamp to size
 
     // create new array of size + 1
-    T *pNewArray = new T[_size + 1];
+    T *pNewArray = new T[static_cast<size_t>(_size) + 1];
 
     // copy elements 0 to POS from old array to new array
     for (int i = 0; i < insertPos; i++)
@@ -154,7 +155,7 @@ void Array<T>::remove(const int POS)
     T *pNewArray = nullptr;
     if (_size > 1)
     {
-        pNewArray = new T[_size - 1];
+        pNewArray = new T[static_cast<size_t>(_size) - 1];
     }
 
     // copy elements from 0 to POS from old array to  new array
@@ -261,6 +262,11 @@ int Array<T>::rfind(const T VALUE) const
 
     // otherwise return -1
     return foundIndex;
+}
+
+template <typename T>
+void Array<T>::sort()
+{
 }
 
 #endif // ARRAY_HPP

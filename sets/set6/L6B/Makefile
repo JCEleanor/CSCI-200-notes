@@ -3,9 +3,9 @@
 # THE NAME OF YOUR PROJECT
 PROJECT = L6B
 # ALL CPP COMPILABLE IMPLEMENTATION FILES THAT MAKE UP THE PROJECT
-SRC_FILES = main.cpp test_suite.cpp
+SRC_FILES = main.cpp 
 # ALL HEADER FILES THAT ARE PART OF THE PROJECT
-H_FILES = test_suite.h List.hpp Array.hpp LinkedList.hpp
+H_FILES = List.hpp Array.hpp LinkedList.hpp
 # ANY OTHER RESOURCES FILES THAT ARE PART OF THE PROJECT
 REZ_FILES = README.txt LICENSE
 # YOUR USERNAME
@@ -69,6 +69,5 @@ submission:
 .PHONY: all clean depend submission
 
 # DEPENDENCIES
-main.o: main.cpp test_suite.h List.hpp Array.hpp LinkedList.hpp
-test_suite.o: test_suite.cpp test_suite.h List.hpp Array.hpp \
-  LinkedList.hpp
+main.o: main.cpp List.hpp Array.hpp LinkedList.hpp
+

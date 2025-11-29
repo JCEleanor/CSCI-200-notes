@@ -154,7 +154,7 @@ void Array<T>::remove(const int POS)
     T *pNewArray = nullptr;
     if (_size > 1)
     {
-        pNewArray = new T[_size - 1];
+        pNewArray = new T[static_cast<size_t>(_size) - 1];
     }
 
     // copy elements from 0 to POS from old array to  new array

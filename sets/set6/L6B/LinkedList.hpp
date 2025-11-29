@@ -23,6 +23,7 @@ public:
     T max() const override;
     int find(const T VALUE) const override;
     int rfind(const T VALUE) const override;
+    void sort() override;
 
 private:
     struct Node
