@@ -267,6 +267,99 @@ int Array<T>::rfind(const T VALUE) const
 template <typename T>
 void Array<T>::sort()
 {
+    /**
+     * @brief
+     *
+     * Initial array: 4 3 8 1 5 9 7 2 6
+Left:  4 3 8 1 5
+Right: 9 7 2 6
+
+Initial array:  4 3 8 1 5
+Left:  4 3 8
+Right: 1 5
+
+Initial array: 4 3 8
+Left:  4 3
+Right: 8
+
+Initial array: 4 3
+Left:  4
+Right: 3
+
+Merged: 3 4
+
+Merged: 3 4 8
+
+Initial array: 1 5
+Left:  1
+Right: 5
+
+Merged: 1 5
+
+Merged: 1 3 4 5 8
+     *
+     */
+    // base case
+    if (_size <= 1)
+    {
+        return;
+    }
+
+    int middlePos = _size / 2;
+    Array<T> leftArray;
+    Array<T> rightArray;
+    for (int i = 0; i < middlePos; i++)
+    {
+
+        leftArray.insert(leftArray.size(), _pArray[i]);
+    }
+
+    for (int i = middlePos; i < _size; i++)
+    {
+        rightArray.insert(rightArray.size(), _pArray[i]);
+    }
+
+    // std::cout << "Left: " << leftArray << std::endl;
+    // std::cout << "Right: " << rightArray << std::endl;
+
+    leftArray.sort();
+    rightArray.sort();
+
+    int i = 0; // index for leftArray
+    int j = 0; // index for rightArray
+    int k = 0; // index for _pArray
+
+    // compare left and right
+    while (i < leftArray.size() && j < rightArray.size())
+    {
+        if (leftArray.get(i) <= rightArray.get(j))
+        {
+            _pArray[k] = leftArray.get(i);
+            i++;
+        }
+        else
+        {
+            _pArray[k] = rightArray.get(j);
+            j++;
+        }
+        k++;
+    }
+
+    // there might be reamining element in one of the array
+    while (i < leftArray.size())
+    {
+        _pArray[k] = leftArray.get(i);
+        i++;
+        k++;
+    }
+    while (j < rightArray.size())
+    {
+        _pArray[k] = rightArray.get(j);
+        j++;
+        k++;
+    }
+
+    // std::cout << "Merged: " << *this << std::endl;
 }
 
 #endif // ARRAY_HPP

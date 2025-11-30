@@ -25,5 +25,8 @@ Print the list forwards (prints 1 2 3 4 5 6 7 8 9)
         array.insert(array.size(), nums[i]);
     }
 
+    cout << "Sorting an array: " << endl;
     cout << "Initial array: " << array << endl;
+    array.sort();
+    cout << "Sorted array: " << array << endl;
 }

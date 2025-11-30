@@ -101,7 +101,7 @@ std::ostream &operator<<(std::ostream &os, const IList<T> &list)
 {
     for (int i = 0; i < list.size(); i++)
     {
-        os << list.get(i) << ", ";
+        os << list.get(i) << " ";
     }
 
     return os;
