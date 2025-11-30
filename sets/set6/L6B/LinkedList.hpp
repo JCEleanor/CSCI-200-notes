@@ -23,7 +23,9 @@ public:
     T max() const override;
     int find(const T VALUE) const override;
     int rfind(const T VALUE) const override;
+    /** merge sort */
     void sort() override;
+    void insertionSort();
 
 private:
     struct Node
@@ -398,6 +400,36 @@ int LinkedList<T>::rfind(const T VALUE) const
 
     // otherwise return -1
     return -1;
+}
+
+template <typename T>
+void LinkedList<T>::insertionSort()
+{
+    // base case
+    if (_size < 2)
+    {
+        return;
+    }
+
+    Node *current = _pHead->pNext;
+
+    while (current != nullptr)
+    {
+        T currentValue = current->value;
+        Node *currentNode = current;
+
+        // keep comparing current to the previous value
+        while (currentNode->pPrev != nullptr && currentNode->pPrev->value > currentValue)
+        {
+            // shift larger value forward
+            currentNode->value = currentNode->pPrev->value;
+            currentNode = currentNode->pPrev;
+        }
+        currentNode->value = currentValue;
+
+        // move to next node
+        current = current->pNext;
+    }
 }
 
 #endif // LINKED_LIST_HPP

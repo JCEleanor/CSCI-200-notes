@@ -8,25 +8,24 @@ using namespace std;
 
 int main()
 {
-    /**
-     * @brief
-     *
-     * Create a list of integers
-Populate the list with the values in order: 4 3 8 1 5 9 7 2 6
-Print the list forwards (prints 4 3 8 1 5 9 7 2 6)
-Sort the list
-Print the list forwards (prints 1 2 3 4 5 6 7 8 9)
-     *
-     */
     Array<int> array;
+    LinkedList<int> intLinkedList;
     vector<int> nums = {4, 3, 8, 1, 5, 9, 7, 2, 6};
     for (size_t i = 0; i < nums.size(); i++)
     {
         array.insert(array.size(), nums[i]);
+        intLinkedList.insert(intLinkedList.size(), nums[i]);
     }
 
     cout << "Sorting an array: " << endl;
     cout << "Initial array: " << array << endl;
     array.sort();
     cout << "Sorted array: " << array << endl;
+
+    cout << "Sorting a Linked List: " << endl;
+    cout << "Initial List: " << intLinkedList << endl;
+    intLinkedList.sort();
+    cout << "Sorted List: " << intLinkedList << endl;
+
+    return 0;
 }
