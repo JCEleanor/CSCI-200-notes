@@ -94,6 +94,8 @@ public:
      *
      */
     virtual void sort() = 0;
+    /** return index */
+    virtual int search(const T target) const = 0;
 };
 
 template <typename T>

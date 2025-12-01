@@ -24,6 +24,8 @@ public:
     int find(const T VALUE) const override;
     int rfind(const T VALUE) const override;
     void sort() override;
+    /** binary search */
+    int search(const T target) const override;
 
 private:
     int _size;
@@ -360,6 +362,11 @@ Merged: 1 3 4 5 8
     }
 
     // std::cout << "Merged: " << *this << std::endl;
+}
+
+template <typename T>
+int Array<T>::search(const T target) const
+{
 }
 
 #endif // ARRAY_HPP

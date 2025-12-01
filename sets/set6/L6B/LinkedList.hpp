@@ -26,6 +26,8 @@ public:
     /** merge sort */
     void sort() override;
     void insertionSort();
+    /** linear search */
+    int search(const T target) const override;
 
 private:
     struct Node
@@ -563,5 +565,8 @@ void LinkedList<T>::sort()
         _pTail = current;
     }
 }
+
+template <typename T>
+int LinkedList<T>::search(const T target) const {}
 
 #endif // LINKED_LIST_HPP
