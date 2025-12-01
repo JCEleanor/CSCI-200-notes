@@ -367,6 +367,30 @@ Merged: 1 3 4 5 8
 template <typename T>
 int Array<T>::search(const T target) const
 {
+    int low = 0;
+    int high = _size - 1;
+    while (low <= high)
+    {
+
+        int middleIndex = low + (high - low) / 2;
+        T middleValue = _pArray[middleIndex];
+
+        if (middleValue == target)
+        {
+            return middleIndex;
+        }
+
+        if (target < middleValue)
+        {
+            high = middleIndex - 1;
+        }
+        else
+        {
+            low = middleIndex + 1;
+        }
+    }
+
+    return -1;
 }
 
 #endif // ARRAY_HPP
