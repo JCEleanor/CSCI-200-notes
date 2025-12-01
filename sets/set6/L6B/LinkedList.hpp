@@ -567,6 +567,26 @@ void LinkedList<T>::sort()
 }
 
 template <typename T>
-int LinkedList<T>::search(const T target) const {}
+int LinkedList<T>::search(const T target) const
+{
+    Node *current = _pHead;
+    int index = 0;
+    while (current != nullptr)
+    {
+
+        if (current->value == target)
+        {
+            return index;
+        }
+        else
+        {
+            index++;
+            current = current->pNext;
+        }
+    }
+
+    // not found
+    return -1;
+}
 
 #endif // LINKED_LIST_HPP
