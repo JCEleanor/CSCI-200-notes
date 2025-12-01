@@ -38,6 +38,9 @@ private:
     Node *_pHead;
     Node *_pTail;
     int _size;
+    Node *getMiddle(Node *head);
+    Node *mergesort_r(Node *head);
+    Node *sortedMerge(Node *left, Node *right);
 };
 
 //---------------------------------------------------------
@@ -429,6 +432,135 @@ void LinkedList<T>::insertionSort()
 
         // move to next node
         current = current->pNext;
+    }
+}
+
+template <typename T>
+typename LinkedList<T>::Node *LinkedList<T>::getMiddle(Node *head)
+{
+    if (head == nullptr || head->pNext == nullptr)
+    {
+        return head;
+    }
+
+    Node *fast = head;
+    Node *slow = head;
+
+    while (fast->pNext != nullptr && fast->pNext->pNext != nullptr)
+    {
+        fast = fast->pNext->pNext;
+        slow = slow->pNext;
+    }
+
+    return slow;
+}
+
+template <typename T>
+typename LinkedList<T>::Node *LinkedList<T>::sortedMerge(Node *left, Node *right)
+{
+    if (left == nullptr)
+    {
+        return right;
+    }
+
+    if (right == nullptr)
+    {
+        return left;
+    }
+
+    Node *head = nullptr;
+
+    if (left->value <= right->value)
+    {
+        head = left;
+        left = left->pNext;
+    }
+    else
+    {
+        head = right;
+        right = right->pNext;
+    }
+
+    Node *tail = head;
+
+    while (left != nullptr && right != nullptr)
+    {
+        if (left->value > right->value)
+        {
+            tail->pNext = right;
+            right->pPrev = tail;
+            //  Advance the pointer of the list you took from (left or right)?
+            right = right->pNext;
+        }
+        else
+        {
+            tail->pNext = left;
+            left->pPrev = tail;
+
+            //  Advance the pointer of the list you took from (left or right)?
+            left = left->pNext;
+        }
+        tail = tail->pNext;
+    }
+
+    if (left != nullptr)
+    {
+        tail->pNext = left;
+        left->pPrev = tail;
+    }
+    else if (right != nullptr)
+    {
+        tail->pNext = right;
+        right->pPrev = tail;
+    }
+
+    return head;
+}
+
+template <typename T>
+typename LinkedList<T>::Node *LinkedList<T>::mergesort_r(Node *head)
+{
+    if (head == nullptr || head->pNext == nullptr)
+    {
+        return head;
+    }
+
+    Node *middle = getMiddle(head);
+    Node *rightHead = middle->pNext;
+
+    // split the list into 2 separate lists
+    middle->pNext = nullptr;
+    rightHead->pPrev = nullptr;
+
+    Node *sortedLeft = mergesort_r(head);
+    Node *sortedRight = mergesort_r(rightHead);
+    return sortedMerge(sortedLeft, sortedRight);
+}
+
+template <typename T>
+void LinkedList<T>::sort()
+{
+    if (_size < 2)
+    {
+        return;
+    }
+
+    _pHead = mergesort_r(_pHead);
+
+    if (_pHead == nullptr)
+    {
+        _pTail = nullptr;
+    }
+    else
+    {
+        // put pTail back to the last place
+        Node *current = _pHead;
+        while (current->pNext != nullptr)
+        {
+            current = current->pNext;
+        }
+
+        _pTail = current;
     }
 }
 
