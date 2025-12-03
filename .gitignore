@@ -26,8 +26,9 @@ build/*
 sets/set*/L*[AB]/L*[AB]
 
 # Ignore compiled executables that match their directory name (e.g., Lec09/Lec09)
-Lec*/Lec*
-Lecture*/Lecture*
+Lec*/Lec[0-9][0-9]
+Lec*/Lecture[0-9][0-9]
+Lec*/Lec*/Lec[0-9][0-9]
 
 # Libraries
 *.lib
