@@ -233,12 +233,6 @@ int main(int argc, char *argv[])
                         }
                     }
                 }
-
-                window.clear();
-                // step 2: draw
-                drawMaze(rowCount, colCount, maze, window, visited);
-                window.display();
-                sf::sleep(sf::milliseconds(50)); // Pauses for 50ms
             }
         }
     }
@@ -258,13 +252,14 @@ int main(int argc, char *argv[])
                     window.close();
                 }
             }
-
-            window.clear();
-            // step 2: draw
-            drawMaze(rowCount, colCount, maze, window, visited);
-            window.display();
         }
     }
+
+    window.clear();
+    // step 2: draw
+    drawMaze(rowCount, colCount, maze, window, visited);
+    window.display();
+    sf::sleep(sf::milliseconds(50)); // Pauses for 50ms
 
     return 0;
 }
