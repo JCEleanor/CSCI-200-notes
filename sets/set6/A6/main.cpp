@@ -33,13 +33,24 @@ void printMaze(const int rowCount, const int colCount, const vector<string> &maz
 // Pass by value to create a copy
 void printQueue(queue<pair<int, int>> q)
 {
-    std::cout << "Queue contents: " << endl;
+    cout << "Queue contents: " << endl;
     while (!q.empty())
     {
-        std::cout << "(" << q.front().first << "," << q.front().second << ")" << endl;
+        cout << "(" << q.front().first << "," << q.front().second << ")" << endl;
         q.pop();
     }
-    std::cout << std::endl;
+    cout << endl;
+}
+
+void printStack(stack<pair<int, int>> s)
+{
+    cout << "Stack contents: " << endl;
+    while (!s.empty())
+    {
+        cout << "(" << s.top().first << "," << s.top().second << ")";
+        s.pop();
+    }
+    cout << endl;
 }
 
 /**
@@ -191,8 +202,7 @@ int main(int argc, char *argv[])
 
                 if (maze[current.first][current.second] == 'E')
                 {
-                    cout << "Endpoint Found" << endl;
-                    // break
+                    cout << "Endpoint Found: " << current.first << "," << current.second << endl;
                     // clean toBeExplore
                     while (!toBeExplored.empty())
                     {
@@ -233,6 +243,12 @@ int main(int argc, char *argv[])
                         }
                     }
                 }
+
+                window.clear();
+                // step 2: draw
+                drawMaze(rowCount, colCount, maze, window, visited);
+                window.display();
+                sf::sleep(sf::milliseconds(50)); // Pauses for 50ms
             }
         }
     }
@@ -240,6 +256,7 @@ int main(int argc, char *argv[])
     {
         // DFS with a Stack as appropriate
         stack<pair<int, int>> toBeExplored;
+        toBeExplored.push({startRow, startCol});
 
         while (window.isOpen())
         {
@@ -252,14 +269,64 @@ int main(int argc, char *argv[])
                     window.close();
                 }
             }
+
+            if (!toBeExplored.empty())
+            {
+                pair<int, int> current = toBeExplored.top();
+                toBeExplored.pop();
+
+                if (maze[current.first][current.second] == 'E')
+                {
+                    cout << "Endpoint Found: " << current.first << "," << current.second << endl;
+                    // clean toBeExplore
+                    while (!toBeExplored.empty())
+                    {
+                        toBeExplored.pop();
+                    }
+                }
+                else
+                {
+                    // marked as visited
+                    visited[current.first][current.second] = 2;
+
+                    // find valid neighbors
+                    int currentRow = current.first;
+                    int currentCol = current.second;
+                    static int changeInDirection[4][2] = {
+                        {-1, 0}, // up
+                        {1, 0},  // down
+                        {0, -1}, // left
+                        {0, 1},  // right
+                    };
+
+                    for (int i = 0; i < 4; i++)
+                    {
+                        int neighborRow = currentRow + changeInDirection[i][0];
+                        int neighborCol = currentCol + changeInDirection[i][1];
+                        // check 1: is inside the maze
+                        bool isWithinBound = neighborRow >= 0 && neighborRow < rowCount && neighborCol >= 0 && neighborCol < colCount;
+                        // check 2: is NOT wall
+                        bool isNotWall = maze[neighborRow][neighborCol] != '#';
+                        // check 3: is NOT visited
+                        bool isNotVisited = visited[neighborRow][neighborCol] == 0;
+
+                        if (isWithinBound && isNotWall && isNotVisited)
+                        {
+                            visited[neighborRow][neighborCol] = 1;
+                            toBeExplored.push({neighborRow, neighborCol});
+                            printStack(toBeExplored);
+                        }
+                    }
+                }
+            }
+
+            window.clear();
+            // step 2: draw
+            drawMaze(rowCount, colCount, maze, window, visited);
+            window.display();
+            sf::sleep(sf::milliseconds(50)); // Pauses for 50ms
         }
     }
-
-    window.clear();
-    // step 2: draw
-    drawMaze(rowCount, colCount, maze, window, visited);
-    window.display();
-    sf::sleep(sf::milliseconds(50)); // Pauses for 50ms
 
     return 0;
 }
