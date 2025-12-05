@@ -51,7 +51,8 @@
     "__node_handle": "cpp",
     "charconv": "cpp",
     "optional": "cpp",
-    "sstream": "cpp"
+    "sstream": "cpp",
+    "stack": "cpp"
   },
   "workbench.colorCustomizations": {
     "activityBar.background": "#033050",
