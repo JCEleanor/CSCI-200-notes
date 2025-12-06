@@ -258,6 +258,9 @@ int main(int argc, char *argv[])
         stack<pair<int, int>> toBeExplored;
         toBeExplored.push({startRow, startCol});
 
+        // For finding the path from endpoint to start point
+        vector<vector<pair<int, int>>> parent_map(rowCount, vector<pair<int, int>>(colCount, {-1, -1}));
+
         while (window.isOpen())
         {
             // step 1: handle events
