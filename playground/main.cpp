@@ -12,11 +12,13 @@ void arrays()
 {
   int stores[10];
   static int arr[10];
-  char chars[3] = {'A'};
-  for (int i = 0; i < size(chars); i++)
-  {
-    cout << "'" << chars[i] << "'" << endl;
-  }
+  char chars[3] = {'A', 'B', 'c'};
+  // for (int i = 0; i < size(chars); i++)
+  // {
+  //   cout << "'" << chars[i] << "'" << endl;
+  // }
+
+  print(chars);
 }
 
 void contiguous()
@@ -37,10 +39,14 @@ void contiguous()
   }
 }
 
+void cStyleString()
+{
+}
+
 int main()
 {
-  // arrays();
-  contiguous();
+  arrays();
+  // contiguous();
   // string name = "Eleanor";
   // string *pName = &name;
   // float **y;
