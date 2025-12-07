@@ -1,5 +1,6 @@
 #include <iostream>
 #include <iterator>
+#include <vector>
 using namespace std;
 
 template <typename T>
@@ -10,8 +11,8 @@ void print(T anything)
 
 void arrays()
 {
-  int stores[10];
-  static int arr[10];
+  // int stores[10];
+  // static int arr[10];
   char chars[3] = {'A', 'B', 'c'};
   // for (int i = 0; i < size(chars); i++)
   // {
@@ -39,13 +40,52 @@ void contiguous()
   }
 }
 
-void cStyleString()
+void dynamicArr()
 {
+  size_t size;
+  cout << "enter size: ";
+  cin >> size;
+
+  int *p_dynamicArr = new int[size];
+
+  cout << "*p_dynamicArr: " << *p_dynamicArr << endl; // *p_dynamicArr: 0
+  cout << "&p_dynamicArr: " << &p_dynamicArr << endl; // &p_dynamicArr: 0x30a1c0c20
+  cout << "p_dynamicArr: " << p_dynamicArr << endl;   // p_dynamicArr: 0x7fee03f06140
+
+  delete[] p_dynamicArr;
+}
+
+void pointerMath()
+{
+  int *pDynamicArr = new int[10];
+  int *pCurrentArraySlot = pDynamicArr;
+  // *pCurrentArraySlot = pCurrentArraySlot[0];
+
+  for (size_t i = 0; i < 10; i++)
+  {
+    cout << pCurrentArraySlot << endl;
+    *pCurrentArraySlot = static_cast<int>(i);
+    pCurrentArraySlot++;
+  }
+}
+
+void aVector()
+{
+  vector<unsigned int> vec;
+  cout << vec.size() << " " << vec.capacity() << endl;
+  for (unsigned int i = 0; i < 129; i++)
+  {
+    vec.push_back(i);
+    cout << vec.size() << " " << vec.capacity() << endl;
+  }
 }
 
 int main()
 {
-  arrays();
+  aVector();
+  // arrays();10
+  // pointerMath();
+
   // contiguous();
   // string name = "Eleanor";
   // string *pName = &name;
