@@ -11,15 +11,17 @@ void print(T anything)
 
 void arrays()
 {
-  // int stores[10];
-  // static int arr[10];
-  char chars[3] = {'A', 'B', 'c'};
-  // for (int i = 0; i < size(chars); i++)
-  // {
-  //   cout << "'" << chars[i] << "'" << endl;
-  // }
+  int stores[10];
+  int stores2[10] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+  static int arr[10];
 
-  print(chars);
+  char chars[3] = {'A', 'B', 'c'};
+  for (int i = 0; i < size(chars); i++)
+  {
+    print(stores2[i]);
+  }
+
+  // print(chars);
 }
 
 void contiguous()
@@ -82,8 +84,8 @@ void aVector()
 
 int main()
 {
-  aVector();
-  // arrays();10
+  // aVector();
+  arrays();
   // pointerMath();
 
   // contiguous();

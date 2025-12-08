@@ -1,12 +1,13 @@
 # Static Arrays (fixed size in the **stack** `int[10] intArr;`)
 
-Arrays are pointers, pointers are arrays ?? NOTES
-
 ### Fixed size so compiler can allocate space for it. Size is known at **compile time**
 
 ```c++
 // create an array called stores to hold 10 integers
+// contain garbage value
 int stores[10];
+// initialize all values to 0
+static int arr[10];
 
 // create an array called omg to hold 3 characters
 char omg[3] = {'O', 'M', 'G'}
@@ -16,8 +17,6 @@ double cool[2] = {0.2, 1.2};
 // compiler assumes an array of size 2
 int z = {1, 2};
 ```
-
-The elements inside `stores` will contain indeterminate (garabage) values. Accessing or printing these uninitialized values results in undefined behavior.
 
 ### Initialize a Static Array
 
@@ -145,7 +144,7 @@ int size;
 cout << "Enter array size: ";
 cin >> size;
 
-int* p_dynamicArray = new int[size]; // return the pointer of the first element
+int* p_dynamicArray = new int[size]; // return the pointer of the first element (**Arrays are pointers**)
 
 cout << "*p_dynamicArr: " << *p_dynamicArr << endl; // *p_dynamicArr: 0
 cout << "&p_dynamicArr: " << &p_dynamicArr << endl; // &p_dynamicArr: 0x30a1c0c20
@@ -331,6 +330,7 @@ use.
 - Memory Location: The actual data is stored on the Heap (just like a raw dynamic array).
 - Memory Management: Automatic (RAII). The vector object automatically allocates memory with new[] when it's created (or when it
   grows) and automatically frees it with delete[] when the vector goes out of scope.
+  - RAII (Resource Acquisition Is Initialization) is a C++ programming idiom that ties a resource's lifetime (like memory, file handles, network sockets) to an object's lifetime, ensuring automatic acquisition in the constructor and safe, automatic release in the destructor,
 - Size: Truly dynamic. The vector grows and shrinks as you add (push_back) or remove (pop_back) elements.
 - Resizing: Automatic. When you push_back and the vector is full, it automatically performs the resize algorithm for you, often
   doubling the capacity to make future additions fast (Amortized O(1)).
@@ -359,7 +359,7 @@ Cons:
 
 # Struct and Class
 
-The only difference is for struct all members are public while for class all are private by default
+The only difference is for struct all members are `public` while for class all are `private` by default
 
 # Linked List
 
