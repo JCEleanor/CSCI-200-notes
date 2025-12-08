@@ -1,5 +1,7 @@
 # Static Arrays (fixed size in the **stack** `int[10] intArr;`)
 
+Arrays are pointers, pointers are arrays ?? NOTES
+
 ### Fixed size so compiler can allocate space for it. Size is known at **compile time**
 
 ```c++
@@ -347,10 +349,76 @@ Cons:
 
 ### Summary Table
 
-| Feature            | Static Array                | Dynamic Array (raw pointer)           | `std::vector`                                       |
-| :----------------- | :-------------------------- | :------------------------------------ | :-------------------------------------------------- |
-| **Memory**         | Stack                       | Heap                                  | Heap                                                |
-| **Management**     | Automatic                   | **Manual** (`new[]`/`delete[]`)         | **Automatic** (RAII)                                |
-| **Size**           | Fixed at compile-time       | Fixed at runtime                      | **Dynamic** (grows/shrinks)                         |
-| **Resizing**       | Impossible                  | Manual, complex, and slow (O(N))      | **Automatic** and efficient (Amortized O(1) `push_back`) |
-| **When to use?**   | Small, fixed data           | Rarely; for learning or C interop   | **Almost always; the default choice**               |
+| Feature          | Static Array          | Dynamic Array (raw pointer)       | `std::vector`                                            |
+| :--------------- | :-------------------- | :-------------------------------- | :------------------------------------------------------- |
+| **Memory**       | Stack                 | Heap                              | Heap                                                     |
+| **Management**   | Automatic             | **Manual** (`new[]`/`delete[]`)   | **Automatic** (RAII)                                     |
+| **Size**         | Fixed at compile-time | Fixed at runtime                  | **Dynamic** (grows/shrinks)                              |
+| **Resizing**     | Impossible            | Manual, complex, and slow (O(N))  | **Automatic** and efficient (Amortized O(1) `push_back`) |
+| **When to use?** | Small, fixed data     | Rarely; for learning or C interop | **Almost always; the default choice**                    |
+
+# Struct and Class
+
+The only difference is for struct all members are public while for class all are private by default
+
+# Linked List
+
+Instead of 1 n-element array, chain together n 1-element arrays.
+
+## Singly Linked List
+
+```c++
+struct Node {
+  int value;
+  Node* pNext; // a recursive data structure because it contains a pointer to its own type
+}
+```
+
+## Doubly Linked List
+
+```c++
+struct Node {
+  int value;
+  Node* pNext;
+  Node* pPre; // allow traversing backward just as easily as traversing forward
+}
+```
+
+### Doubly Linked List Operation
+
+#### Add a Ndoe to the Front
+
+#### Traverse a List Forward
+
+#### Traverse a List Backward
+
+#### Remove a Node from the Front
+
+#### Get Node i
+
+#### Add a Node to the Back
+
+#### Remove a Node to the Back
+
+#### Add a Node to the Middle
+
+#### Remove a Node from the Middle
+
+### Data Structure Complexity
+
+```
+  ┌──────────────────┬─────────────────────────────────┬───────────────────────────────┬───────────────────────────────┐
+  │ Operation        │ Array                           │ Singly-Linked List            │ Doubly-Linked List            │
+  ├──────────────────┼─────────────────────────────────┼───────────────────────────────┼───────────────────────────────┤
+  │ Element Access   │ O(1)                            │ O(N)                          │ O(N)                          │
+  │ Traversal (Fwd)  │ O(N)                            │ O(N)                          │ O(N)                          │
+  │ Traversal (Back) │ O(N)                            │ O(N^2)                        │ O(N)                          │
+  │ Add/Del (Front)  │ O(N)                            │ O(1)                          │ O(1)                          │
+  │ Add/Del (Middle) │ O(N)                            │ O(N)                          │ O(N)                          │
+  │ Add (Back)       │ O(N) or Amortized O(1) (vector) │ O(1) (if tail pointer exists) │ O(1) (if tail pointer exists) │
+  │ Delete (Back)    │ O(1)                            │ O(N)                          │ O(1) (if tail pointer exists) │
+  │ Memory Space     │ N * sizeof(T)                   │ N * (sizeof(T) + 8)           │ N * (sizeof(T) + 16)          │
+  └──────────────────┴─────────────────────────────────┴───────────────────────────────┴───────────────────────────────┘
+
+  (Assuming 64-bit system where pointers are 8 bytes)
+```
