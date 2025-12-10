@@ -1,8 +1,27 @@
+/* CSCI 200: Final Project - A TODO List Application
+ *
+ * Author: Eleanor Chiu
+ *
+ * Description:
+ *    This program provides a command-line interface to manage a list of
+ *    tasks. Users can create, view, update, and delete tasks. The task
+ *    list is persisted to a CSV file.
+ */
+
 #include "TodoManager.h"
+
 #include <iostream>
+#include <limits> // Required for std::numeric_limits
 #include <string>
 
 using namespace std;
+
+// Constants for main menu choices
+const int MENU_SHOW_ALL_TASKS = 1;
+const int MENU_CREATE_NEW_TASK = 2;
+const int MENU_UPDATE_TASK = 3;
+const int MENU_DELETE_TASK = 4;
+const int MENU_EXIT = 5;
 
 int main()
 {
@@ -11,23 +30,34 @@ int main()
     manager.loadFromFile(); // need to load file first to populate the `_task`
 
     int choice = 0;
-    while (choice != 5)
+    while (choice != MENU_EXIT)
     {
         cout << "\n--- TODO LIST MENU ---" << endl;
-        cout << "1. Show All Tasks" << endl;
-        cout << "2. Create New Task" << endl;
-        cout << "3. Update Task" << endl;
-        cout << "4. Delete Task" << endl;
-        cout << "5. Exit" << endl;
+        cout << MENU_SHOW_ALL_TASKS << ". Show All Tasks" << endl;
+        cout << MENU_CREATE_NEW_TASK << ". Create New Task" << endl;
+        cout << MENU_UPDATE_TASK << ". Update Task" << endl;
+        cout << MENU_DELETE_TASK << ". Delete Task" << endl;
+        cout << MENU_EXIT << ". Exit" << endl;
         cout << "Enter your choice: ";
         cin >> choice;
 
+        // to prevent infinite loop
+        if (cin.fail())
+        {
+            cout << "Invalid input. Please enter a number." << endl;
+            cin.clear();
+            // Discard invalid input
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            // Skip the rest of the loop and show the menu again
+            continue;
+        }
+
         switch (choice)
         {
-        case 1:
+        case MENU_SHOW_ALL_TASKS:
             manager.readAllTasks();
             break;
-        case 2:
+        case MENU_CREATE_NEW_TASK:
         {
             string description;
             int priority;
@@ -43,17 +73,17 @@ int main()
             manager.createTask(description, priority, dueDate);
             break;
         }
-        case 3:
+        case MENU_UPDATE_TASK:
             manager.updateTask();
             break;
-        case 4:
+        case MENU_DELETE_TASK:
             manager.deleteTask();
             break;
-        case 5:
+        case MENU_EXIT:
             cout << "Exiting program...." << endl;
             break;
         default:
-            cout << "Invalid choice. Please try again." << endl;
+            cout << "Invalid choice. Please enter a number between " << MENU_SHOW_ALL_TASKS << " and " << MENU_EXIT << "." << endl;
             break;
         }
     }

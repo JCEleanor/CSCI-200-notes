@@ -22,7 +22,7 @@ int Task::getId() const
     return _id;
 }
 
-void Task::setId(int id)
+void Task::setId(const int id)
 {
     this->_id = id;
 }
@@ -42,7 +42,7 @@ int Task::getPriority() const
     return _priority;
 }
 
-void Task::setPriority(int priority)
+void Task::setPriority(const int priority)
 {
     this->_priority = priority;
 }
@@ -52,7 +52,7 @@ bool Task::getIsCompleted() const
     return _isCompleted;
 }
 
-void Task::setIsCompleted(bool isCompleted)
+void Task::setIsCompleted(const bool isCompleted)
 {
     this->_isCompleted = isCompleted;
 }
@@ -62,7 +62,7 @@ time_t Task::getDueDate() const
     return _dueDate;
 }
 
-void Task::setDueDate(time_t dueDate)
+void Task::setDueDate(const time_t dueDate)
 {
     this->_dueDate = dueDate;
 }
@@ -72,7 +72,7 @@ time_t Task::getCreatedDate() const
     return _createdDate;
 }
 
-void Task::setCreatedDate(time_t createdDate)
+void Task::setCreatedDate(const time_t createdDate)
 {
     this->_createdDate = createdDate;
 }
@@ -82,7 +82,7 @@ time_t Task::getLastModified() const
     return _lastModified;
 }
 
-void Task::setLastModified(time_t lastModified)
+void Task::setLastModified(const time_t lastModified)
 {
     this->_lastModified = lastModified;
 }

@@ -197,3 +197,7 @@ And also some potential future improvements (I drew some ideas from Apple's remi
 
    - Some possible solutions: track the highest ID when loading from file, then use nextId = maxId + 1
    - seek third party library
+
+## Future Enhancement
+
+- [ ] Integrated with FTXUI

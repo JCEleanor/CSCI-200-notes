@@ -1,12 +1,13 @@
-#include <fstream>
-#include <iostream>
-#include <string>
-#include <sstream>
-#include <ctime>
-#include <algorithm> // For std::sort in loadFromFile
-#include <limits>    // For std::numeric_limits in updateTask
-
 #include "TodoManager.h"
+
+#include <algorithm> // For std::sort in loadFromFile
+#include <ctime>
+#include <fstream>
+#include <iomanip> // Required for std::get_time
+#include <iostream>
+#include <limits> // For std::numeric_limits in updateTask
+#include <sstream>
+#include <string>
 
 TodoManager::TodoManager(const std::string &filename)
 {
@@ -15,26 +16,26 @@ TodoManager::TodoManager(const std::string &filename)
 
 time_t TodoManager::_string_to_time_t(const std::string &date_str)
 {
-    // Initialize tm struct to all zeros
-    std::tm t{};
+    std::tm t{}; // Initialize tm struct to all zeros
+    std::istringstream ss(date_str);
+    ss >> std::get_time(&t, "%Y-%m-%d");
 
-    //  strptime to parse the string into the tm struct
-    if (strptime(date_str.c_str(), "%Y-%m-%d", &t) == nullptr)
+    if (ss.fail())
     {
-        std::cerr << "Error parsing date string: " << date_str << std::endl;
-        return static_cast<time_t>(-1); // TODO: error handling
+        std::cerr << "Error parsing date string: " << date_str << ". Please use YYYY-MM-DD format." << std::endl;
+        return static_cast<time_t>(-1); // Indicate error
     }
     return mktime(&t);
 }
 
 Task *TodoManager::_findTaskById(const int id)
 {
-    for (size_t i = 0; i < _tasks.size(); i++)
+    auto it = std::find_if(_tasks.begin(), _tasks.end(), [id](const Task &task)
+                           { return task.getId() == id; });
+
+    if (it != _tasks.end())
     {
-        if (_tasks[i].getId() == id)
-        {
-            return &_tasks[i];
-        }
+        return &(*it);
     }
 
     return nullptr;
@@ -145,11 +146,11 @@ void TodoManager::readAllTasks() const
     }
 }
 
-void TodoManager::createTask(const std::string &description, int priority, const std::string &dueDate_str)
+void TodoManager::createTask(const std::string &description, const int priority, const std::string &dueDate_str)
 {
 
     // step 1: validation check
-    if (priority > 10 || priority < 1)
+    if (priority > TodoManager::MAX_PRIORITY || priority < TodoManager::MIN_PRIORITY)
     {
         std::cerr << "Priority out of range. Please try again" << std::endl;
         return;
@@ -192,20 +193,14 @@ bool TodoManager::updateTask()
 
     // step 1: get id
     int taskId;
-    std::cout << "Enter the ID of the task to update: " << std::endl;
-    std::cout << "Here is the available IDs:";
-    for (const Task &t : _tasks)
-    {
-        std::cout << t.getId() << ", ";
-    }
-    std::cout << "\n";
+    std::cout << "Enter the ID of the task to update: ";
     std::cin >> taskId;
 
     // step 2: find the task
     Task *targetTask = _findTaskById(taskId);
     if (targetTask == nullptr)
     {
-        std::cout << "Task with ID " << taskId << " not found." << std::endl;
+        std::cout << "Task with ID " << taskId << " not found. Return back to main menu..." << std::endl;
         return false;
     }
 
@@ -226,6 +221,22 @@ bool TodoManager::updateTask()
         std::cout << "Enter your choice: ";
         std::cin >> choice;
 
+        // Input validation for choice
+        if (std::cin.fail())
+        {
+            std::cout << "Invalid input. Please enter a number." << std::endl;
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            continue;
+        }
+
+        // Check if the choice is within the valid range
+        if (choice < 1 || choice > 5)
+        {
+            std::cout << "Invalid choice. Please enter a number between 1 and 5." << std::endl;
+            continue; // Skip the rest of the loop and show the menu again
+        }
+
         switch (choice)
         {
         case 1:
@@ -243,8 +254,14 @@ bool TodoManager::updateTask()
             int new_prio;
             std::cin >> new_prio;
 
-            // validate the user's input
-            if (new_prio < 1 || new_prio > 10)
+            // Input validation for new_prio
+            if (std::cin.fail())
+            {
+                std::cout << "Invalid input. Priority not updated. Please enter a number." << std::endl;
+                std::cin.clear();                                                   // Clear the error flags
+                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Discard invalid input
+            }
+            else if (new_prio < TodoManager::MIN_PRIORITY || new_prio > TodoManager::MAX_PRIORITY)
             {
                 std::cout << "Invalid priority. Must be a number between 1-10.\n";
                 std::cout << "Priority not updated.\n";
