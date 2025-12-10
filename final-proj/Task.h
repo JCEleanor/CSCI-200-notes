@@ -30,8 +30,8 @@ private:
     std::string _description;
     int _priority;
     /** 0: incomplete, 1: completed */
-    bool _isCompleted;
     time_t _dueDate;
+    bool _isCompleted;
     time_t _createdDate;
     time_t _lastModified;
 };

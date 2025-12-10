@@ -14,7 +14,7 @@ public:
     // Write all tasks from vector to CSV
     bool saveToFile();
 
-    void createTask(const std::string &description, int priority, time_t dueDate);
+    void createTask(const std::string &description, int priority, const std::string& dueDate_str);
 
     // Display all tasks currently in memory
     void readAllTasks() const;
@@ -23,7 +23,7 @@ public:
     Task *readTaskById(int id);
 
     // Update an existing task, identified by its ID. Returns true if the update was successful, false otherwise
-    bool updateTask(int id, const std::string &description, int priority, bool isCompleted, time_t dueDate);
+    bool updateTask(int id, const std::string &description, int priority, bool isCompleted, std::string &dueDate);
 
     // Delete a task, identified by its ID. Returns true if the deletion was successful, false otherwise
     bool deleteTask(int id);
@@ -32,6 +32,7 @@ public:
     void printAllTasks();
 
 private:
+    /** vector storing all Task objects in memory */
     std::vector<Task> _tasks;
     std::string _filename;
     // Track the next available ID for a new task
@@ -39,6 +40,8 @@ private:
 
     // Private helper to determine the next ID based on current tasks
     void initializeNextId();
+    // Private helper to convert string to time_t
+    time_t _string_to_time_t(const std::string &date_str);
 };
 
 #endif
