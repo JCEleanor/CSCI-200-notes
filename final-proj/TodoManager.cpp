@@ -146,15 +146,27 @@ void TodoManager::readAllTasks() const
     }
 }
 
-void TodoManager::createTask(const std::string &description, const int priority, const std::string &dueDate_str)
+void TodoManager::createTask()
 {
+    // step 1: get user input & validation
+    std::string description;
+    int priority;
+    std::string dueDate_str;
 
-    // step 1: validation check
+    std::cout << "\n------Create a Task------" << std::endl;
+    std::cout << "Please enter description for the task: ";
+    std::getline(std::cin >> std::ws, description);
+    std::cout << "Choose a priority level from 1-10: ";
+    std::cin >> priority;
+
     if (priority > TodoManager::MAX_PRIORITY || priority < TodoManager::MIN_PRIORITY)
     {
         std::cerr << "Priority out of range. Please try again" << std::endl;
         return;
     }
+
+    std::cout << "Enter a due date (YYYY-MM-DD): ";
+    std::cin >> dueDate_str;
 
     time_t dueDate = _string_to_time_t(dueDate_str);
     if (dueDate == static_cast<time_t>(-1))

@@ -59,18 +59,7 @@ int main()
             break;
         case MENU_CREATE_NEW_TASK:
         {
-            string description;
-            int priority;
-            string dueDate;
-
-            cout << "\n------Create a Task------" << endl;
-            cout << "Please enter description for the task: ";
-            getline(cin >> ws, description);
-            cout << "Choose a priority level from 1-10: ";
-            cin >> priority;
-            cout << "Enter a due date (YYYY-MM-DD): ";
-            cin >> dueDate;
-            manager.createTask(description, priority, dueDate);
+            manager.createTask();
             break;
         }
         case MENU_UPDATE_TASK:
