@@ -6,72 +6,98 @@ Task::Task()
 }
 
 // Parameterized constructor.
-// Initialize with member initializer list. C++ idiom according to gemini
 Task::Task(int id, std::string description, int priority, time_t dueDate)
-    : id(id),
-      description(description),
-      priority(priority),
-      dueDate(dueDate),
-      isCompleted(false),
-      createdDate(time(nullptr)),
-      lastModified(time(nullptr)) {}
+    : _id(id),
+      _description(description),
+      _priority(priority),
+      _dueDate(dueDate),
+      _isCompleted(false),
+      _createdDate(time(nullptr)),
+      _lastModified(time(nullptr))
+{
+}
 
 int Task::getId() const
 {
-    return id;
+    return _id;
 }
 
 void Task::setId(int id)
 {
-    this->id = id;
+    this->_id = id;
 }
 
 std::string Task::getDescription() const
 {
-    return description;
+    return _description;
 }
 
-void Task::setDescription(std::string description)
+void Task::setDescription(const std::string &description)
 {
-    this->description = description;
+    this->_description = description;
 }
 
 int Task::getPriority() const
 {
-    return priority;
+    return _priority;
 }
 
 void Task::setPriority(int priority)
 {
-    this->priority = priority;
+    this->_priority = priority;
 }
 
 bool Task::getIsCompleted() const
 {
-    return isCompleted;
+    return _isCompleted;
 }
 
 void Task::setIsCompleted(bool isCompleted)
 {
-    this->isCompleted = isCompleted;
+    this->_isCompleted = isCompleted;
 }
 
 time_t Task::getDueDate() const
 {
-    return dueDate;
+    return _dueDate;
 }
 
 void Task::setDueDate(time_t dueDate)
 {
-    this->dueDate = dueDate;
+    this->_dueDate = dueDate;
 }
 
 time_t Task::getCreatedDate() const
 {
-    return createdDate;
+    return _createdDate;
+}
+
+void Task::setCreatedDate(time_t createdDate)
+{
+    this->_createdDate = createdDate;
 }
 
 time_t Task::getLastModified() const
 {
-    return lastModified;
+    return _lastModified;
+}
+
+void Task::setLastModified(time_t lastModified)
+{
+    this->_lastModified = lastModified;
+}
+
+std::ostream &operator<<(std::ostream &os, const Task &task)
+{
+    // get a human-readable time string from the time_t
+    time_t dueDate = task.getDueDate();
+    std::string dueDateStr = std::ctime(&dueDate);
+    dueDateStr.pop_back(); // ctime() adds a newline, so remove it
+
+    os << "ID:          " << task.getId() << "\n"
+       << "Description: " << task.getDescription() << "\n"
+       << "Priority:    " << task.getPriority() << "\n"
+       << "Completed:   " << (task.getIsCompleted() ? "Yes" : "No") << "\n"
+       << "Due Date:    " << dueDateStr;
+    return os;
 }

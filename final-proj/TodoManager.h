@@ -28,11 +28,14 @@ public:
     // Delete a task, identified by its ID. Returns true if the deletion was successful, false otherwise
     bool deleteTask(int id);
 
+    // For testing purpose
+    void printAllTasks();
+
 private:
-    std::vector<Task> tasks;
-    std::string filename;
+    std::vector<Task> _tasks;
+    std::string _filename;
     // Track the next available ID for a new task
-    int nextId;
+    int _nextId;
 
     // Private helper to determine the next ID based on current tasks
     void initializeNextId();
