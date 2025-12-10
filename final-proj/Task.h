@@ -24,6 +24,7 @@ public:
     void setCreatedDate(time_t createdDate);
     time_t getLastModified() const;
     void setLastModified(time_t lastModified);
+    // Task &operator=(const Task &other);
 
 private:
     int _id;

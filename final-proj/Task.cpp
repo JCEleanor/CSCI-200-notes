@@ -101,3 +101,19 @@ std::ostream &operator<<(std::ostream &os, const Task &task)
        << "Due Date:    " << dueDateStr;
     return os;
 }
+
+// Task &Task::operator=(const Task &other) // TODO:
+// {
+//     // step 1: chcek for self assignment
+//     if (this == &other)
+//     {
+//         return *this;
+//     }
+
+//     // step 2 : deallocate old data `this` owns this->deallocate();
+
+//     // step 3 : deep copy
+//     // this->deepCopy(other);
+
+//     // step 4 : return the reference to allow chained assignemnt return *this;
+// }

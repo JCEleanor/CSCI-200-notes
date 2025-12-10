@@ -14,16 +14,15 @@ public:
     // Write all tasks from vector to CSV
     bool saveToFile();
 
-    void createTask(const std::string &description, int priority, const std::string& dueDate_str);
+    void createTask(const std::string &description, int priority, const std::string &dueDate_str);
 
     // Display all tasks currently in memory
     void readAllTasks() const;
 
-    // Find a task by its ID and returns a pointer to it. Returns nullptr if no task is found with the given ID
-    Task *readTaskById(int id);
+    // Task *readTaskById(int id);
 
     // Update an existing task, identified by its ID. Returns true if the update was successful, false otherwise
-    bool updateTask(int id, const std::string &description, int priority, bool isCompleted, std::string &dueDate);
+    bool updateTask();
 
     // Delete a task, identified by its ID. Returns true if the deletion was successful, false otherwise
     bool deleteTask(int id);
@@ -42,6 +41,11 @@ private:
     void initializeNextId();
     // Private helper to convert string to time_t
     time_t _string_to_time_t(const std::string &date_str);
+
+    // Find a task by its ID and returns a pointer to it. Returns nullptr if no task is found
+    Task *_findTaskById(const int id);
+
+    void _saveToFile();
 };
 
 #endif
