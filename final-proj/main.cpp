@@ -11,13 +11,14 @@ int main()
     manager.loadFromFile(); // need to load file first to populate the `_task`
 
     int choice = 0;
-    while (choice != 4)
+    while (choice != 5)
     {
         cout << "\n--- TODO LIST MENU ---" << endl;
         cout << "1. Show All Tasks" << endl;
         cout << "2. Create New Task" << endl;
         cout << "3. Update Task" << endl;
-        cout << "4. Exit" << endl;
+        cout << "4. Delete Task" << endl;
+        cout << "5. Exit" << endl;
         cout << "Enter your choice: ";
         cin >> choice;
 
@@ -46,6 +47,9 @@ int main()
             manager.updateTask();
             break;
         case 4:
+            manager.deleteTask();
+            break;
+        case 5:
             cout << "Exiting program...." << endl;
             break;
         default:

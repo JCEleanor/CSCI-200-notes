@@ -226,14 +226,6 @@ bool TodoManager::updateTask()
         std::cout << "Enter your choice: ";
         std::cin >> choice;
 
-        // Add this check right after reading the choice to prevent infinite loops
-        if (std::cin.fail())
-        {
-            choice = 0;                                                         // Set to a value that will trigger the default case
-            std::cin.clear();                                                   // Clear the error from cin
-            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Discard the bad input
-        }
-
         switch (choice)
         {
         case 1:
@@ -317,6 +309,65 @@ bool TodoManager::updateTask()
     else
     {
         std::cout << "No changes were made." << std::endl;
+    }
+
+    return true;
+}
+
+bool TodoManager::deleteTask()
+{
+    if (_tasks.empty())
+    {
+        std::cout << "No tasks to delete." << std::endl;
+        return false;
+    }
+
+    // step 1: Get ID from the user
+    int taskId;
+    std::cout << "\nEnter the ID of the task to delete: ";
+    std::cin >> taskId;
+
+    // Add input validation
+    if (std::cin.fail())
+    {
+        std::cerr << "Invalid ID entered. Please enter a number." << std::endl;
+        std::cin.clear();
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        return false;
+    }
+
+    // step 2: Find the task using std::find_if to get an iterator
+    auto task_it = std::find_if(_tasks.begin(), _tasks.end(), [taskId](const Task &task)
+                                { return task.getId() == taskId; });
+
+    if (task_it == _tasks.end())
+    {
+        std::cout << "Task with ID " << taskId << " not found." << std::endl;
+        return false;
+    }
+
+    // step 3: Show the user what they are deleting and ask for confirmation
+    std::cout << "\nTask to be deleted:" << std::endl;
+    std::cout << "--------------------" << std::endl;
+    std::cout << *task_it << std::endl;
+    std::cout << "--------------------" << std::endl;
+    std::cout << "Are you sure you want to permanently delete this task? (y/n): ";
+    char confirmation;
+    std::cin >> confirmation;
+
+    if (confirmation == 'y' || confirmation == 'Y')
+    {
+        // step 4: Erase the task using the iterator
+        _tasks.erase(task_it);
+
+        // step 5: Save the changes back to the file
+        _saveToFile();
+
+        std::cout << "Task " << taskId << " has been deleted." << std::endl;
+    }
+    else
+    {
+        std::cout << "Deletion cancelled." << std::endl;
     }
 
     return true;

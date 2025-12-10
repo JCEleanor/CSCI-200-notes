@@ -25,7 +25,7 @@ public:
     bool updateTask();
 
     // Delete a task, identified by its ID. Returns true if the deletion was successful, false otherwise
-    bool deleteTask(int id);
+    bool deleteTask();
 
     // For testing purpose
     void printAllTasks();
