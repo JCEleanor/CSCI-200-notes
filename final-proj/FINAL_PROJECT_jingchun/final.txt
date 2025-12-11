@@ -1,0 +1,54 @@
+TITLE:
+Eleanor Chiu
+CSCI 200, Section B
+TODO App
+
+PROBLEM DESCRIPTION:
+A TODO app that allows users to organize and track their todo items through a command-line interface. The program will enable users to perform CRUD operations (Create, Read, Update, Delete) on their tasks, with each task containing detailed information including description, priority level, completion status, and due date. All task data will be stored persistently in a CSV file, loaded into memory at program startup, manipulated through a vector data structure, and saved back to the file upon program exit or after each operation.
+
+PROGRAM DOCUMENTATION:
+To run the program, first compile it using the provided Makefile by running the `make` command. Then, execute the program by running `./FINAL_PROJECT`. The program is a command-line interface that will present a menu of options to manage tasks. All data is stored in a `tasks.csv` file in the same directory.
+
+For another programmer, the project is structured into two main classes: `Task`, which holds the data for an individual task, and `TodoManager`, which contains all the application logic, including file I/O and task manipulation. The `_saveToFile()` method in `TodoManager` is the single function responsible for writing data to the disk, providing a central point for managing data persistence.
+
+Future enhancements could include implementing the originally planned features like sorting tasks by priority or due date, filtering tasks by completion status, and viewing task statistics. 
+Further improvements could involve adding categories/tags to tasks or using a more advanced UI library like FTXUI, which was noted as a potential future enhancement.
+
+CLASS DESCRIPTION:
+The project uses two custom classes: `Task` and `TodoManager`.
+
+The `Task` class encapsulates all the data associated with a single to-do item, such as its ID, description, priority, and various timestamps. 
+This makes the code much cleaner as it allows a complex piece of data to be passed around as a single unit.
+
+The `TodoManager` class is the core of the application, encapsulating all the program's functionality. 
+It holds the list of all `Task` objects and manages all operations on that list, including creating, updating, and deleting tasks. 
+It is also responsible for all file I/O, abstracting the details of data persistence away from the main user interface logic. 
+This class structure helped organize the project by cleanly separating the data model (`Task`) from the application logic (`TodoManager`), which in turn made the `main()` function simple and focused only on handling the user menu.
+
+LIST DATA STRUCTURE:
+The project uses a `std::vector<Task>` as its primary list data structure, which is a private member of the `TodoManager` class.
+
+A `std::vector` was chosen because it is a flexible and powerful container that handles its own memory management, making it easy to add and remove tasks without manually dealing with memory allocation. 
+It provides simple methods for adding a new task (`push_back`) and removing a task (`erase`), and it allows for easy iteration, which was essential for displaying all tasks and for saving them to the file.
+
+FILE I/O:
+File I/O was incorporated within the `TodoManager` class. The `loadFromFile()` method is called at program startup to read all existing tasks from the `tasks.csv` file into the `std::vector`. 
+The private helper method `_saveToFile()` is called after every operation that modifies the list of tasks (create, update, delete) to write the entire list back to the CSV file.
+
+This was necessary to provide data persistence. Without file I/O, any tasks the user created would be lost as soon as the program terminated. Using a CSV file allows the user's to-do list to be saved between sessions.
+
+PROJECT MODIFICATIONS:
+The final implementation differs slightly from the original proposal outlined in the `README.md` file. 
+- The parameters of the update and create methods inside `TodoManager` were removed to keep the client code clean, and encapsulate all the validation logic inside each function.
+- Multiple help fnuctions were added to `TodoManager` such as convert string to `ctime` object and a private `_saveToFile` (originally a public method intended to be called in client code) for updating the csv file.
+- I added new `Color.h` and `CliUtils.h` for adding colors in commad line interface. The ideal way would be to implement third party and cross-platform library such as FTXUI.
+The proposal listed several potential features for future implementation, such as filtering tasks, sorting tasks, and viewing statistics. 
+The simple solution to generating unique IDs by finding the maximum existing ID upon loading and incrementing from there was implemented to resolve the "special concern" about UUID generation mentioned in the proposal.
+
+REFLECTIONS:
+My goal for this project is not to implement fancy features but instead focusing on the readability and maintainiblity. 
+After I completed the basic CRUD operations, I spent most of my time refactoring `TodoManager.cpp` and `main.cpp`. One significant change I've done is to move all the data vaalidation steps into from `main.cpp` to `TodoManager.cpp`. Additionally, I also replaced all the hard-coded magic numbers with constants.
+While working with this project, I tried to think "SOLID" and "program to interfaces", and I would say this project was a great exercise in applying these principles to a complete working program. 
+Encapsulating all task-related data into a `Task` class and all application logic into a `TodoManager` class made the project much easier to design, implement, and debug. 
+One of the biggest challenges was handling user input properly. I learned the importance of validating all user input, especially when converting between types, and how to use `cin.fail()` to prevent the program from entering an infinite loop on unexpected input. 
+I might also explore separating the user interface logic more distinctly from the data management logic to better adhere to the single-responsibility principle.
