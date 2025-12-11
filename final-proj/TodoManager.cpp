@@ -58,7 +58,7 @@ void TodoManager::_saveToFile()
     // Write all tasks from the vector
     for (const auto &task : _tasks)
     {
-        fout << task.getId() << ",\"" << task.getDescription() << "\"," << task.getPriority() << ","
+        fout << task.getId() << "," << task.getDescription() << "," << task.getPriority() << ","
              << (task.getIsCompleted() ? "1" : "0") << "," << task.getDueDate() << ","
              << task.getCreatedDate() << "," << task.getLastModified() << std::endl;
     }
@@ -98,7 +98,7 @@ void TodoManager::_insertionSortByDueDate()
     for (size_t i = 1; i < n; i++)
     {
         Task key = _tasks[i];
-        int j = i - 1;
+        size_t j = i - 1;
 
         while (j >= 0 && _tasks[j].getDueDate() > key.getDueDate())
         {
