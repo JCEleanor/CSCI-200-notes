@@ -1,4 +1,5 @@
 #include "TodoManager.h"
+#include "CliUtils.h"
 
 #include <algorithm> // For std::sort in loadFromFile
 #include <ctime>
@@ -22,7 +23,7 @@ time_t TodoManager::_string_to_time_t(const std::string &date_str)
 
     if (ss.fail())
     {
-        std::cerr << "Error parsing date string: " << date_str << ". Please use YYYY-MM-DD format." << std::endl;
+        std::cerr << "Error parsing date string: " << date_str << ". Please use YYYY-MM-DD format.";
         return static_cast<time_t>(-1); // Indicate error
     }
     return mktime(&t);
@@ -47,7 +48,7 @@ void TodoManager::_saveToFile()
     std::ofstream fout(_filename); // Opens in write mode, overwriting the file
     if (!fout.is_open())
     {
-        std::cerr << "Error: Could not open file " << _filename << " for saving." << std::endl;
+        std::cerr << "Error: Could not open file " << _filename << " for saving.";
         return;
     }
 
@@ -115,7 +116,7 @@ bool TodoManager::loadFromFile()
     // determine the next available ID
     if (!_tasks.empty())
     {
-        // Sort tasks by ID to find the largest one, in case the file is not sorted.
+        // Sort tasks by ID to find the largest one, in case the file is not sorted
         std::sort(_tasks.begin(), _tasks.end(), [](const Task &a, const Task &b)
                   { return a.getId() < b.getId(); });
         _nextId = _tasks.back().getId() + 1;
@@ -133,16 +134,16 @@ void TodoManager::readAllTasks() const
 {
     if (_tasks.empty())
     {
-        std::cout << "No tasks to show" << std::endl;
+        CliUtils::printInstruction("No tasks to show");
         return;
     }
 
-    std::cout << "\n--- ALL TASKS ---\n"
-              << std::endl;
+    CliUtils::printBold("\n--- ALL TASKS ---");
+    std::cout << std::endl;
     for (const Task &task : _tasks)
     {
         std::cout << task << std::endl;
-        std::cout << "-------------" << std::endl;
+        CliUtils::printMessage("-------------");
     }
 }
 
@@ -153,25 +154,28 @@ void TodoManager::createTask()
     int priority;
     std::string dueDate_str;
 
-    std::cout << "\n------Create a Task------" << std::endl;
-    std::cout << "Please enter description for the task: ";
-    std::getline(std::cin >> std::ws, description);
-    std::cout << "Choose a priority level from 1-10: ";
+    CliUtils::printBold("\n------Create a Task------");
+    CliUtils::printMessage("Please enter description for the task: ");
+
+    std::getline(std::cin >> std::ws, description); // ws for white spaces
+
+    CliUtils::printMessage("Choose a priority level from 1-10: ");
+
     std::cin >> priority;
 
     if (priority > TodoManager::MAX_PRIORITY || priority < TodoManager::MIN_PRIORITY)
     {
-        std::cerr << "Priority out of range. Please try again" << std::endl;
+        CliUtils::printError("Priority out of range. Please try again");
         return;
     }
 
-    std::cout << "Enter a due date (YYYY-MM-DD): ";
+    CliUtils::printMessage("Enter a due date (YYYY-MM-DD): ");
     std::cin >> dueDate_str;
 
     time_t dueDate = _string_to_time_t(dueDate_str);
     if (dueDate == static_cast<time_t>(-1))
     {
-        std::cerr << "Could not create task due to invalid date format. Please use YYYY-MM-DD." << std::endl;
+        CliUtils::printError("Could not create task due to invalid date format. Please use YYYY-MM-DD.");
         return;
     }
 
@@ -186,12 +190,11 @@ void TodoManager::createTask()
     newTask.setIsCompleted(false);
 
     _tasks.push_back(newTask);
-
     _saveToFile();
 
     // step 3: show sucess message & print the newly created task
-    std::cout << "\nTask created successfully:" << std::endl;
-    std::cout << "--------------------------" << std::endl;
+    CliUtils::printSuccess("\nTask created successfully:");
+    CliUtils::printMessage("--------------------------");
     std::cout << newTask << std::endl;
 }
 
@@ -199,20 +202,20 @@ bool TodoManager::updateTask()
 {
     if (_tasks.empty())
     {
-        std::cout << "No tasks to update." << std::endl;
+        CliUtils::printInstruction("No tasks to update.");
         return false;
     }
 
     // step 1: get id
     int taskId;
-    std::cout << "Enter the ID of the task to update: ";
+    CliUtils::printInstruction("Enter the ID of the task to update: ");
     std::cin >> taskId;
 
     // step 2: find the task
     Task *targetTask = _findTaskById(taskId);
     if (targetTask == nullptr)
     {
-        std::cout << "Task with ID " << taskId << " not found. Return back to main menu..." << std::endl;
+        std::cout << "Task with ID " << taskId << " not found. Returning to main menu...";
         return false;
     }
 
@@ -220,23 +223,23 @@ bool TodoManager::updateTask()
     int choice = 0;
     bool needs_save = false;
 
+    std::cout << "\n--- Editing Task " << targetTask->getId() << " ---";
     while (choice != 5)
     {
-        std::cout << "\n--- Editing Task " << targetTask->getId() << " ---" << std::endl;
+        CliUtils::printMessage("----------------------");
         std::cout << (*targetTask) << std::endl;
-        std::cout << "----------------------" << std::endl;
-        std::cout << "1. Update Description" << std::endl;
-        std::cout << "2. Update Priority" << std::endl;
-        std::cout << "3. Update Due Date" << std::endl;
-        std::cout << "4. Toggle Completion Status" << std::endl;
-        std::cout << "5. Save and Return to Main Menu" << std::endl;
-        std::cout << "Enter your choice: ";
+        CliUtils::printMessage("1. Update Description");
+        CliUtils::printMessage("2. Update Priority");
+        CliUtils::printMessage("3. Update Due Date");
+        CliUtils::printMessage("4. Toggle Completion Status");
+        CliUtils::printMessage("5. Save and Return to Main Menu");
+        CliUtils::printInstruction("Enter your choice: ");
         std::cin >> choice;
 
         // Input validation for choice
         if (std::cin.fail())
         {
-            std::cout << "Invalid input. Please enter a number." << std::endl;
+            CliUtils::printError("Invalid input. Please enter a number.");
             std::cin.clear();
             std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
             continue;
@@ -245,38 +248,38 @@ bool TodoManager::updateTask()
         // Check if the choice is within the valid range
         if (choice < 1 || choice > 5)
         {
-            std::cout << "Invalid choice. Please enter a number between 1 and 5." << std::endl;
-            continue; // Skip the rest of the loop and show the menu again
+            CliUtils::printError("Invalid choice. Please enter a number between 1 and 5.");
+            continue;
         }
 
         switch (choice)
         {
         case 1:
         {
-            std::cout << "Enter new description: ";
+            CliUtils::printInstruction("Enter new description: ");
             std::string new_desc;
-            std::getline(std::cin >> std::ws, new_desc); // std::ws consumes whitespace
+            std::getline(std::cin >> std::ws, new_desc);
             targetTask->setDescription(new_desc);
             needs_save = true;
             break;
         }
         case 2:
         {
-            std::cout << "Enter new Priority (1-10): ";
+            CliUtils::printInstruction("Enter new Priority (1-10): ");
             int new_prio;
             std::cin >> new_prio;
 
             // Input validation for new_prio
             if (std::cin.fail())
             {
-                std::cout << "Invalid input. Priority not updated. Please enter a number." << std::endl;
-                std::cin.clear();                                                   // Clear the error flags
-                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Discard invalid input
+                CliUtils::printError("Invalid input. Priority not updated. Please enter a number.");
+                std::cin.clear();
+                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
             }
             else if (new_prio < TodoManager::MIN_PRIORITY || new_prio > TodoManager::MAX_PRIORITY)
             {
-                std::cout << "Invalid priority. Must be a number between 1-10.\n";
-                std::cout << "Priority not updated.\n";
+                CliUtils::printError("Invalid priority. Must be a number between 1-10.");
+                CliUtils::printInstruction("Priority not updated.");
             }
             else
             {
@@ -287,7 +290,7 @@ bool TodoManager::updateTask()
         }
         case 3:
         {
-            std::cout << "Enter new due date (YYYY-MM-DD): ";
+            CliUtils::printInstruction("Enter new due date (YYYY-MM-DD): ");
             std::string new_date_str;
             std::cin >> new_date_str;
             time_t new_date = _string_to_time_t(new_date_str);
@@ -300,7 +303,7 @@ bool TodoManager::updateTask()
             else
             {
                 // The _string_to_time_t function already prints an error
-                std::cout << "Due date not updated.\n";
+                CliUtils::printError("Due date not updated.");
             }
             break;
         }
@@ -309,16 +312,15 @@ bool TodoManager::updateTask()
             // Toggle the current completion status
             targetTask->setIsCompleted(!targetTask->getIsCompleted());
             std::cout << "Task status toggled to: "
-                      << (targetTask->getIsCompleted() ? "Complete" : "Incomplete")
-                      << std::endl;
+                      << (targetTask->getIsCompleted() ? "Complete" : "Incomplete");
             needs_save = true;
             break;
         }
         case 5:
-            std::cout << "Returning to main menu..." << std::endl;
+            CliUtils::printMessage("Returning to main menu...");
             break;
         default:
-            std::cout << "Invalid choice. Please try again." << std::endl;
+            CliUtils::printError("Invalid choice. Please try again.");
             break;
         }
 
@@ -337,7 +339,7 @@ bool TodoManager::updateTask()
     }
     else
     {
-        std::cout << "No changes were made." << std::endl;
+        CliUtils::printInstruction("No changes were made.");
     }
 
     return true;
@@ -347,19 +349,18 @@ bool TodoManager::deleteTask()
 {
     if (_tasks.empty())
     {
-        std::cout << "No tasks to delete." << std::endl;
+        CliUtils::printInstruction("No tasks to delete.");
         return false;
     }
 
     // step 1: Get ID from the user
     int taskId;
-    std::cout << "\nEnter the ID of the task to delete: ";
+    CliUtils::printInstruction("\nEnter the ID of the task to delete: ");
     std::cin >> taskId;
 
-    // Add input validation
     if (std::cin.fail())
     {
-        std::cerr << "Invalid ID entered. Please enter a number." << std::endl;
+        CliUtils::printError("Invalid ID entered. Please enter a number.");
         std::cin.clear();
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
         return false;
@@ -376,11 +377,11 @@ bool TodoManager::deleteTask()
     }
 
     // step 3: Show the user what they are deleting and ask for confirmation
-    std::cout << "\nTask to be deleted:" << std::endl;
-    std::cout << "--------------------" << std::endl;
+    CliUtils::printBold("\nTask to be deleted:");
+    CliUtils::printMessage("--------------------");
     std::cout << *task_it << std::endl;
-    std::cout << "--------------------" << std::endl;
-    std::cout << "Are you sure you want to permanently delete this task? (y/n): ";
+    CliUtils::printMessage("--------------------");
+    CliUtils::printInstruction("Are you sure you want to permanently delete this task? (y/n): ");
     char confirmation;
     std::cin >> confirmation;
 
@@ -396,7 +397,7 @@ bool TodoManager::deleteTask()
     }
     else
     {
-        std::cout << "Deletion cancelled." << std::endl;
+        CliUtils::printInstruction("Deletion cancelled.");
     }
 
     return true;
