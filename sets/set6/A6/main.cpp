@@ -79,11 +79,11 @@ void drawMaze(const int rowCount, const int colCount, const vector<string> &maze
             }
             else if (mazeChar == '.')
             {
-                if (visited[i][j] == 1)
+                if (visited[static_cast<size_t>(i)][static_cast<size_t>(j)] == 1)
                 {
                     cell.setFillColor(sf::Color::Blue);
                 }
-                else if (visited[i][j] == 2)
+                else if (visited[static_cast<size_t>(i)][static_cast<size_t>(j)] == 2)
                 {
                     cell.setFillColor(sf::Color::Magenta);
                 }
@@ -171,7 +171,7 @@ int main(int argc, char *argv[])
      *
      * 2 = Visited (processed, draw as Magenta)
      */
-    vector<vector<int>> visited(rowCount, vector<int>(colCount, 0));
+    vector<vector<int>> visited(static_cast<size_t>(rowCount), vector<int>(static_cast<size_t>(colCount), 0));
     // Create an SFML window that has a width of 15*C and height of 15*R
     sf::Vector2u windowSize(static_cast<unsigned int>(15 * colCount), static_cast<unsigned int>(15 * rowCount));
     sf::RenderWindow window(sf::VideoMode(windowSize), "A Maze");
@@ -200,7 +200,7 @@ int main(int argc, char *argv[])
                 pair<int, int> current = toBeExplored.front();
                 toBeExplored.pop();
 
-                if (maze[current.first][current.second] == 'E')
+                if (maze[static_cast<size_t>(current.first)][static_cast<size_t>(current.second)] == 'E')
                 {
                     cout << "Endpoint Found: " << current.first << "," << current.second << endl;
                     // clean toBeExplore
@@ -212,7 +212,7 @@ int main(int argc, char *argv[])
                 else
                 {
                     // marked as visited
-                    visited[current.first][current.second] = 2;
+                    visited[static_cast<size_t>(current.first)][static_cast<size_t>(current.second)] = 2;
 
                     // find valid neighbors
                     int currentRow = current.first;
@@ -231,13 +231,13 @@ int main(int argc, char *argv[])
                         // check 1: is inside the maze
                         bool isWithinBound = neighborRow >= 0 && neighborRow < rowCount && neighborCol >= 0 && neighborCol < colCount;
                         // check 2: is NOT wall
-                        bool isNotWall = maze[neighborRow][neighborCol] != '#';
+                        bool isNotWall = maze[static_cast<size_t>(neighborRow)][static_cast<size_t>(neighborCol)] != '#';
                         // check 3: is NOT visited
-                        bool isNotVisited = visited[neighborRow][neighborCol] == 0;
+                        bool isNotVisited = visited[static_cast<size_t>(neighborRow)][static_cast<size_t>(neighborCol)] == 0;
 
                         if (isWithinBound && isNotWall && isNotVisited)
                         {
-                            visited[neighborRow][neighborCol] = 1;
+                            visited[static_cast<size_t>(neighborRow)][static_cast<size_t>(neighborCol)] = 1;
                             toBeExplored.push({neighborRow, neighborCol});
                             printQueue(toBeExplored);
                         }
@@ -259,7 +259,7 @@ int main(int argc, char *argv[])
         toBeExplored.push({startRow, startCol});
 
         // For finding the path from endpoint to start point
-        vector<vector<pair<int, int>>> parent_map(rowCount, vector<pair<int, int>>(colCount, {-1, -1}));
+        vector<vector<pair<int, int>>> parent_map(static_cast<size_t>(rowCount), vector<pair<int, int>>(static_cast<size_t>(colCount), {-1, -1}));
 
         while (window.isOpen())
         {
@@ -278,7 +278,7 @@ int main(int argc, char *argv[])
                 pair<int, int> current = toBeExplored.top();
                 toBeExplored.pop();
 
-                if (maze[current.first][current.second] == 'E')
+                if (maze[static_cast<size_t>(current.first)][static_cast<size_t>(current.second)] == 'E')
                 {
                     cout << "Endpoint Found: " << current.first << "," << current.second << endl;
                     // clean toBeExplore
@@ -290,7 +290,7 @@ int main(int argc, char *argv[])
                 else
                 {
                     // marked as visited
-                    visited[current.first][current.second] = 2;
+                    visited[static_cast<size_t>(current.first)][static_cast<size_t>(current.second)] = 2;
 
                     // find valid neighbors
                     int currentRow = current.first;
@@ -309,13 +309,13 @@ int main(int argc, char *argv[])
                         // check 1: is inside the maze
                         bool isWithinBound = neighborRow >= 0 && neighborRow < rowCount && neighborCol >= 0 && neighborCol < colCount;
                         // check 2: is NOT wall
-                        bool isNotWall = maze[neighborRow][neighborCol] != '#';
+                        bool isNotWall = maze[static_cast<size_t>(neighborRow)][static_cast<size_t>(neighborCol)] != '#';
                         // check 3: is NOT visited
-                        bool isNotVisited = visited[neighborRow][neighborCol] == 0;
+                        bool isNotVisited = visited[static_cast<size_t>(neighborRow)][static_cast<size_t>(neighborCol)] == 0;
 
                         if (isWithinBound && isNotWall && isNotVisited)
                         {
-                            visited[neighborRow][neighborCol] = 1;
+                            visited[static_cast<size_t>(neighborRow)][static_cast<size_t>(neighborCol)] = 1;
                             toBeExplored.push({neighborRow, neighborCol});
                             printStack(toBeExplored);
                         }
