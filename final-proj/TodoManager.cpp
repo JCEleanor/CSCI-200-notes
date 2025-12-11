@@ -10,6 +10,8 @@
 #include <sstream>
 #include <string>
 
+#include <SFML/Graphics.hpp>
+
 TodoManager::TodoManager(const std::string &filename)
 {
     _filename = filename;
@@ -447,4 +449,95 @@ bool TodoManager::deleteTask()
     }
 
     return true;
+}
+
+void TodoManager::viewStatistics()
+{
+    int total_tasks = _tasks.size();
+    int completed_tasks = 0;
+    for (const auto &task : _tasks)
+    {
+        if (task.getIsCompleted())
+        {
+            completed_tasks++;
+        }
+    }
+    double completion_pct = (total_tasks == 0) ? 0.0 : (static_cast<double>(completed_tasks) / total_tasks) * 100.0;
+
+    // --- 2. Create the SFML Window ---
+    sf::Vector2u winndowSize(640, 640);
+
+    sf::RenderWindow window(sf::VideoMode(winndowSize), "Task Statistics");
+
+    // --- 3. Load a Font ---
+    sf::Font font;
+    if (!font.openFromFile("assets/Roboto_Condensed-Black.ttf"))
+    {
+        std::cout << "Error loading font" << std::endl;
+        return;
+    }
+
+    // --- 4. Create and Position Text Objects ---
+    sf::Text title(font);
+    title.setCharacterSize(28);
+    title.setString("Task Statistics");
+    title.setStyle(sf::Text::Bold | sf::Text::Underlined);
+    title.setFillColor(sf::Color::Black);
+    // title.setPosition({window.getSize().x / 2.f - title.getGlobalBounds() / 2.f, 20.f});
+
+    std::vector<std::string> labels = {"Total Tasks:", "Completed:", "Incomplete:", "Completion Rate:"};
+
+    std::ostringstream pct_stream;
+    pct_stream << std::fixed << std::setprecision(1) << completion_pct << "%";
+    std::vector<std::string> values = {
+        std::to_string(total_tasks),
+        std::to_string(completed_tasks),
+        std::to_string(total_tasks - completed_tasks),
+        pct_stream.str()};
+
+    std::vector<sf::Text> text_items;
+    float y_pos = 90.f;
+    for (size_t i = 0; i < labels.size(); ++i)
+    {
+        sf::Text label(font);
+        label.setString(labels[i]);
+        label.setCharacterSize(20);
+        label.setFillColor(sf::Color(80, 80, 80)); // Dark grey
+        label.setPosition({50.f, y_pos});
+        text_items.push_back(label);
+
+        sf::Text value(font);
+        value.setString(labels[i]);
+        value.setCharacterSize(20);
+        value.setStyle(sf::Text::Bold);
+        value.setFillColor(sf::Color::Black);
+        value.setPosition({300.f, y_pos});
+        text_items.push_back(value);
+
+        y_pos += 45.f;
+    }
+
+    // --- 5. Main Window Loop ---
+    while (window.isOpen())
+    {
+        // step 1: handle events
+        while (const std::optional event = window.pollEvent())
+        {
+            // case 1: close event
+            if (event->is<sf::Event::Closed>())
+            {
+                window.close();
+            }
+        }
+
+        window.clear();
+
+        window.draw(title);
+        for (const auto &text : text_items)
+        {
+            window.draw(text);
+        }
+
+        window.display();
+    }
 }

@@ -55,6 +55,7 @@ public:
      * @return true if the deletion was successful, false otherwise.
      */
     bool deleteTask();
+    void viewStatistics();
     // void viewStatistics();
 
 private:
