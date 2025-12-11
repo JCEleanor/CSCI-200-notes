@@ -25,6 +25,7 @@ const int MENU_CREATE_NEW_TASK = 2;
 const int MENU_UPDATE_TASK = 3;
 const int MENU_DELETE_TASK = 4;
 const int MENU_EXIT = 5;
+// const int VIEW_STAT = 6;
 
 int main()
 {
@@ -73,6 +74,9 @@ int main()
         case MENU_DELETE_TASK:
             manager.deleteTask();
             break;
+        // case VIEW_STAT:
+        //     manager.viewStatistics();
+        //     break;
         case MENU_EXIT:
             CliUtils::printMessage("Exiting program....");
             break;

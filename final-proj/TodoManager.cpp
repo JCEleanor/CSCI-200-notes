@@ -65,6 +65,52 @@ void TodoManager::_saveToFile()
     fout.close();
 }
 
+void TodoManager::_bubbleSortByDueDate()
+{
+    size_t n = _tasks.size();
+    if (n < 2)
+    {
+        // no need to sort
+        return;
+    }
+
+    for (size_t i = 0; i < n; i++)
+    {
+        for (size_t j = 0; j < n - i - 1; j++)
+        {
+            if (_tasks[j].getDueDate() > _tasks[j + 1].getDueDate())
+            {
+                std::swap(_tasks[j], _tasks[j + 1]);
+            }
+        }
+    }
+}
+
+void TodoManager::_insertionSortByDueDate()
+{
+    size_t n = _tasks.size();
+    if (n < 2)
+    {
+        // no need to sort
+        return;
+    }
+
+    for (size_t i = 1; i < n; i++)
+    {
+        Task key = _tasks[i];
+        int j = i - 1;
+
+        while (j >= 0 && _tasks[j].getDueDate() > key.getDueDate())
+        {
+            _tasks[j + 1] = _tasks[i];
+            j = j - 1;
+        }
+
+        _tasks[j + 1] = key;
+        // _tasks[j + 1] = key;
+    }
+}
+
 bool TodoManager::loadFromFile()
 {
     std::ifstream fin(_filename);

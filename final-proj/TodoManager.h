@@ -55,6 +55,7 @@ public:
      * @return true if the deletion was successful, false otherwise.
      */
     bool deleteTask();
+    // void viewStatistics();
 
 private:
     /** vector storing all Task objects in memory */
@@ -71,6 +72,9 @@ private:
 
     // a single source of truth for saving to the CSV
     void _saveToFile();
+
+    void _bubbleSortByDueDate();
+    void _insertionSortByDueDate();
 };
 
 #endif
