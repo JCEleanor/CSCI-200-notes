@@ -32,8 +32,7 @@ int main()
 
     /**
      * @brief For a final test, create a third tree as follows:
-
-Input and add to the tree in order: 5 2 1 7 9 6 3
+     * Input and add to the tree in order: 5 2 1 7 9 6 3
      *
      */
     // cout << "\nTree 3:" << endl;

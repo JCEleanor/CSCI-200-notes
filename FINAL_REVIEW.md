@@ -19,9 +19,18 @@ struct Point {
 ```
 
 ```c++
-double distance (Point x, Point y){
+double distance (const Point& p1, const Point& p2){ // pass by reference
   return std::sqrt(std::pow(p2.x - p1.x, 2) + std::pow(p2.y - p1.y, 2));
 }
+
+// can also do pass by pointer, but pointer could be null
+// so a nullptr check is needed
+// while reference can't be null
+// so in this case it's better to pass by reference
+double distance(Point* p1, Point*p2){
+      return std::sqrt(std::pow(p2->x - p1->x, 2) + std::pow(p2->y - p2->y, 2));
+};
+
 
 int main()
 {
@@ -30,23 +39,28 @@ int main()
 
     double dist = distance(p1, p2);
 
-    std::cout << "The distance between the two points is: " << dist << std::endl;
-
+    // if pass by pointer: need to use `address-of`
+    // double dist = distance(&p1, &p2);
+    cout << fixed << setPrecision(4) << dist ;
     return 0;
 }
-
 ```
 
 ## 2. Lists
 
 - What are the pros/cons of an Array?
-  pros: fast
-  cons: size must be known in compile time
+  - pros:
+    - constant element access. (O(1))
+  - cons:
+    - For static arrays, size must be known in compile time.
+    - Linear insertion
 - What are the pros/cons of a LinkedList?
-  pros: fast for insertion in the front and back
-  cons: takes much more memory space (with size of pointer(s) which is typically 8 bytes)
+  - pros:
+    - fast for insertion in the front and back (O(1)). O(n) for insertion in the middle.
+  - cons:
+    - takes much more memory space (with size of pointer(s) which is typically 8 bytes)
 - What is the same about an Array & a LinkedList?
-
+  - store an ordered list of values. For static arrays, it's on the stack, for dynamic arrays, vectors and LinkedList, they are on the free store(heap).
 - What is different about an Array & a LinkedList?
 
   - Array: Elements are stored in a single, contiguous block of memory.
@@ -81,6 +95,23 @@ void bubbleSort(std::vector<int>& vec) {
 ```
 
 ### Insertion sort [TODO]
+
+```c++
+void insertionSort(std::vector<int>& arr){
+    int n = arr.size();
+    for (int i = 1; i < n; i++){
+        int key = arr[i];
+        int j = i -1;
+        while (j >=0 && arr[j] > key){
+            // scoot the bigger one to the right
+            arr[j+1] = arr[j];
+            j--;
+        }
+        // find the right spot to insert the key
+        arr[j+1]= key;
+    }
+}
+```
 
 ### Selection sort [TODO]
 
@@ -118,7 +149,7 @@ int populate_array(int* p_arr, int size, int MOD_VALUE ){
 }
 
 // TODO 1: create a static integer array with 100 elements
-int intArray[100];
+int intArray[100] = {0};
 
 // TODO 3: call populate_array with a modulus value of 21 and store result
 int result = populate_array(intArayy, 100, 21);
@@ -129,8 +160,26 @@ cout << result;
 
 ## 6. From UML to Class
 
+Use final on a class definition to indicate that it cannot be inherited from.
+
+1. Use final for classes that represent a finished utility or data structure.
+   - Why: It prevents other programmers (or your future self) from misusing the class by inheriting from it and potentially breaking its internal logic or assumptions.
+2. performance optimization (devirtualization)
+   - if the class has virtual functions, calling those often involves a small runtime overhead (look up the function's address in `vtable`)
+   - If your class inherits from a base with virtual functions but will not be inherited from itself, mark it final.
+3. Improve maintainibility
+
+   - If a class can be inherited from, you always have to worry about how changes to it (especially to protected members or virtual functions) might break unknown derived classes.
+
+   - When to use: Use final when you want to be able to refactor or change a class's internal implementation freely without worrying about breaking child classes.
+   - Why: It reduces the "surface area" of your code that you have to worry about when making changes. The only contract you have to maintain is the class's public interface.
+
+**General Rule of Thumb**: No child classes (no inheritance), not abstract class -> apply `final`
+
 ```c++
 // NOTE: use `final` or `const` these modifiers correctly
+
+
 class Book final {
 public:
     Book();
