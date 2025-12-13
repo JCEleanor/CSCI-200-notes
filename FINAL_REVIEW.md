@@ -94,6 +94,12 @@ void bubbleSort(std::vector<int>& vec) {
 }
 ```
 
+Buuble sort imporoved version: (Best Case: O(n) (achieved using the optimized version below); otherwise worse/average case is O(n^2))
+
+```c++
+
+```
+
 ### Insertion sort [TODO]
 
 ```c++
@@ -152,6 +158,8 @@ int populate_array(int* p_arr, int size, int MOD_VALUE ){
 int intArray[100] = {0};
 
 // TODO 3: call populate_array with a modulus value of 21 and store result
+// In C++, C-style arrays like int arr[100] are passed to functions by a mechanism called 'pointer decay'. This means the function receives a pointer to the first element of the array, and any modifications inside the function affect the
+  original array.
 int result = populate_array(intArayy, 100, 21);
 
 // TODO 4: print result of TODO 3
@@ -200,7 +208,7 @@ public:
     ~Library();
     // copy operator
     Library& operator=(const Library& other);
-    Book checkoutBook(string b);
+    Book* checkoutBook(string b);
     void returnBook(Book*)
 private:
     catelog: IList<Book*>*;
@@ -227,7 +235,7 @@ Library::Library(){
 }
 
 // - Parameterized constructor -> sets each data member
-Library::Library(string a, string t, int y){
+Library::Library(const string a, const string t, const int y){
     this->_author = a;
     this->_title = t;
     this->_publicationYear = y;
