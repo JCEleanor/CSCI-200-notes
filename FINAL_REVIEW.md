@@ -313,19 +313,24 @@ the diff between interface and
 abstract class (italic but no <<interface>> in the UML), some funcyions contain implementation
 
 ```c++
-class IQuackBehavior {
+class IQuackBehavior { // interface
 public:
-    virtual string quack() = 0 ; // default implementation
+    virtual ~QuackBehavior() = default ; // must have a virtual destructor to prevent memory leak.
+    virtual string quack() const = 0 ;
 }
+```
 
+```c++
 class Quack final : public QuackBehavior {
-    string quack() override {
+public:
+    string quack() const override {
         return "quack";
     }
 }
 
 class Mute final : public QuackBehavior {
-    string quack() override {
+public:
+    string quack() const override {
         return "";
     }
 }
@@ -342,7 +347,7 @@ In the style guide, named abstract class starts with `A` and interface starts wi
 #include <string>
 
 // strategy design pattern omg?
-// TODO:
+
 
 class QuackBehavior {
 public:
@@ -364,17 +369,14 @@ public:
     }
 };
 
-class Duck {
+class ADuck { // abstract class
 protected:
     QuackBehavior* qb;
     virtual void setQuackBehavior() = 0;
 
 public:
-    Duck() : qb(nullptr) {
-
-    }
-
-    virtual ~Duck() {
+    ADuck() {qb = nullptr;}
+    virtual ~ADuck() {
         if (qb) {
             delete qb;
         }
@@ -388,7 +390,7 @@ public:
     }
 };
 
-class MallardDuck : public Duck {
+class MallardDuck final : public Duck {
 protected:
     void setQuackBehavior() override {
         qb = new Quack();
@@ -400,7 +402,7 @@ public:
     }
 };
 
-class DecoyDuck : public Duck {
+class DecoyDuck final : public Duck {
 protected:
     void setQuackBehavior() override {
         qb = new Mute();
