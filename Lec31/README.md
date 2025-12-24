@@ -48,9 +48,7 @@ Object of the superclass can be replaced by objects of subclasses without breaki
 
 For example, we want a vector of `Animal` instead of a vector of `Dog`, `Cat` or `Lion`.
 
-- Overridden method needs to accept the same input
-  parameters. Cannot enforce stricter validation
-  rules
+- Overridden method needs to accept the same input parameters. Cannot enforce stricter validation rules
 - Overridden method needs to return same values.  
   Can be subclass or subset of valid values
 
@@ -66,9 +64,7 @@ Clients should not be forced to depend upon interfaces that they do not use.
 
 Depend upon abstractions. Do not depend upon concrete classes.
 
-High-level modules should not depend on low-
-level modules. Both should depend on
-abstractions.
+High-level modules should not depend on low-level modules. Both should depend on abstractions.
 
 **If already following OCP and LSP, then DIP should already be enforced.**
 

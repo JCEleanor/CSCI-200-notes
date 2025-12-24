@@ -375,7 +375,10 @@ protected:
     virtual void setQuackBehavior() = 0;
 
 public:
+    // NOTE: this is important.
     ADuck() {qb = nullptr;}
+    // if we just do ADuck(){setQuackBehavior()};, when the base class `MallerDuck()` is first created, the compiler will call the base class constructor first, which will cause an error becasue setQuackBehavior is a virtual function without implementation
+
     virtual ~ADuck() {
         if (qb) {
             delete qb;

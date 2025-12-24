@@ -79,7 +79,11 @@ void drawMaze(const int rowCount, const int colCount, const vector<string> &maze
             }
             else if (mazeChar == '.')
             {
-                if (visited[static_cast<size_t>(i)][static_cast<size_t>(j)] == 1)
+                if (visited[static_cast<size_t>(i)][static_cast<size_t>(j)] == 3)
+                {
+                    cell.setFillColor(sf::Color::Yellow);
+                }
+                else if (visited[static_cast<size_t>(i)][static_cast<size_t>(j)] == 1)
                 {
                     cell.setFillColor(sf::Color::Blue);
                 }
@@ -170,6 +174,8 @@ int main(int argc, char *argv[])
      * 1 = To Be Explored (in the queue/stack, draw as Blue - for extra credit)
      *
      * 2 = Visited (processed, draw as Magenta)
+     * 
+     * 3 = Path (draw as Yellow - for extra credit)
      */
     vector<vector<int>> visited(static_cast<size_t>(rowCount), vector<int>(static_cast<size_t>(colCount), 0));
     // Create an SFML window that has a width of 15*C and height of 15*R
@@ -181,6 +187,7 @@ int main(int argc, char *argv[])
     {
         queue<pair<int, int>> toBeExplored;
         toBeExplored.push({startRow, startCol});
+        vector<vector<pair<int, int>>> parent_map(static_cast<size_t>(rowCount), vector<pair<int, int>>(static_cast<size_t>(colCount), {-1, -1}));
 
         while (window.isOpen())
         {
@@ -203,6 +210,13 @@ int main(int argc, char *argv[])
                 if (maze[static_cast<size_t>(current.first)][static_cast<size_t>(current.second)] == 'E')
                 {
                     cout << "Endpoint Found: " << current.first << "," << current.second << endl;
+                    // backtrack to create path
+                    pair<int, int> path_cell = current;
+                    while (path_cell.first != -1 && path_cell.second != -1)
+                    {
+                        visited[static_cast<size_t>(path_cell.first)][static_cast<size_t>(path_cell.second)] = 3;
+                        path_cell = parent_map[static_cast<size_t>(path_cell.first)][static_cast<size_t>(path_cell.second)];
+                    }
                     // clean toBeExplore
                     while (!toBeExplored.empty())
                     {
@@ -239,17 +253,17 @@ int main(int argc, char *argv[])
                         {
                             visited[static_cast<size_t>(neighborRow)][static_cast<size_t>(neighborCol)] = 1;
                             toBeExplored.push({neighborRow, neighborCol});
+                            parent_map[static_cast<size_t>(neighborRow)][static_cast<size_t>(neighborCol)] = current;
                             printQueue(toBeExplored);
                         }
                     }
                 }
-
-                window.clear();
-                // step 2: draw
-                drawMaze(rowCount, colCount, maze, window, visited);
-                window.display();
-                sf::sleep(sf::milliseconds(50)); // Pauses for 50ms
             }
+            window.clear();
+            // step 2: draw
+            drawMaze(rowCount, colCount, maze, window, visited);
+            window.display();
+            sf::sleep(sf::milliseconds(50)); // Pauses for 50ms
         }
     }
     else
@@ -281,6 +295,13 @@ int main(int argc, char *argv[])
                 if (maze[static_cast<size_t>(current.first)][static_cast<size_t>(current.second)] == 'E')
                 {
                     cout << "Endpoint Found: " << current.first << "," << current.second << endl;
+                    // backtrack to create path
+                    pair<int, int> path_cell = current;
+                    while (path_cell.first != -1 && path_cell.second != -1)
+                    {
+                        visited[static_cast<size_t>(path_cell.first)][static_cast<size_t>(path_cell.second)] = 3;
+                        path_cell = parent_map[static_cast<size_t>(path_cell.first)][static_cast<size_t>(path_cell.second)];
+                    }
                     // clean toBeExplore
                     while (!toBeExplored.empty())
                     {
@@ -317,6 +338,7 @@ int main(int argc, char *argv[])
                         {
                             visited[static_cast<size_t>(neighborRow)][static_cast<size_t>(neighborCol)] = 1;
                             toBeExplored.push({neighborRow, neighborCol});
+                            parent_map[static_cast<size_t>(neighborRow)][static_cast<size_t>(neighborCol)] = current;
                             printStack(toBeExplored);
                         }
                     }
